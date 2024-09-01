@@ -64,9 +64,9 @@
   
   .inputs {
     display: flex;
-    align-items: center;
+    gap: 10px;
+    margin: 0px 200px;
   }
-  
   
   @media (max-width:900px) {
     .input_container input[type="date"] {
@@ -74,9 +74,10 @@
     }
   }
   
-  @media (max-width:768px) {
+  @media (max-width:870px) {
     .inputs {
       display: block;
+      margin: 0 auto;
     }
   
     .welcome_text {

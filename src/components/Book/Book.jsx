@@ -20,6 +20,7 @@ const Book = () => {
 
                 <div className="check ">
                     <h1 className="check_caption">Check availability</h1>
+                    <div className="input-center">
                     <div className="inputs">
 
                         <div className="input_container">
@@ -38,6 +39,7 @@ const Book = () => {
                             <button className="w-full button ">Check Now</button>
                         </div>
 
+                    </div>
                     </div>
                 </div>
             </div>
