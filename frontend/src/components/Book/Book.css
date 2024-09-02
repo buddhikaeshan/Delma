@@ -1,129 +1,134 @@
 
 /* checkout */
 .check{
-    padding:20px 10px;
-    background-color: #f7f7f7;
+  padding:20px 10px;
+  background-color: #f7f7f7;
+}
+
+.input_container {
+  position: relative;
+  margin: 0px auto;
+  width: 200px;
+  margin-top: 40px;
+}
+
+.input_container input[type="date"] {
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 5px 0;
+  background-color: transparent;
+  outline: none;
+}
+
+.input_container .label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ccc;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.input_container input[type="date"]:focus~.label,
+.input_container input[type="date"]:valid~.label {
+  top: -20px;
+  font-size: 16px;
+  font-weight: 100;
+  color: #333;
+}
+
+.check_caption {
+  text-align: center;
+  font-size: 30px;
+}
+
+/* banner-text  */
+.welcome_text {
+  font-family: "Benne", serif;
+  font-weight: 400;
+  color: #fff;
+  font-size: 45px;
+}
+
+.welcome_p {
+  font-size: 16px;
+  margin: 0px 20px;
+}
+
+/* image  */
+.banner {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+}
+
+.inputs {
+  display: flex;
+  gap: 10px;
+  margin: 0px 200px;
+}
+@media (max-width:1366px) {
+  .banner{
+    height: 500px;
   }
-  
-  .input_container {
-    position: relative;
-    margin: 0px auto;
-    width: 200px;
-    margin-top: 40px;
-  }
-  
+}
+
+@media (max-width:900px) {
   .input_container input[type="date"] {
-    font-size: 20px;
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    padding: 5px 0;
-    background-color: transparent;
-    outline: none;
+    font-size: 17px;
   }
-  
-  .input_container .label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #ccc;
-    transition: all 0.3s ease;
-    pointer-events: none;
-  }
-  
-  .input_container input[type="date"]:focus~.label,
-  .input_container input[type="date"]:valid~.label {
-    top: -20px;
-    font-size: 16px;
-    font-weight: 100;
-    color: #333;
-  }
-  
-  .check_caption {
-    text-align: center;
-    font-size: 30px;
-  }
-  
-  /* banner-text  */
-  .welcome_text {
-    font-family: "Benne", serif;
-    font-weight: 400;
-    color: #fff;
-    font-size: 45px;
-  }
-  
-  .welcome_p {
-    font-size: 16px;
-    margin: 0px 20px;
-  }
-  
-  /* image  */
-  .banner {
-    width: 100%;
-    height: 700px;
-    object-fit: cover;
-  }
-  
+}
+
+@media (max-width:870px) {
   .inputs {
-    display: flex;
-    gap: 10px;
-    margin: 0px 200px;
+    display: block;
+    margin: 0 auto;
   }
-  
-  @media (max-width:900px) {
-    .input_container input[type="date"] {
-      font-size: 17px;
-    }
+
+  .welcome_text {
+    font-size: 40px;
   }
-  
-  @media (max-width:870px) {
-    .inputs {
-      display: block;
-      margin: 0 auto;
-    }
-  
-    .welcome_text {
-      font-size: 40px;
-    }
+}
+
+@media (max-width:468px) {
+  .welcome {
+    position: relative;
+    bottom: 120px;
   }
-  
-  @media (max-width:468px) {
-    .welcome {
-      position: relative;
-      bottom: 120px;
-    }
-  
-    .welcome_text {
-      font-size: 20px;
-    }
-  
-    .welcome_p {
-      font-size: 12px;
-      margin: 0px 40px;
-    }
-  
-    .banner{
-      height: 300px;
-    }
-    .check_caption {
-      font-size: 20px;
-    }
-  
-    .input_container input[type="date"]:focus~.label,
-  .input_container input[type="date"]:valid~.label {
-    top: -15px;
+
+  .welcome_text {
+    font-size: 20px;
+  }
+
+  .welcome_p {
     font-size: 12px;
-    font-weight: 400;
-    color: #444;
+    margin: 0px 40px;
   }
-  
-    .input_container input[type="date"] {
-      font-size: 13px;
-    }
-    .input_container {
-      margin: 30px auto;
-    }
-    .check{
-      padding: 10px;
-    }
+
+  .banner{
+    height: 300px;
   }
+  .check_caption {
+    font-size: 20px;
+  }
+
+  .input_container input[type="date"]:focus~.label,
+.input_container input[type="date"]:valid~.label {
+  top: -15px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #444;
+}
+
+  .input_container input[type="date"] {
+    font-size: 13px;
+  }
+  .input_container {
+    margin: 30px auto;
+  }
+  .check{
+    padding: 10px;
+  }
+}

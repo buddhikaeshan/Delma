@@ -20,11 +20,14 @@ const Event = () => {
 
                             <div className="content">
                                 <p>
-                                    Lorem ipsum dolor sit tali amet, consectus uy
-                                    adipiscing it amet it...
+                                Book your dream wedding in our elegant banquet hall, accommodating up to 300 guests. We offer comprehensive services including catering, decoration, and evening planning to ensure your special day is unforgettable.
                                 </p>
+                                <ul>
+                                    <li>Number of People: 300 </li>
+                                    <li>Hall type: Banquet hall </li>
+                                </ul>
 
-                                <a className="btn-link">Read More...</a>
+                                <a className="btn-link"></a>
                             </div>
                         </div>
                         <div className="card">
@@ -32,16 +35,19 @@ const Event = () => {
                                 <div className="img-box">
                                     <img className="" src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="Hotel background" loading="lazy" />
                                 </div>
-                                <span className="title">Features
+                                <span className="title">Party
                                 </span></div>
 
                             <div className="content">
                                 <p>
-                                    Lorem ipsum dolor sit tali amet, consectus uy
-                                    adipiscing it amet it...
+                                Host your next celebration in our stylish venue, perfect for parties of all sizes. We offer tailored services including catering, decoration, and event planning to make your party an unforgettable experience.
                                 </p>
+                                <ul>
+                                    <li>Number of People: 300 </li>
+                                    <li>Hall type: Banquet hall </li>
+                                </ul>
 
-                                <a className="btn-link">Read More...</a>
+                                <a className="btn-link"></a>
                             </div>
                         </div>
                         <div className="card">
@@ -49,16 +55,19 @@ const Event = () => {
                                 <div className="img-box">
                                     <img className="" src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="Hotel background" loading="lazy" />
                                 </div>
-                                <span className="title">Features
+                                <span className="title">Meetings/Seminars
                                 </span></div>
 
                             <div className="content">
                                 <p>
-                                    Lorem ipsum dolor sit tali amet, consectus uy
-                                    adipiscing it amet it...
+                                Conduct your meetings and seminars in our fully equipped conference rooms, designed for productivity and comfort. We offer customizable setups, audiovisual support, and catering services to ensure a successful event.
                                 </p>
+                                <ul>
+                                    <li>Number of People: 300 </li>
+                                    <li>Hall type: Banquet hall </li>
+                                </ul>
 
-                                <a className="btn-link">Read More...</a>
+                                <a className="btn-link"></a>
                             </div>
                         </div>
                     </div>
@@ -74,7 +83,7 @@ const Event = () => {
                         <div className="card-fun-2">
                             <img src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="card-fun-2 Image" />
                             <div className="card-fun-2-content">
-                                <h2 className="card-fun-2-title">Party</h2>
+                                <h2 className="card-fun-2-title">Part</h2>
                                 <p className="card-fun-2-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis provident repudiandae doloribus temporibus cum iure, odit laborum beatae repellendus sed consequuntur, placeat tenetur odio unde ea quos eius similique id.</p>
                             </div>
                         </div>

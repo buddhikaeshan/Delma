@@ -61,13 +61,16 @@ const NavBar = () => {
                                 <a href="#" className="menu__link">Rooms</a>
                             </li>
                             <li>
+                                <a href="#" className="menu__link">About</a>
+                            </li>
+                            <li>
                                 <a href="#" className="menu__link">Dining</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Gallery</a>
+                                <a href="#" className="menu__link">Event</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Event</a>
+                                <a href="#" className="menu__link">Gallery</a>
                             </li>
                             <li>
                                 <a href="#" className="menu__link">Contact Us</a>
