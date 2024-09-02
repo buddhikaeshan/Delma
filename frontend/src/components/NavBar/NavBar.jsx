@@ -11,7 +11,7 @@ const NavBar = () => {
 
     return (
         <div>
-            <nav className="fixed w-full z-20 top-0 start-0">
+            <nav className="sticky-top w-full z-20 top-0 start-0" >
                 <div className="contact ">
                     <ul className="flex font-medium p-2">
                         <li className=" px-6">077 299 8997</li>

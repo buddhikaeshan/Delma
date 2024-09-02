@@ -7,8 +7,7 @@ const Footer = () => {
         <div className="Footer">
             <footer className="text-center text-lg-start bg-color text-muted">
                 <div className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-                  
-                        
+      
                 </div>
                 <div className="">
                     <div className="container text-center text-md-start mt-5">

@@ -7,6 +7,7 @@ import Offers from '../../components/Offers/Offers'
 import Room from '../../components/Rooms/Room'
 import Fun from '../../components/Fun/Fun'
 import Dine from '../../components/Dine/Dine'
+import Footer from '../../components/Footer/Footer'
 
 const Home = () => {
     return (
@@ -18,6 +19,7 @@ const Home = () => {
             <Room/>
             <Dine/>
             <Fun/>
+            <Footer/>
         </div>
     )
 }
