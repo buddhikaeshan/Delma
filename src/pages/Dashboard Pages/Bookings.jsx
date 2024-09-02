@@ -1,14 +1,14 @@
 import {useState} from 'react'
 import SideBar from '../../components/SideBar/SideBar'
 import Table from '../../components/Table'
-import AddPackages from '../../components/Forms/AddPackages';
+import BookingForm from '../../components/Forms/BookingForm';
 
-function Packages() {
-    const columns = ["package Name", "Bed Type","Price"];
+function Bookings() {
+    const columns = ["ID","Name", "Mobile Number", "NIC","Package","Price"];
     const data = [
-        ["Bed only","Double", "1500"],
+        [101,"abc","0123456789","0123456789","Bed Only","1500"],
     ];
-    const btnName = "Add New Package";
+    const btnName = "Booking Now";
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
@@ -16,20 +16,19 @@ function Packages() {
     const handleDelete = (rowIndex) => {
         console.log(`Deleting row ${rowIndex}`);
     };
-
     const [isModalOpen, setModalOpen] = useState(false);
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
     const handleSave = (event) => {
         event.preventDefault();
-        console.log("Package information saved");
+        console.log("Booking information saved");
         setModalOpen(false);
     };
     return (
         <div className='d-flex'>
             <SideBar />
             <div className="flex-grow-1 p-3">
-                <h2>Packages</h2>
+                <h2>Bookings</h2>
                 <Table
                     data={data}
                     columns={columns}
@@ -46,7 +45,7 @@ function Packages() {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header bg-success text-white">
-                                    <h5 className="modal-title">Add New Package</h5>
+                                    <h5 className="modal-title">Booking Details</h5>
                                     <button
                                         type="button"
                                         className="close"
@@ -67,7 +66,7 @@ function Packages() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddPackages onClose={handleCloseModal} onSave={handleSave} />
+                                    <BookingForm onClose={handleCloseModal} onSave={handleSave} />
                                 </div>
                             </div>
                         </div>
@@ -78,4 +77,4 @@ function Packages() {
     )
 }
 
-export default Packages
+export default Bookings

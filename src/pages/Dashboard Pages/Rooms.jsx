@@ -1,12 +1,17 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import SideBar from '../../components/SideBar/SideBar'
 import Table from '../../components/Table'
 import AddRoom from '../../components/Forms/AddRoom';
 
 function Rooms() {
-    const columns = ["Room Number","Room Type","Price Per Night","Room Capacity","Bed Type"];
+    const columns = ["Room Number", "Room Type", "Price Per Night", "Room Capacity", "Bed Type", "Status"];
     const data = [
-        ["001","Double", "1500","3","Double"],
+        ["001", "Double", "1500", "3", "Double",
+            <select id="name" className="form-control">
+                <option>Available</option>
+                <option>Unavailable</option>
+                <option>Cleaning</option>
+            </select>],
     ];
     const btnName = "Add New Room";
 
@@ -30,7 +35,7 @@ function Rooms() {
         <div className='d-flex'>
             <SideBar />
             <div className="flex-grow-1 p-3">
-                <h2>Users</h2>
+                <h2>Rooms</h2>
                 <Table
                     data={data}
                     columns={columns}

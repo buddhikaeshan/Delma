@@ -10,6 +10,7 @@ import GalleryPage from "./pages/Dashboard Pages/GalleryPage";
 import Packages from "./pages/Dashboard Pages/Packages";
 import Users from "./pages/Dashboard Pages/Users";
 import AddRoom from "./components/Forms/AddRoom";
+import Bookings from "./pages/Dashboard Pages/Bookings";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>} /> 
           <Route path="/rooms" element={<Rooms/>} />
           <Route path="/bookingCalendar" element={<BookingCalendar/>} />
+          <Route path="/bookings" element={<Bookings/>} />
           <Route path="/Packages" element={<Packages/>} />
           <Route path="/GalleryPage" element={<GalleryPage/>} />      
           <Route path="/users" element={<Users/>} />

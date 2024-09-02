@@ -11,6 +11,7 @@ import {
   faBed,
   faChartSimple,
   faImage,
+  faBookBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = ({ onLogout }) => {
@@ -50,6 +51,15 @@ const SideBar = ({ onLogout }) => {
           </li>
           <li className="sidebar-item">
             <Link
+              to="/bookingCalendar"
+              className={`sidebar-link ${isActive("/bookingCalendar") ? "active" : ""}`}
+            >
+              <FontAwesomeIcon icon={faCalendarDays} />
+              <span>Booking Calendar</span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            <Link
               to="/rooms"
               className={`sidebar-link ${isActive("/rooms") ? "active" : ""}`}
             >
@@ -57,13 +67,14 @@ const SideBar = ({ onLogout }) => {
               <span>Rooms</span>
             </Link>
           </li>
+
           <li className="sidebar-item">
             <Link
-              to="/bookingCalendar"
-              className={`sidebar-link ${isActive("/bookingCalendar") ? "active" : ""}`}
+              to="/bookings"
+              className={`sidebar-link ${isActive("/bookings") ? "active" : ""}`}
             >
-              <FontAwesomeIcon icon={faCalendarDays} />
-              <span>Bookings</span>
+              <FontAwesomeIcon icon={faBookBookmark} />
+              <span>Booking </span>
             </Link>
           </li>
           <li className="sidebar-item">

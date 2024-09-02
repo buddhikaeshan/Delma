@@ -1,7 +1,7 @@
-import React from 'react'
-import SideBar from '../../components/SideBar/SideBar'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid' 
+import React from 'react';
+import SideBar from '../../components/SideBar/SideBar';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
 function BookingCalendar() {
@@ -9,12 +9,14 @@ function BookingCalendar() {
     <div className="d-flex">
       <SideBar />
       <div className="flex-grow-1 p-4">
-        <h2>Booking</h2>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2>Booking Calendar</h2>
+        </div>
         <div className="d-flex justify-content-center align-items-center">
-          <div style={{ width: "175vh", height: "90vh", overflow: "auto" }}>
+          <div style={{ width: '175vh', height: '85vh', overflow: 'auto' }}>
             <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin]} 
-              initialView="timeGridWeek"
+              plugins={[dayGridPlugin, timeGridPlugin]}
+              initialView="dayGridPlugin"
               weekends={true}
               events={[
                 { title: 'Event 1', date: '2024-09-01' },
@@ -26,7 +28,7 @@ function BookingCalendar() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default BookingCalendar
+export default BookingCalendar;
