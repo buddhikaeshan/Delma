@@ -11,7 +11,7 @@ const NavBar = () => {
 
     return (
         <div>
-            <nav className="fixed w-full z-20 top-0 start-0">
+            <nav className="sticky-top w-full z-20 top-0 start-0" >
                 <div className="contact ">
                     <ul className="flex font-medium p-2">
                         <li className=" px-6">077 299 8997</li>
@@ -61,13 +61,16 @@ const NavBar = () => {
                                 <a href="#" className="menu__link">Rooms</a>
                             </li>
                             <li>
+                                <a href="#" className="menu__link">About</a>
+                            </li>
+                            <li>
                                 <a href="#" className="menu__link">Dining</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Gallery</a>
+                                <a href="#" className="menu__link">Event</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Event</a>
+                                <a href="#" className="menu__link">Gallery</a>
                             </li>
                             <li>
                                 <a href="#" className="menu__link">Contact Us</a>

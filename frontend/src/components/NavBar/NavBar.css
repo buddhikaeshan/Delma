@@ -49,19 +49,32 @@ nav {
     opacity: 1;
 }
 
+@media (max-width:1366px) {
+
+    .logo,
+    .logo h1 {
+        font-size: 20px;
+    }
+
+    .contact li {
+        font-size: 12px;
+        font-weight: 600;
+    }
+}
+
 @media (max-width:1025px) {
 
     .logo,
     .logo h1 {
         font-size: 20px;
     }
-}
 
-@media (max-width:900px) {
     .menu__link {
         font-size: 13px;
     }
+}
 
+@media (max-width:900px) {
     .contact {
         font-size: 12px;
     }

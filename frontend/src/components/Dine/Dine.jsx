@@ -4,11 +4,22 @@ import './Dine.css'
 const Dine = () => {
   return (
     <div className='Dine'>
+      <div className="dine-back-opacity">
         <div className="dine-back">
-            <div className="caption">
-              <h1>Dining</h1> </div>
-
+          <div className="content-area-dine">
+            <div className="caption-Dine">
+              <h1>Dining</h1>
+            </div>
+            <div className="dine-header">
+              <h1>On-site Restaurant</h1>
+            </div>
+            <div className="dine-description">
+              <p>"Our on-site restaurant offers a delightful dining experience with breakfast options including vegetarian, halal, and traditional English dishes.
+                For lunch and dinner, guests can enjoy a diverse menu featuring a variety of international cuisines."</p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   )
 }
