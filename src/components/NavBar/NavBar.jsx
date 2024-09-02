@@ -8,18 +8,18 @@ const NavBar = () => {
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-    
+
     return (
         <div>
             <nav className="fixed w-full z-20 top-0 start-0">
-                <div className="contact">
+                <div className="contact ">
                     <ul className="flex font-medium p-2">
                         <li className=" px-6">077 299 8997</li>
                         <li className="px-6">213/7, Aladeniya, Werellagama, Kandy, Sri Lanka</li>
                         <li className="px-6">delmalanka@gmail.com</li>
                     </ul>
                 </div>
-                <div className="nav-link max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+                <div className="link max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
                     <div className="logo">
                         <h1>Delma Mount View</h1>
                         <p>Luxury Banquet & Rooms</p>
@@ -52,11 +52,7 @@ const NavBar = () => {
                             </svg>
                         </button>
                     </div>
-                    <div
-                        className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? '' : 'hidden'
-                            }`}
-                        id="navbar-sticky"
-                    >
+                    <div className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? '' : 'hidden'}`} id="navbar-sticky">
                         <ul className="flex flex-col p-4 md:p-0 mt- font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 ">
                             <li>
                                 <a href="#" className="menu__link" aria-current="page">Home</a>
@@ -81,7 +77,7 @@ const NavBar = () => {
                 </div>
             </nav>
         </div>
-    )
+    );
 }
 
 export default NavBar

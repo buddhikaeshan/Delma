@@ -1,6 +1,5 @@
 
 .event{
-  background-color: #f7f7f7;
   margin: 10px auto;
   padding: 40px 0px;
 }
@@ -23,11 +22,13 @@
   text-align: center;
   overflow: hidden;
   border-radius: 15px;
+  border: none;
 }
 
 .card:hover {
   height: 450px;
   background: linear-gradient(360deg, #edededc5 60%, hsla(0, 0%, 13%, 1) 70%);
+  border: none;
 }
 
 .card .header {

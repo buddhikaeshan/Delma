@@ -5,7 +5,8 @@ const Dine = () => {
   return (
     <div className='Dine'>
         <div className="dine-back">
-            <div className="caption">Dining</div>
+            <div className="caption">
+              <h1>Dining</h1> </div>
 
         </div>
     </div>
