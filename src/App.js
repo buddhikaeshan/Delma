@@ -9,6 +9,7 @@ import Rooms from "./pages/Dashboard Pages/Rooms";
 import GalleryPage from "./pages/Dashboard Pages/GalleryPage";
 import Packages from "./pages/Dashboard Pages/Packages";
 import Users from "./pages/Dashboard Pages/Users";
+import AddRoom from "./components/Forms/AddRoom";
 
 
 function App() {
