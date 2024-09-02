@@ -12,6 +12,7 @@ import {
   faChartSimple,
   faImage,
   faBookBookmark,
+  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = ({ onLogout }) => {
@@ -102,6 +103,15 @@ const SideBar = ({ onLogout }) => {
             >
               <FontAwesomeIcon icon={faUserPlus} />
               <span>Add Users</span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            <Link
+              to="/settings"
+              className={`sidebar-link ${isActive("/settings") ? "active" : ""}`}
+            >
+              <FontAwesomeIcon icon={faGear} />
+              <span>Settings</span>
             </Link>
           </li>
         </ul>
