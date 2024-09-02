@@ -1,4 +1,5 @@
 import "bootswatch/dist/lux/bootstrap.min.css";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";

@@ -14,7 +14,7 @@ const Event = () => {
                         <div className="card">
                             <div className="header">
                                 <div className="img-box">
-                                    <img className="" src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="Hotel background" loading="lazy" />
+                                    <img className="" src="https://images.pexels.com/photos/2253842/pexels-photo-2253842.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hotel background" loading="lazy" />
                                 </div>
                                 <span className="title">Weddings
                                 </span></div>
@@ -26,7 +26,7 @@ const Event = () => {
                         <div className="card">
                             <div className="header">
                                 <div className="img-box">
-                                    <img className="" src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="Hotel background" loading="lazy" />
+                                    <img className="" src="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hotel background" loading="lazy" />
                                 </div>
                                 <span className="title">Party
                                 </span></div>
@@ -39,7 +39,7 @@ const Event = () => {
                         <div className="card">
                             <div className="header">
                                 <div className="img-box">
-                                    <img className="" src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="Hotel background" loading="lazy" />
+                                    <img className="" src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hotel background" loading="lazy" />
                                 </div>
                                 <span className="title">Meetings/Seminars
                                 </span></div>
@@ -52,21 +52,21 @@ const Event = () => {
 
                     <div className="content-area-2">
                         <div className="card-fun-2">
-                            <img src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="card-fun-2 Image" />
+                            <img src="https://images.pexels.com/photos/2253842/pexels-photo-2253842.jpeg?auto=compress&cs=tinysrgb&w=600" alt="card-fun-2 Image" />
                             <div className="card-fun-2-content">
                                 <h2 className="card-fun-2-title">weddings</h2>
                                 <p className="card-fun-2-description">Book your dream wedding in our elegant banquet hall, accommodating up to 300 guests. We offer comprehensive services including catering, decoration, and evening planning to ensure your special day is unforgettable.</p>
                             </div>
                         </div>
                         <div className="card-fun-2">
-                            <img src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="card-fun-2 Image" />
+                            <img src="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600" alt="card-fun-2 Image" />
                             <div className="card-fun-2-content">
                                 <h2 className="card-fun-2-title">Part</h2>
                                 <p className="card-fun-2-description">Host your next celebration in our stylish venue, perfect for parties of all sizes. We offer tailored services including catering, decoration, and event planning to make your party an unforgettable experience.</p>
                             </div>
                         </div>
                         <div className="card-fun-2">
-                            <img src="https://www.hilton.com/im/en/CZMPCHH/7888781/czmpc-pool-3.jpg?impolicy=crop&cw=5000&ch=3203&gravity=NorthWest&xposition=0&yposition=64&rw=1280&rh=820" alt="card-fun-2 Image" />
+                            <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=600" alt="card-fun-2 Image" />
                             <div className="card-fun-2-content">
                                 <h2 className="card-fun-2-title">Meeting</h2>
                                 <p className="card-fun-2-description">Conduct your meetings and seminars in our fully equipped conference rooms, designed for productivity and comfort. We offer customizable setups, audiovisual support, and catering services to ensure a successful event.</p>
