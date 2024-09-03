@@ -3,7 +3,7 @@ import { useState } from "react";
 function ImagePanel() {
 
     const [image, setImage] = useState(
-        "https://via.placeholder.com/150"
+        "https://via.placeholder.com/900x600"
     ); 
 
     const [title, setTitle] = useState("Card Title");

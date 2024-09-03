@@ -5,6 +5,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { NavLink } from 'react-router-dom';
 
 const Book = () => {
     useEffect(() => {
@@ -50,9 +51,9 @@ const Book = () => {
 
                 <div className="check ">
                     <div className="input-center">
-<div class="card shadow">
-                        <div className="inputs">
-                            
+                        <div class="card shadow">
+                            <div className="inputs">
+
                                 <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                                     <input type="date" id="input" required="" />
                                     <label for="input" className="label">Check In Date</label>
@@ -66,8 +67,10 @@ const Book = () => {
                                 </div>
 
                                 <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <NavLink to="/cusBooking" exact activeClassName="active">
                                     <button className="w-100 button ">Check Now</button>
-                                </div>
+                                </NavLink>
+                            </div>
                             </div>
                         </div>
                     </div>
