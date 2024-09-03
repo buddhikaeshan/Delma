@@ -33,8 +33,8 @@ const CusBookingForm = () => {
 
     return (
         <div className="w-50 mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg" >
-            <h2 className="caption ">Delma Mount View Hotel</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <h2 className="caption text-center text-lg font-semibold mb-4">Delma Mount View Hotel</h2>
+            <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-md mx-auto">
                 <div>
                     <label htmlFor="checkIn" className="block text-sm font-medium mb-1">Check-in Date</label>
                     <div className="relative">
@@ -47,11 +47,6 @@ const CusBookingForm = () => {
                             onChange={handleInputChange}
                             required
                         />
-                        {bookingData.checkIn && (
-                            <div className="absolute inset-y-0 left-0 right-0 flex items-center pointer-events-none">
-                                <span className="text-gray-700 pl-2"></span>
-                            </div>
-                        )}
                     </div>
                 </div>
                 <div>
@@ -66,16 +61,11 @@ const CusBookingForm = () => {
                             onChange={handleInputChange}
                             required
                         />
-                        {bookingData.checkOut && (
-                            <div className="absolute inset-y-0 left-0 right-0 flex items-center pointer-events-none">
-                                <span className="text-gray-700 pl-2"></span>
-                            </div>
-                        )}
                     </div>
                 </div>
                 <div>
                     <label className="block text-sm font-medium mb-1">Number of Guests</label>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
                         <div className="flex-1">
                             <label htmlFor="adults" className="block text-xs mb-1">Adults</label>
                             <div className="relative">
@@ -115,7 +105,7 @@ const CusBookingForm = () => {
                 </div>
                 <div>
                     <label className="block text-sm font-medium mb-2">Room Type</label>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
                         {['single', 'double', 'triple'].map((type) => (
                             <label key={type} className="flex items-center">
                                 <input
@@ -134,11 +124,12 @@ const CusBookingForm = () => {
                 </div>
                 <button
                     type="submit"
-                    className="button w-100"
+                    className="button w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
                 >
                     Book Now
                 </button>
             </form>
+
         </div>
     );
 };
