@@ -6,7 +6,7 @@ const Dine = () => {
     <div className='Dine'>
       <div className="dine-back-opacity">
         <div className="dine-back">
-          <div className="content-area-dine">
+          <div className="content-area-dine" data-aos="fade-up" data-aos-duration="3000"  >
             <div className="caption">
               <h1>Dining</h1>
             </div>

@@ -19,7 +19,7 @@ const Book = () => {
                         <div className=" absolute inset-0 flex flex-col items-center justify-center text-center text-white">
                             <h1 className="welcome_text ">WELCOME TO</h1>
                             <h1 className="welcome_text">Delma Mount View</h1>
-                            <p className="welcome_p">Delma Mount View Hotel Kandy offers 8 rooms approximately a 15-minute drive from Ranawana Purana Rajamaha Viharaya. </p>
+                            <p className="welcome_p">Delma Mount View Hotel Kandy is a luxurious 3-star hotel, located approximately a 15-minute drive from Ranawana Purana Rajamaha Viharaya. </p>
                         </div>
                     </div>
                 </div>
@@ -35,13 +35,13 @@ const Book = () => {
                                 <div className="underline"></div>
                             </div>
 
-                            <div className="input_container">
+                            <div className="input_container" data-aos="fade-up"     data-aos-duration="6000">
                                 <input type="date" id="input" required="" />
                                 <label for="input" className="label">Check Out Date</label>
                                 <div className="underline"></div>
                             </div>
 
-                            <div className="input_container">
+                            <div className="input_container"  data-aos="fade-up"     data-aos-duration="3000">
                                 <button className="w-100 button ">Check Now</button>
                             </div>
 
