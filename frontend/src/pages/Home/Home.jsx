@@ -13,16 +13,14 @@ import Gallery from '../../components/Gallery/Gallery';
 const Home = () => {
     return (
         <div>
-            <NavBar/>
-            <Book/>
-            <About/>
-            <Offers/>
-            <Room/>
-            <Dine/>
-            <Fun/>
-            <Gallery/>
-            <Footer/>
-            
+            <div id="home"><NavBar/><Book/></div>
+            <div id="about"><About/></div>
+            <div id="offers"><Offers/></div>
+            <div id="rooms"><Room/></div>
+            <div id="dine"><Dine/></div>
+            <div id="fun"><Fun/></div>
+            <div id="gallery"><Gallery/></div>
+            <div id="footer"><Footer/></div>
         </div>
     );
 }
