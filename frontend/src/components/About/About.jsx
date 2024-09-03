@@ -10,8 +10,7 @@ const About = () => {
     }, []);
     return (
         <div>
-            <div className="about" data-aos="fade-up"
-     data-aos-anchor-placement="top-bottom">
+            <div className="about" data-aos="fade-up"     data-aos-anchor-placement="top-bottom">
                 <div className="caption" data-aos="fade-up"     data-aos-duration="6000">
                     <h1>Delma Mount View Hotel</h1>
                     <h4 className='text-lg'>Luxury Banquet & Rooms</h4>

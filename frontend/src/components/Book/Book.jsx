@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import './Book.css'
-import assets from '../../assets/assets'
+
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Carousel from './carousel/Carousel';
 
 const Book = () => {
     useEffect(() => {
@@ -12,7 +13,7 @@ const Book = () => {
         <div>
             <div className="text-foreground ">
                 <div className="relative banner">
-                    <img className="banner" src={assets.back} alt="Hotel background" loading="lazy" />
+                    <Carousel/>
                     <div className="absolute inset-0 bg-black opacity-50">
                     </div>
                     <div className="welcome ">
