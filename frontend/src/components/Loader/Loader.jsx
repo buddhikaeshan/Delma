@@ -1,11 +1,11 @@
 import React from "react";
-import "./Loader.css"; 
-
+import "./Loader.css";
+import logo from "../../assets/logo.png";
 
 const Loader = () => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <div className="spinner"></div>
+    <div className="loader-container">
+      <img src={logo} alt="Loading" className="loading-image" />
     </div>
   );
 };
