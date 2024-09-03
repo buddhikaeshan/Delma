@@ -32,8 +32,8 @@ const CusBookingForm = () => {
     };
 
     return (
-        <div className="w-50 mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg" >
-            <h2 className="caption text-center text-lg font-semibold mb-4">Delma Mount View Hotel</h2>
+        <div className="w-100 mx-auto mt-10 p-6 bg-white rounded-lg " >
+            <h2 className="caption">Delma Mount View Hotel</h2>
             <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-md mx-auto">
                 <div>
                     <label htmlFor="checkIn" className="block text-sm font-medium mb-1">Check-in Date</label>
@@ -124,7 +124,7 @@ const CusBookingForm = () => {
                 </div>
                 <button
                     type="submit"
-                    className="button w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                    className="button w-100 "
                 >
                     Book Now
                 </button>
