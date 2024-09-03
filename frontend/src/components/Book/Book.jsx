@@ -36,7 +36,7 @@ const Book = () => {
                             </div>
 
                             <div className="input_container">
-                                <button className="w-full button ">Check Now</button>
+                                <button className="w-100 button ">Check Now</button>
                             </div>
 
                         </div>

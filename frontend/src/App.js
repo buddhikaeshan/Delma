@@ -1,4 +1,5 @@
 import "bootswatch/dist/lux/bootstrap.min.css";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
@@ -12,7 +13,24 @@ import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
 
 
+import Loader from "./components/Loader/Loader";
+import { useEffect, useState } from "react";
+
 function App() {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
