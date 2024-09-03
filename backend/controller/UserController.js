@@ -1,9 +1,31 @@
-const User = require('../models/User'); 
+const User = require("../models/User");
 
 // Create a new user
 const createUser = async (req, res) => {
   try {
-    const { userName, userType, userPassword, userTP, userNIC, userEmail, userAddress, userStatus } = req.body;
+    const {
+      userName,
+      userType,
+      userPassword,
+      userTP,
+      userNIC,
+      userEmail,
+      userAddress,
+      userStatus,
+    } = req.body;
+
+    if (
+      !userName ||
+      !userType ||
+      !userPassword ||
+      !userTP ||
+      !userNIC ||
+      !userEmail ||
+      !userAddress
+    ) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
     const newUser = await User.create({
       userName,
       userType,
@@ -12,11 +34,25 @@ const createUser = async (req, res) => {
       userNIC,
       userEmail,
       userAddress,
-      userStatus
+      userStatus,
     });
+
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ error: "Validation error: Please check the provided data." });
+    }
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        error:
+          "Duplicate field value: A user with this email or username already exists.",
+      });
+    }
+
+    res.status(400).json({ error: `An error occurred: ${error.message}` });
   }
 };
 
@@ -29,14 +65,13 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 // Get a single user by ID
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json(user);
   } catch (error) {
@@ -48,10 +83,19 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userName, userType, userPassword, userTP, userNIC, userEmail, userAddress, userStatus } = req.body;
+    const {
+      userName,
+      userType,
+      userPassword,
+      userTP,
+      userNIC,
+      userEmail,
+      userAddress,
+      userStatus,
+    } = req.body;
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     await user.update({
       userName,
@@ -61,7 +105,7 @@ const updateUser = async (req, res) => {
       userNIC,
       userEmail,
       userAddress,
-      userStatus
+      userStatus,
     });
     res.status(200).json(user);
   } catch (error) {
@@ -75,19 +119,18 @@ const deleteUser = async (req, res) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     await user.destroy();
-    res.status(200).json({ message: 'User deleted successfully' });
+    res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
   updateUser,
-  deleteUser
+  deleteUser,
 };
