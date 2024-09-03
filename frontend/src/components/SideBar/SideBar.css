@@ -50,7 +50,7 @@ body {
   color: #fff;
   font-size: 1.15rem;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: none
 }
 
 #sidebar:not(.expand) .sidebar-logo,

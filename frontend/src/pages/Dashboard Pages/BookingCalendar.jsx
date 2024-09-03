@@ -15,7 +15,7 @@ function BookingCalendar() {
           <div style={{ width: '175vh', height: '85vh', overflow: 'auto' }}>
             <FullCalendar
               plugins={[dayGridPlugin]}
-              initialView="daygrid"
+              initialView="dayGridMonth"
               weekends={true}
               events={[
                 { title: 'Event 1', date: '2024-09-01' },

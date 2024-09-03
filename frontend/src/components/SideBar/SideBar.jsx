@@ -12,7 +12,6 @@ import {
   faChartSimple,
   faImage,
   faBookBookmark,
-  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = ({ onLogout }) => {
@@ -37,7 +36,9 @@ const SideBar = ({ onLogout }) => {
             <FontAwesomeIcon icon={faHome} />
           </button>
           <div className="sidebar-logo">
-            <Link to="/dashboard">Delma Mount View</Link>
+            <Link to="/dashboard">
+              Delma Mount View
+            </Link>
           </div>
         </div>
         <ul className="sidebar-nav">
@@ -103,15 +104,6 @@ const SideBar = ({ onLogout }) => {
             >
               <FontAwesomeIcon icon={faUserPlus} />
               <span>Add Users</span>
-            </Link>
-          </li>
-          <li className="sidebar-item">
-            <Link
-              to="/settings"
-              className={`sidebar-link ${isActive("/settings") ? "active" : ""}`}
-            >
-              <FontAwesomeIcon icon={faGear} />
-              <span>Settings</span>
             </Link>
           </li>
         </ul>

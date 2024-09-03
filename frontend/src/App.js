@@ -10,7 +10,7 @@ import GalleryPage from "./pages/Dashboard Pages/GalleryPage";
 import Packages from "./pages/Dashboard Pages/Packages";
 import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
-import Settings from "./pages/Dashboard Pages/Settings";
+
 
 function App() {
   return (
@@ -26,7 +26,6 @@ function App() {
           <Route path="/Packages" element={<Packages />} />
           <Route path="/GalleryPage" element={<GalleryPage />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/settings" element={<Settings />} />
         </Routes>
       </BrowserRouter>
     </div>

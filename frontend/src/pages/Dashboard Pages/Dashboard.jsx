@@ -16,7 +16,7 @@ function Dashboard() {
             <Panel
               title={"Rooms"}
               num={'8'}
-              para={'buddika pa'}
+              para={'Increased by 5%'}
               bgColor="bg-gradient-to-r from-blue-400 to-green-500 "
             />
 
@@ -27,34 +27,33 @@ function Dashboard() {
               bgColor="bg-gradient-to-r from-blue-400 to-cyan-500"
             />
 
+            <Panel
+              title={"Customers"}
+              num={'10,000'}
+              para={'Increased by 60%'}
+              bgColor="bg-gradient-to-r from-green-400 to-teal-500"
+            />
 
+            <Panel
+              title={"Visitors"}
+              num={'95,5741'}
+              para={'Increased by 5%'}
+              bgColor="bg-gradient-to-r from-blue-400 to-cyan-900"
+            />
 
-            <div class="bg-gradient-to-r from-green-400 to-teal-500  rounded-lg p-4">
-              <h2 class="text-xl font-semibold">Customers</h2>
-              <p class="text-2xl">10,000</p>
-              <p class="text-sm text-muted-foreground">Increased by 60%</p>
-            </div>
+            <Panel
+              title={"Income"}
+              num={'95,5741'}
+              para={'Increased by 60%'}
+              bgColor="bg-gradient-to-r  from-green-400 to-teal-500 "
+            />
 
-
-            <div class="bg-gradient-to-r from-blue-400 to-cyan-900 rounded-lg p-4">
-              <h2 class="text-xl font-semibold">Visitors </h2>
-              <p class="text-2xl">95,5741</p>
-              <p class="text-sm text-muted-foreground">Increased by 5%</p>
-            </div>
-
-
-            <div class="bg-gradient-to-r  from-green-400 to-teal-500  rounded-lg p-4">
-              <h2 class="text-xl font-semibold">Income</h2>
-              <p class="text-2xl">$ 15,000</p>
-              <p class="text-sm text-muted-foreground">Increased by 60%</p>
-            </div>
-
-
-            <div class="bg-gradient-to-r from-yellow-400 to-teal-500 rounded-lg p-4">
-              <h2 class="text-xl font-semibold">Visitors </h2>
-              <p class="text-2xl">95,5741</p>
-              <p class="text-sm text-muted-foreground">Increased by 5%</p>
-            </div>
+            <Panel
+              title={"Visitors"}
+              num={'15,000'}
+              para={'Increased by 5%'}
+              bgColor="bg-gradient-to-r from-yellow-400 to-teal-500 "
+            />
           </main>
         </div>
       </div>
