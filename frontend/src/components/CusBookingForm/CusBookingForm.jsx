@@ -23,7 +23,6 @@ const CusBookingForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Booking data:', bookingData);
-        // Here you would typically send the data to a backend API
     };
 
     const formatDate = (dateString) => {
@@ -34,8 +33,8 @@ const CusBookingForm = () => {
 
     return (
         <div className="w-50 mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg" >
-            <h2 className="caption " data-aos="fade-up" data-aos-anchor-placement="top-bottom">Delma Mount View Hotel</h2>
-            <form onSubmit={handleSubmit} className="space-y-4" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+            <h2 className="caption ">Delma Mount View Hotel</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="checkIn" className="block text-sm font-medium mb-1">Check-in Date</label>
                     <div className="relative">
@@ -50,7 +49,7 @@ const CusBookingForm = () => {
                         />
                         {bookingData.checkIn && (
                             <div className="absolute inset-y-0 left-0 right-0 flex items-center pointer-events-none">
-                                <span className="text-gray-700 pl-2">{formatDate(bookingData.checkIn)}</span>
+                                <span className="text-gray-700 pl-2"></span>
                             </div>
                         )}
                     </div>
@@ -69,7 +68,7 @@ const CusBookingForm = () => {
                         />
                         {bookingData.checkOut && (
                             <div className="absolute inset-y-0 left-0 right-0 flex items-center pointer-events-none">
-                                <span className="text-gray-700 pl-2">{formatDate(bookingData.checkOut)}</span>
+                                <span className="text-gray-700 pl-2"></span>
                             </div>
                         )}
                     </div>
