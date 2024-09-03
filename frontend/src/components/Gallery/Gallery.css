@@ -105,13 +105,11 @@ div.highway-slider ul.highway-lane li.highway-car {
 #infinite div.highway-barrier::before {
 	top: 0;
 	left: 0;
-	background: linear-gradient(to right, #f7f7f7 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 #infinite div.highway-barrier::after {
 	top: 0;
 	right: 0;
-	background: linear-gradient(to left, #f7f7f7 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 #infinite ul.highway-lane {
@@ -123,6 +121,8 @@ div.highway-slider ul.highway-lane li.highway-car {
 	animation: translateinfinite 25s linear infinite;
 }
 
-#infinite ul.highway-lane li.highway-car span.fab {
-	font-size: 65px;
+@media (max-width:568px) {
+div.highway-slider {
+	height: 300px;
+}
 }
