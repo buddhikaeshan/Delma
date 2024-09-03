@@ -5,6 +5,7 @@ import room1 from './room1.JPG';
 import room2 from './room2.JPG';
 import room3 from './room3.JPG';
 import hotel from './hotel.jpg';
+import dine from './dine.JPG';
 
 const assets={
     logo,
@@ -13,7 +14,8 @@ const assets={
     room1,
     room2,
     room3,
-    hotel
+    hotel,
+    dine
 }
 
 export default assets;
