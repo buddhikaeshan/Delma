@@ -11,7 +11,7 @@ const Event = () => {
                 <div className="content-area">
                     <div className="content-area-1">
                         
-                        <div className="card">
+                        <div className="card-fun-1">
                             <div className="header">
                                 <div className="img-box">
                                     <img className="" src="https://images.pexels.com/photos/2253842/pexels-photo-2253842.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hotel background" loading="lazy" />
@@ -23,7 +23,7 @@ const Event = () => {
                                 <a className="btn-link"></a>
                             </div>
                         </div>
-                        <div className="card">
+                        <div className="card-fun-1">
                             <div className="header">
                                 <div className="img-box">
                                     <img className="" src="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hotel background" loading="lazy" />
@@ -36,7 +36,7 @@ const Event = () => {
                             </div>
                         </div>
 
-                        <div className="card">
+                        <div className="card-fun-1">
                             <div className="header">
                                 <div className="img-box">
                                     <img className="" src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hotel background" loading="lazy" />
