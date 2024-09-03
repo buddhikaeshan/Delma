@@ -35,13 +35,13 @@ const Book = () => {
                                 <div className="underline"></div>
                             </div>
 
-                            <div className="input_container">
+                            <div className="input_container" data-aos="fade-up"     data-aos-duration="6000">
                                 <input type="date" id="input" required="" />
                                 <label for="input" className="label">Check Out Date</label>
                                 <div className="underline"></div>
                             </div>
 
-                            <div className="input_container">
+                            <div className="input_container"  data-aos="fade-up"     data-aos-duration="3000">
                                 <button className="w-100 button ">Check Now</button>
                             </div>
 
