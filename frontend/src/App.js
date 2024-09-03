@@ -12,13 +12,11 @@ import GalleryPage from "./pages/Dashboard Pages/GalleryPage";
 import Packages from "./pages/Dashboard Pages/Packages";
 import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
-
-
 import Loader from "./components/Loader/Loader";
 import { useEffect, useState } from "react";
 
-function App() {
 
+function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
