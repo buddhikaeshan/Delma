@@ -38,6 +38,7 @@ code {
 .button:hover {
   background: #ffc738;
 }
+
 @media (max-width:468px) {
   .caption{
     font-size: 25px;

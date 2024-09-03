@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
+
 const Table = ({ data, columns, onAdd, btnName, onEdit, onDelete }) => {
     const [tableData, setTableData] = useState(data);
     const [tableColumns, setTableColumns] = useState(columns);
