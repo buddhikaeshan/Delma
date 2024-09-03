@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Book.css'
 import assets from '../../assets/assets'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Book = () => {
+    useEffect(() => {
+        AOS.init({ duration: 1000 }); // Initialize AOS with a duration of 1 second
+    }, []);
     return (
         <div>
             <div className="text-foreground ">
@@ -23,7 +28,8 @@ const Book = () => {
                     <div className="input-center">
                         <div className="inputs">
 
-                            <div className="input_container">
+                            <div className="input_container" data-aos="fade-up"
+     data-aos-anchor-placement="top-bottom">
                                 <input type="date" id="input" required="" />
                                 <label for="input" className="label">Check In Date</label>
                                 <div className="underline"></div>
