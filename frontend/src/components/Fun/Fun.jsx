@@ -5,7 +5,7 @@ const Event = () => {
     return (
         <div className="event">
             <div className="event-color">
-                <div className="caption">
+                <div className="caption" data-aos="fade-up" data-aos-duration="6000">
                     <h1>Weddings & Event</h1>
                 </div>
                 <div className="content-area">

@@ -6,7 +6,7 @@ const Gallery = () => {
   return (
     <div className="Gallery">
       <div className="gal-back">
-        <div className="caption">
+        <div className="caption" data-aos="fade-up" data-aos-duration="6000">
           <h1>Gallery</h1>
         </div>
         <div className="content-gallery">
