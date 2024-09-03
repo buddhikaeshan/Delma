@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './NavBar.css'
 
 
@@ -25,7 +26,7 @@ const NavBar = () => {
                         <p>Luxury Banquet & Rooms</p>
                     </div>
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                        <button className="button">Book Now</button>
+                    <NavLink to="/cusBooking" exact activeClassName="active"><button className="button">Book Now</button></NavLink>
                         <button
                             data-collapse-toggle="navbar-sticky"
                             type="button"

@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import Carousel from './carousel/Carousel';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { NavLink } from 'react-router-dom'; 
 
 const Book = () => {
     useEffect(() => {
@@ -66,7 +67,9 @@ const Book = () => {
                             </div>
 
                             <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                <button className="w-100 button ">Check Now</button>
+                                <NavLink to="/cusBooking" exact activeClassName="active">
+                                    <button className="w-100 button ">Check Now</button>
+                                </NavLink>
                             </div>
 
                         </div>

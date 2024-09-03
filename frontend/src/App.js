@@ -14,6 +14,7 @@ import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
 import Loader from "./components/Loader/Loader";
 import { useEffect, useState } from "react";
+import CusBookingForm from "./components/CusBookingForm/CusBookingForm";
 
 
 function App() {
@@ -43,6 +44,9 @@ function App() {
           <Route path="/Packages" element={<Packages />} />
           <Route path="/GalleryPage" element={<GalleryPage />} />
           <Route path="/users" element={<Users />} />
+
+          <Route path="/cusBooking" element={<CusBookingForm />} />
+
         </Routes>
       </BrowserRouter>
     </div>
