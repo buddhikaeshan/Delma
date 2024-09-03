@@ -13,21 +13,21 @@ const Offers = () => {
                 <div className="caption" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                     <h1>Special Offers</h1>
                 </div>
-                <div className="offer_cards" data-aos="zoom-in">
+                <div className="offer_cards" data-aos="fade-up" data-aos-duration="3000">
                     <div className="container-1">
 
-                        <div className="card-f" data-aos="zoom-in">
+                        <div className="card-f" data-aos="fade-up" data-aos-duration="6000">
                             <p className="title-f">
                                 <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
 
                             </p>
                         </div>
-                        <div className="card-f" data-aos="zoom-in">
+                        <div className="card-f" data-aos="fade-up" data-aos-duration="9000">
                             <p className="title-f">
                                 <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
                             </p>
                         </div>
-                        <div className="card-f" data-aos="zoom-in">
+                        <div className="card-f" data-aos="fade-up" data-aos-duration="3000">
                             <p className="title-f">
                                 <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
                             </p>
