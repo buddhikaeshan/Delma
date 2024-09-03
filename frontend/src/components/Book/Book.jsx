@@ -19,7 +19,7 @@ const Book = () => {
                         <div className=" absolute inset-0 flex flex-col items-center justify-center text-center text-white">
                             <h1 className="welcome_text ">WELCOME TO</h1>
                             <h1 className="welcome_text">Delma Mount View</h1>
-                            <p className="welcome_p">Delma Mount View Hotel Kandy offers 8 rooms approximately a 15-minute drive from Ranawana Purana Rajamaha Viharaya. </p>
+                            <p className="welcome_p">Delma Mount View Hotel Kandy is a luxurious 3-star hotel, located approximately a 15-minute drive from Ranawana Purana Rajamaha Viharaya. </p>
                         </div>
                     </div>
                 </div>
