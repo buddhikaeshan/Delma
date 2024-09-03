@@ -13,7 +13,24 @@ import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
 import Settings from "./pages/Dashboard Pages/Settings";
 
+import Loader from "./components/Loader/Loader";
+import { useEffect, useState } from "react";
+
 function App() {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
