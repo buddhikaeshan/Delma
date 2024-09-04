@@ -11,10 +11,10 @@ function Rooms() {
     const [isModalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
-        // Fetch rooms data from the server using Axios
+       
         const fetchRooms = async () => {
             try {
-                const response = await axios.get(`${config.BASE_URL}/rooms`); // Replace with your API URL
+                const response = await axios.get(`${config.BASE_URL}/rooms`); 
                 setRooms(response.data);
             } catch (error) {
                 console.error("Error fetching rooms:", error);
@@ -29,7 +29,7 @@ function Rooms() {
             const response = await axios.put(`${config.API_URL}/rooms/${roomId}`, { status: newStatus });
             console.log('Room status updated:', response.data);
 
-            // Update the rooms state with the updated room data
+        
             setRooms(prevRooms =>
                 prevRooms.map(room =>
                     room.id === roomId ? { ...room, status: newStatus } : room
