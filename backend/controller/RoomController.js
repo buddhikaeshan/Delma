@@ -1,4 +1,4 @@
-const Room = require("../models/Room"); // Ensure this path is correct
+const Room = require("../models/Room"); 
 
 // Create a new room
 const createRoom = async (req, res) => {
@@ -38,7 +38,7 @@ const createRoom = async (req, res) => {
 // Get all rooms
 const getAllRooms = async (req, res) => {
   try {
-    const rooms = await Room.findAll(); // Ensure the Room model is used correctly
+    const rooms = await Room.findAll();
     res.status(200).json(rooms);
   } catch (error) {
     res.status(500).json({ error: `An error occurred: ${error.message}` });
@@ -49,7 +49,7 @@ const getAllRooms = async (req, res) => {
 const getRoomById = async (req, res) => {
   try {
     const { id } = req.params;
-    const room = await Room.findByPk(id); // Correctly using Room model
+    const room = await Room.findByPk(id);
     if (!room) {
       return res.status(404).json({ message: "Room not found" });
     }
