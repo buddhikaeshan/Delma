@@ -22,6 +22,14 @@ const Room = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    roomCapacity: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     status: {
       type: DataTypes.STRING,
       allowNull: false,

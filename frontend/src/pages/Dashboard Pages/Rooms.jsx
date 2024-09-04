@@ -1,19 +1,44 @@
-import { useState } from 'react'
-import SideBar from '../../components/SideBar/SideBar'
-import Table from '../../components/Table'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import SideBar from '../../components/SideBar/SideBar';
+import Table from '../../components/Table';
 import AddRoom from '../../components/Forms/AddRoom';
+import config from '../../config';
 
 function Rooms() {
-    const columns = ["Room Number", "Room Type", "Price Per Night", "Room Capacity", "Bed Type", "Status"];
-    const data = [
-        ["001", "Double", "1500", "3", "Double",
-            <select id="name" className="form-control">
-                <option>Available</option>
-                <option>Unavailable</option>
-                <option>Cleaning</option>
-            </select>],
-    ];
-    const btnName = "Add New Room";
+    const columns = ["Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night", "Status"];
+    const [rooms, setRooms] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    useEffect(() => {
+        // Fetch rooms data from the server using Axios
+        const fetchRooms = async () => {
+            try {
+                const response = await axios.get(`${config.BASE_URL}/rooms`); // Replace with your API URL
+                setRooms(response.data);
+            } catch (error) {
+                console.error("Error fetching rooms:", error);
+            }
+        };
+
+        fetchRooms();
+    }, []);
+
+    const handleStatusChange = async (roomId, newStatus) => {
+        try {
+            const response = await axios.put(`${config.API_URL}/rooms/${roomId}`, { status: newStatus });
+            console.log('Room status updated:', response.data);
+
+            // Update the rooms state with the updated room data
+            setRooms(prevRooms =>
+                prevRooms.map(room =>
+                    room.id === roomId ? { ...room, status: newStatus } : room
+                )
+            );
+        } catch (error) {
+            console.error('Error updating room status:', error);
+        }
+    };
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
@@ -23,7 +48,6 @@ function Rooms() {
         console.log(`Deleting row ${rowIndex}`);
     };
 
-    const [isModalOpen, setModalOpen] = useState(false);
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
     const handleSave = (event) => {
@@ -31,15 +55,32 @@ function Rooms() {
         console.log("Room information saved");
         setModalOpen(false);
     };
+
     return (
         <div className='d-flex'>
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Rooms</h2>
                 <Table
-                    data={data}
+                    data={rooms.map(room => [
+                        room.roomNumber,
+                        room.roomType,
+                        room.bedType,
+                        room.roomCapacity,
+                        room.price,
+                        <select
+                            id="status"
+                            className="form-control"
+                            value={room.status}  
+                            onChange={(e) => handleStatusChange(room.id, e.target.value)}
+                        >
+                            <option value="Available">Available</option>
+                            <option value="Unavailable">Unavailable</option>
+                            <option value="Cleaning">Cleaning</option>
+                        </select>
+                    ])}
                     columns={columns}
-                    btnName={btnName}
+                    btnName="Add New Room"
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onAdd={handleOpenModal}
@@ -81,7 +122,7 @@ function Rooms() {
                 )}
             </div>
         </div>
-    )
+    );
 }
 
-export default Rooms
+export default Rooms;

@@ -1,12 +1,20 @@
-const Room = require("../models/Room"); 
+const Room = require("../models/Room");
 
 // Create a new room
 const createRoom = async (req, res) => {
   try {
-    const { roomNumber, roomType, bedType, status } = req.body;
+    const { roomNumber, roomType, bedType, roomCapacity, price, status } =
+      req.body;
 
     // Check if all required fields are present
-    if (!roomNumber || !roomType || !bedType || !status) {
+    if (
+      !roomNumber ||
+      !roomType ||
+      !bedType ||
+      !roomCapacity ||
+      !price ||
+      !status
+    ) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
@@ -15,6 +23,8 @@ const createRoom = async (req, res) => {
       roomNumber,
       roomType,
       bedType,
+      roomCapacity,
+      price,
       status,
     });
 
@@ -63,7 +73,8 @@ const getRoomById = async (req, res) => {
 const updateRoom = async (req, res) => {
   try {
     const { id } = req.params;
-    const { roomNumber, roomType, bedType, status } = req.body;
+    const { roomNumber, roomType, bedType, roomCapacity, price, status } =
+      req.body;
 
     // Find the room by primary key (ID)
     const room = await Room.findByPk(id);
@@ -76,6 +87,8 @@ const updateRoom = async (req, res) => {
       roomNumber,
       roomType,
       bedType,
+      roomCapacity,
+      price,
       status,
     });
 
@@ -90,7 +103,6 @@ const updateRoom = async (req, res) => {
     res.status(500).json({ error: `An error occurred: ${error.message}` });
   }
 };
-
 // Delete a room
 const deleteRoom = async (req, res) => {
   try {

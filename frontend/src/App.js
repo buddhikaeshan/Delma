@@ -16,8 +16,6 @@ import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
 import Loader from "./components/Loader/Loader";
 import CusBookingForm from "./components/CusBookingForm/CusBookingForm";
-import { Section } from "lucide-react";
-
 
 function App() {
   const [loading, setLoading] = useState(true);
