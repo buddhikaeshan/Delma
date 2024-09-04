@@ -56,25 +56,25 @@ const NavBar = () => {
                     <div className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? '' : 'hidden'}`} id="navbar-sticky">
                         <ul className="flex flex-col p-4 md:p-0 mt- font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 ">
                             <li>
-                                <a href="#" className="menu__link" aria-current="page">Home</a>
+                                <a href="#home" className="menu__link" aria-current="page">Home</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Rooms</a>
+                                <a href="#about" className="menu__link">About</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">About</a>
+                                <a href="#offers" className="menu__link">Offers</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Dining</a>
+                                <a href="#rooms" className="menu__link">Rooms</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Event</a>
+                                <a href="#fun" className="menu__link">Event</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Gallery</a>
+                                <a href="#gallery" className="menu__link">Gallery</a>
                             </li>
                             <li>
-                                <a href="#" className="menu__link">Contact Us</a>
+                                <a href="#footer" className="menu__link">Contact Us</a>
                             </li>
                         </ul>
                     </div>
