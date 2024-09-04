@@ -15,10 +15,18 @@ const Gallery = () => {
             <div id="infinite" class="highway-slider">
               <div class="container highway-barrier">
                 <ul class="highway-lane">
-                  <li class="highway-car"><span><img src={assets.room1} alt="" /></span></li>
-                  <li class="highway-car"><span><img src={assets.room2} alt="" /></span></li>
-                  <li class="highway-car"><span><img src={assets.room3} alt="" /></span></li>
-                  <li class="highway-car"><span><img src={assets.back} alt="" /></span></li>
+                  <li class="highway-car"><img src={assets.gal1} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal2} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal1} alt="" /></li>
+                  <li class="highway-car"><img src={assets.dine} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal4} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal5} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal8} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal9} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal10} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal11} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal12} alt="" /></li>
+                  <li class="highway-car"><img src={assets.gal13} alt="" /></li>
                 </ul>
               </div>
             </div>

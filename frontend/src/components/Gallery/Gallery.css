@@ -84,7 +84,7 @@ div.highway-slider ul.highway-lane li.highway-car {
 
 @keyframes translateinfinite {
 	100% {
-		transform: translateX(calc(-180px * 12));
+		transform: translateX(calc(-400px * 12));
 	}
 }
 
@@ -98,7 +98,7 @@ div.highway-slider ul.highway-lane li.highway-car {
 	content: " ";
 	position: absolute;
 	z-index: 9;
-	width: 180px;
+	width: 400px;
 	height: 100%;
 }
 
@@ -113,11 +113,11 @@ div.highway-slider ul.highway-lane li.highway-car {
 }
 
 #infinite ul.highway-lane {
-	width: calc(180px * 24);
+	width: calc(400px * 24);
 }
 
 #infinite ul.highway-lane li.highway-car {
-	width: 180px;
+	width: 400px;
 	animation: translateinfinite 25s linear infinite;
 }
 

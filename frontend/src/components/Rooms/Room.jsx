@@ -16,7 +16,7 @@ const Room = () => {
                 </div>
                 <div className="content-area-room">
                     <div className="card-room" data-aos="zoom-out-up" data-aos-duration="3000">
-                        <img src="https://i.ibb.co/5kXHpKh/room3.jpg" alt="card-room Image" data-aos="zoom-out-up"  />
+                        <img src={assets.room1} alt="card-room Image" data-aos="zoom-out-up"  />
                         <div className="card-room-content">
                             <h2 className="card-room-title">Single Room</h2>
                             <p className="card-room-description">Single room equipped with modern amenities, including <b>free Wi-Fi, air conditioning, a flat-screen TV, a mini fridge bar, and a bathroom</b> for your comfort and convenience.</p>
@@ -24,7 +24,7 @@ const Room = () => {
                         </div>
                     </div>
                     <div className="card-room" data-aos="zoom-out-up" data-aos-duration="3000">
-                        <img src="https://i.ibb.co/pdJBM3f/room2.jpg" alt="card-room Image" data-aos="zoom-out-up" />
+                        <img src={assets.room2} alt="card-room Image" data-aos="zoom-out-up" />
                         <div className="card-room-content">
                             <h2 className="card-room-title">Double Room</h2>
                             <p className="card-room-description">Double room ideal for <b>two adults, with accommodation available for children under 12</b>. Features a <b><span>king-sized bed</span>, Wi-Fi, air conditioning, a flat-screen TV, a mini fridge bar, bathroom</b> and all the comforts needed for a relaxing stay.</p>
@@ -32,7 +32,7 @@ const Room = () => {
                         </div>
                     </div>
                     <div className="card-room" data-aos="zoom-out-up" data-aos-duration="3000">
-                        <img src="https://i.ibb.co/9yHGKGC/room1.jpg" alt="card-room Image" data-aos="zoom-out-up" />
+                        <img src={assets.room3} alt="card-room Image" data-aos="zoom-out-up" />
                         <div className="card-room-content">
                             <h2 className="card-room-title">Triple Room</h2>
                             <p className="card-room-description">Triple room ideal for <b>three adults, with accommodation available for children under 12.</b> Features a <b><span>king-sized bed, a queen-sized bed,</span> Wi-Fi, air conditioning, a flat-screen TV, a mini fridge bar, bathroom</b> and all the comforts needed for a relaxing stay.</p>
