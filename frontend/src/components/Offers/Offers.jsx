@@ -1,8 +1,7 @@
-import React from 'react'
-import './Offers.css'
-import assets from '../../assets/assets'
+import React from 'react';
+import './Offers.css';
+import assets from '../../assets/assets';
 import 'aos/dist/aos.css';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 
@@ -10,27 +9,26 @@ const Offers = () => {
     return (
         <div>
             <div className="offers">
-                <div className="caption" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div className="caption" data-aos="fade-up">
                     <h1>Special Offers</h1>
                 </div>
-                <div className="offer_cards" data-aos="fade-up" data-aos-duration="3000">
+
+                <div className="offer_cards" data-aos="fade-up">
                     <div className="container-1">
-
-                        <div className="card-f" data-aos="fade-up" data-aos-duration="6000">
-                            <p className="title-f">
+                        <div className="card-f align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                            <div className="offer-banner-wrapper">
                                 <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
-
-                            </p>
+                            </div>
                         </div>
-                        <div className="card-f" data-aos="fade-up" data-aos-duration="9000">
-                            <p className="title-f">
+                        <div className="card-f align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+                            <div className="offer-banner-wrapper">
                                 <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
-                            </p>
+                            </div>
                         </div>
-                        <div className="card-f" data-aos="fade-up" data-aos-duration="3000">
-                            <p className="title-f">
+                        <div className="card-f align-items-stretch" data-aos="fade-up" data-aos-delay="600">
+                            <div className="offer-banner-wrapper">
                                 <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
-                            </p>
+                            </div>
                         </div>
                     </div>
 
@@ -43,31 +41,36 @@ const Offers = () => {
                             <SwiperSlide className="swiper-slide--two">
                                 <div>
                                     <div className="card-2">
-                                        <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
+                                        <div className="offer-banner-wrapper">
+                                            <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
+                                        </div>
                                     </div>
                                 </div>
                             </SwiperSlide>
                             <SwiperSlide className="swiper-slide--two">
                                 <div>
                                     <div className="card-2">
-                                        <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
+                                        <div className="offer-banner-wrapper">
+                                            <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
+                                        </div>
                                     </div>
                                 </div>
                             </SwiperSlide>
                             <SwiperSlide className="swiper-slide--two">
                                 <div>
                                     <div className="card-2">
-                                        <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
+                                        <div className="offer-banner-wrapper">
+                                            <img className="offer-banner" src={assets.offer1} alt="Hotel background" loading="lazy" />
+                                        </div>
                                     </div>
                                 </div>
                             </SwiperSlide>
                         </Swiper>
                     </div>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Offers
+export default Offers;

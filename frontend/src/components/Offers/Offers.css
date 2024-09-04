@@ -21,9 +21,15 @@
   width: 100%;
   height: auto;
   margin: 10px;
+  transition: transform 0.3s ease;
+  overflow: hidden; /* Ensure content doesn't overflow the card */
 }
 
-.container-f:hover> :not(:hover) {
+.card-f:hover {
+  transform: scale(1.05);
+}
+
+.container-f:hover > :not(:hover) {
   opacity: 0.3;
 }
 
@@ -38,7 +44,7 @@
   margin: 0 auto;
 }
 
-/*slider*/
+/* Slider */
 .card-2 {
   position: relative;
   width: 100%;
@@ -68,6 +74,18 @@
 
 .offer-banner {
   object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block; /* Ensure the image takes up the full space */
+  width: 100%;
+  height: auto;
+}
+
+.offer-banner-wrapper {
+  overflow: hidden; /* Hide the part of the image that overflows */
+}
+
+.offer-banner-wrapper:hover .offer-banner {
+  transform: scale(1.1); /* Scale up the image */
 }
 
 @media (max-width:900px) {

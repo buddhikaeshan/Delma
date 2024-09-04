@@ -9,6 +9,7 @@ import Fun from '../../components/Fun/Fun';
 import Dine from '../../components/Dine/Dine';
 import Footer from '../../components/Footer/Footer';
 import Gallery from '../../components/Gallery/Gallery';
+ 
 
 const Home = () => {
     return (

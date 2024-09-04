@@ -1,7 +1,7 @@
 /* checkout */
 .check {
   padding: 20px 10px;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
 }
@@ -398,3 +398,5 @@
 .input_container button {
   transition: none;
 }
+
+
