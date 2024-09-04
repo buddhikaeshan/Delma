@@ -20,6 +20,7 @@ app.get("/users", UserController.getAllUsers);
 app.get("/users/:id", UserController.getUserById);
 app.put("/users/:id", UserController.updateUser);
 app.delete("/users/:id", UserController.deleteUser);
+app.post("/loginUser",UserController.loginUser);
 
 // Room Routes
 app.post("/rooms", RoomController.createRoom);
