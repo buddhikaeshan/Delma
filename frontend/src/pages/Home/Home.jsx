@@ -14,6 +14,7 @@ import Gallery from '../../components/Gallery/Gallery';
 const Home = () => {
     return (
         <div>
+<<<<<<< HEAD
             <NavBar />
              
             <div id="book"><Book /></div>
@@ -24,6 +25,16 @@ const Home = () => {
             <div id="fun"><Fun /></div>
             <div id="gallery"><Gallery /></div>
             <Footer />
+=======
+            <div id="home"><NavBar/><Book/></div>
+            <div id="about"><About/></div>
+            <div id="offers"><Offers/></div>
+            <div id="rooms"><Room/></div>
+            <div id="dine"><Dine/></div>
+            <div id="fun"><Fun/></div>
+            <div id="gallery"><Gallery/></div>
+            <div id="footer"><Footer/></div>
+>>>>>>> 966250696c2c3b550c8c01e75aba31dc0475b9f2
         </div>
     );
 }

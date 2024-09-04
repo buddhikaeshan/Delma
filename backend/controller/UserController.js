@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
     const newUser = await User.create({
       userName,
       userType,
-      userPassword,
+      userPassword, 
       userTP,
       userNIC,
       userEmail,
@@ -39,13 +39,13 @@ const createUser = async (req, res) => {
 
     res.status(201).json(newUser);
   } catch (error) {
-    if (error.name === "ValidationError") {
+    if (error.name === "SequelizeValidationError") {
       return res
         .status(400)
         .json({ error: "Validation error: Please check the provided data." });
     }
 
-    if (error.code === 11000) {
+    if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         error:
           "Duplicate field value: A user with this email or username already exists.",
@@ -65,6 +65,7 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 // Get a single user by ID
 const getUserById = async (req, res) => {
   try {
@@ -93,20 +94,23 @@ const updateUser = async (req, res) => {
       userAddress,
       userStatus,
     } = req.body;
+
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     await user.update({
       userName,
       userType,
-      userPassword,
+      userPassword, 
       userTP,
       userNIC,
       userEmail,
       userAddress,
       userStatus,
     });
+
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -127,6 +131,7 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 module.exports = {
   createUser,
   getAllUsers,

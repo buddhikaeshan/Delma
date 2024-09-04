@@ -1,8 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const sequelize = require("./Index");
+const sequelize = require("./index");
 const UserController = require("./controller/UserController");
+const RoomController = require("./controller/RoomController");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +18,13 @@ app.get("/users", UserController.getAllUsers);
 app.get("/users/:id", UserController.getUserById);
 app.put("/users/:id", UserController.updateUser);
 app.delete("/users/:id", UserController.deleteUser);
+
+// Room Routes
+app.post("/rooms", RoomController.createRoom);
+app.get("/rooms", RoomController.getAllRooms);
+app.get("/rooms/:id", RoomController.getRoomById);
+app.put("/rooms/:id", RoomController.updateRoom);
+app.delete("/rooms/:id",RoomController.deleteRoom);
 
 // Sync the database
 sequelize
