@@ -51,7 +51,7 @@ const Book = () => {
 
                 <div className="check ">
                     <div className="input-center">
-                        <div class="card shadow">
+                        <div class="card-book shadow">
                             <div className="inputs">
 
                                 <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
