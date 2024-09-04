@@ -9,11 +9,13 @@ import Fun from '../../components/Fun/Fun';
 import Dine from '../../components/Dine/Dine';
 import Footer from '../../components/Footer/Footer';
 import Gallery from '../../components/Gallery/Gallery';
+ 
 
 const Home = () => {
     return (
         <div>
             <NavBar />
+             
             <div id="book"><Book /></div>
             <div id="about"><About /></div>
             <div id="offers"><Offers /></div>
