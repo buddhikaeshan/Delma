@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
     const newUser = await User.create({
       userName,
       userType,
-      userPassword, // Use hashedPassword here
+      userPassword, 
       userTP,
       userNIC,
       userEmail,
@@ -103,7 +103,7 @@ const updateUser = async (req, res) => {
     await user.update({
       userName,
       userType,
-      userPassword, // Use hashedPassword here
+      userPassword, 
       userTP,
       userNIC,
       userEmail,
