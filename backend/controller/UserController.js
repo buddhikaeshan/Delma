@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+
+const secretKey = process.env.SECRET_KEY;
 
 // Create a new user
 const createUser = async (req, res) => {
@@ -132,10 +135,58 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// User login
+const loginUser = async (req, res) => {
+  try {
+    const { userName, userPassword } = req.body;
+
+    if (!userName || !userPassword) {
+      return res.status(400).json({ error: "Username and password are required." });
+    }
+
+    const user = await User.findOne({ where: { userName } });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    if (user.userPassword !== userPassword) {
+      return res.status(401).json({ error: "Incorrect password." });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        id: user.id,
+        userName: user.userName,
+        userType: user.userType,
+      },
+      secretKey,
+      { expiresIn: "6h" } 
+    );
+
+    // Respond with the token
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        userName: user.userName,
+        userType: user.userType,
+        userEmail: user.userEmail,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: `An error occurred: ${error.message}` });
+  }
+};
+
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
   updateUser,
   deleteUser,
+  loginUser
 };
