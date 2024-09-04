@@ -26,10 +26,13 @@ const createUser = async (req, res) => {
       return res.status(400).json({ error: "All fields are required." });
     }
 
+    // Hash password before saving (assuming you have a utility for hashing)
+    // const hashedPassword = await hashPassword(userPassword);
+
     const newUser = await User.create({
       userName,
       userType,
-      userPassword,
+      userPassword, // Use hashedPassword here
       userTP,
       userNIC,
       userEmail,
@@ -39,16 +42,15 @@ const createUser = async (req, res) => {
 
     res.status(201).json(newUser);
   } catch (error) {
-    if (error.name === "ValidationError") {
+    if (error.name === "SequelizeValidationError") {
       return res
         .status(400)
         .json({ error: "Validation error: Please check the provided data." });
     }
 
-    if (error.code === 11000) {
+    if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
-        error:
-          "Duplicate field value: A user with this email or username already exists.",
+        error: "Duplicate field value: A user with this email or username already exists.",
       });
     }
 
@@ -59,17 +61,18 @@ const createUser = async (req, res) => {
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll(); // Correct method for Sequelize
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 // Get a single user by ID
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id); // Correct method for Sequelize
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -93,20 +96,28 @@ const updateUser = async (req, res) => {
       userAddress,
       userStatus,
     } = req.body;
-    const user = await User.findByPk(id);
+
+    const user = await User.findByPk(id); // Correct method for Sequelize
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    // Hash password if provided (assuming you have a utility for hashing)
+    // if (userPassword) {
+    //   userPassword = await hashPassword(userPassword);
+    // }
+
     await user.update({
       userName,
       userType,
-      userPassword,
+      userPassword, // Use hashedPassword here
       userTP,
       userNIC,
       userEmail,
       userAddress,
       userStatus,
     });
+
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -117,16 +128,17 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id); // Correct method for Sequelize
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    await user.destroy();
+    await user.destroy(); // Correct method for Sequelize
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 module.exports = {
   createUser,
   getAllUsers,
