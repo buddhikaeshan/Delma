@@ -46,10 +46,10 @@ app.delete("/package/:id", PackageController.deletePackage);
 
 //Booking Routes
 app.post("/booking", BookingController.createBooking);
-app.get("/booking", PackageController.getAllPackages);
-app.get("/package/:id", PackageController.getPackageById);
-app.put("/package/:id", PackageController.updatePackage);
-app.delete("/package/:id", PackageController.deletePackage);
+app.get("/booking", BookingController.getAllBookings);
+app.get("/booking/:id", BookingController.getBookingById);
+app.put("/booking/:id", BookingController.updateBooking);
+app.delete("/booking/:id", BookingController.deleteBooking);
 
 // Sync the database
 sequelize

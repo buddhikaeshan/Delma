@@ -1,47 +1,57 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../index");
-const Customer = require("./Customers");
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../index"); // Adjust the path as needed
 
 const Booking = sequelize.define(
   "Booking",
   {
-    bookingId: {
+    cusId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
+    cusFullName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cusNIC: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cusNIC: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cusEmail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cusAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     cusCheckIn: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     cusCheckOut: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     numberOfPersons: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     payMethod: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     payStatus: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
-    },
-    customers_customersId: {
-      // Verify this field name
-      type: DataTypes.INTEGER,
-      allowNull: false, // Ensure this matches your DB schema
-      references: {
-        model: Customer,
-        key: "customersId",
-      },
     },
   },
   {
-    tableName: "bookings",
+    tableName: "booking",
     timestamps: false,
   }
 );

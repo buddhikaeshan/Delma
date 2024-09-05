@@ -10,35 +10,35 @@ const User = sequelize.define(
       autoIncrement: true,
     },
     userName: {
-      type: DataTypes.STRING(150),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userType: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userPassword: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userTP: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userNIC: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userEmail: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userAddress: {
-      type: DataTypes.STRING(150),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userStatus: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
