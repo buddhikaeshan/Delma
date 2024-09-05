@@ -32,13 +32,15 @@ const createUser = async (req, res) => {
     // Check if a user with the same NIC already exists
     const existingUser = await User.findOne({ where: { userNIC } });
     if (existingUser) {
-      return res.status(400).json({ error: "A user with this NIC already exists." });
+      return res
+        .status(400)
+        .json({ error: "A user with this NIC already exists." });
     }
 
     const newUser = await User.create({
       userName,
       userType,
-      userPassword, 
+      userPassword,
       userTP,
       userNIC,
       userEmail,
@@ -112,7 +114,7 @@ const updateUser = async (req, res) => {
     await user.update({
       userName,
       userType,
-      userPassword, 
+      userPassword,
       userTP,
       userNIC,
       userEmail,
@@ -147,7 +149,9 @@ const loginUser = async (req, res) => {
     const { userName, userPassword } = req.body;
 
     if (!userName || !userPassword) {
-      return res.status(400).json({ error: "Username and password are required." });
+      return res
+        .status(400)
+        .json({ error: "Username and password are required." });
     }
 
     const user = await User.findOne({ where: { userName } });
@@ -168,7 +172,7 @@ const loginUser = async (req, res) => {
         userType: user.userType,
       },
       secretKey,
-      { expiresIn: "6h" } 
+      { expiresIn: "6h" }
     );
 
     // Respond with the token
@@ -187,6 +191,50 @@ const loginUser = async (req, res) => {
   }
 };
 
+const searchUsers = async (req, res) => {
+  try {
+    const { name, id, tp, email, nic } = req.query;
+
+    const whereClause = {};
+
+    if (name) {
+      whereClause.userName = {
+        [Op.like]: `%${name}%`,
+      };
+    }
+    if (id) {
+      whereClause.userId = id;
+    }
+    if (tp) {
+      whereClause.userTP = tp;
+    }
+    if (email) {
+      whereClause.userEmail = email;
+    }
+    if (nic) {
+      whereClause.userNIC = nic;
+    }
+
+    console.log("Where Clause:", whereClause);
+
+    const user = await User.findAll({
+      where: whereClause,
+      raw: true,
+    });
+
+    console.log("User found:", user);
+
+    if (user.length === 0) {
+      return res.status(404).json({ message: "No User found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error in search User:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -194,4 +242,5 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
+  searchUsers,
 };

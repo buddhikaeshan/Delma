@@ -144,10 +144,55 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+const searchBookings = async (req, res) => {
+  try {
+    const { name, id, tp, email, nic } = req.query;
+
+    const whereClause = {};
+
+    if (name) {
+      whereClause.cusFullName = {
+        [Op.like]: `%${name}%`,
+      };
+    }
+    if (id) {
+      whereClause.customersId = id;
+    }
+    if (tp) {
+      whereClause.cusTP = tp;
+    }
+    if (email) {
+      whereClause.cusEmail = email;
+    }
+    if (nic) {
+      whereClause.cusNIC = nic;
+    }
+
+    console.log("Where Clause:", whereClause);
+
+    const booking = await Booking.findAll({
+      where: whereClause,
+      raw: true,
+    });
+
+    console.log("Booking found:", booking);
+
+    if (booking.length === 0) {
+      return res.status(404).json({ message: "No Booking found" });
+    }
+
+    res.status(200).json(booking);
+  } catch (error) {
+    console.error("Error in search Booking:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createBooking,
   getAllBookings,
   getBookingById,
   updateBooking,
   deleteBooking,
+  searchBookings,
 };
