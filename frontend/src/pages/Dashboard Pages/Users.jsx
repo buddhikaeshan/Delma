@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import SideBar from '../../components/SideBar/SideBar';
 import Table from '../../components/Table';
 import AddUsers from '../../components/Forms/AddUsers';
-import axios from 'axios';
-import config from '../../config';
 
 function Users() {
-    const [users, setUsers] = useState([]);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const columns = ["Name", "Type", "Telephone", "NIC", "Email", "Address"];
+    const columns = ["Name", "Type", "Password", "Telephone", "NIC", "Email", "Address"];
+    const btnName = "Add New User";
 
     useEffect(() => {
         fetchUsers();
@@ -17,10 +18,25 @@ function Users() {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get(`${config.BASE_URL}/users`);
-            setUsers(response.data);
-        } catch (error) {
-            console.error("Error fetching User:", error);
+            const response = await fetch("http://localhost:5000/users"); // Adjust the URL based on your backend
+            if (!response.ok) {
+                throw new Error('Failed to fetch users');
+            }
+            const users = await response.json();
+            const formattedData = users.map(user => [
+                user.userName,
+                user.userType,
+                user.userPassword, 
+                user.userTP,
+                user.userNIC,
+                user.userEmail,
+                user.userAddress
+            ]);
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
         }
     };
 
@@ -37,7 +53,7 @@ function Users() {
     const handleSave = (event) => {
         event.preventDefault();
         console.log("User information saved");
-        fetchUsers();
+        fetchUsers(); // Refresh the table after saving a new user
         setModalOpen(false);
     };
 
@@ -46,21 +62,20 @@ function Users() {
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Users</h2>
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
                     <Table
-                        data={users.map(user => [
-                            user.userName,
-                            user.userType,
-                            user.userTP,
-                            user.userNIC,
-                            user.userEmail,
-                            user.userAddress
-                        ])}
+                        data={data}
                         columns={columns}
-                        btnName="Add New User"
+                        btnName={btnName}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                         onAdd={handleOpenModal}
                     />
+                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"

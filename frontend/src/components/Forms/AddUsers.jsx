@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
-import config from "../../config";
 
 function AddUsers({ onClose }) {
   const [formData, setFormData] = useState({
@@ -29,7 +27,7 @@ function AddUsers({ onClose }) {
     setSuccessMessage("");
 
     try {
-      const response = await axios.get(`${config.BASE_URL}/users`, {
+      const response = await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
