@@ -1,4 +1,4 @@
-const Package = require("../models/Package"); 
+const Package = require("../models/Package");
 
 // Create a new package
 const createPackage = async (req, res) => {
@@ -49,17 +49,21 @@ const createPackage = async (req, res) => {
   }
 };
 
-// Get all Package
+// Get all packages
 const getAllPackages = async (req, res) => {
   try {
-    const package = await Package.findAll();
-    res.status(200).json(package);
+    const packages = await Package.findAll();
+    res.status(200).json(packages);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res
+      .status(500)
+      .json({
+        error: `An error occurred while retrieving packages: ${error.message}`,
+      });
   }
 };
 
-// Get a single Package by ID
+// Get a single package by ID
 const getPackageById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -69,10 +73,15 @@ const getPackageById = async (req, res) => {
     }
     res.status(200).json(package);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res
+      .status(500)
+      .json({
+        error: `An error occurred while retrieving the package: ${error.message}`,
+      });
   }
 };
 
+// Update a package
 const updatePackage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -91,11 +100,20 @@ const updatePackage = async (req, res) => {
 
     res.status(200).json(package);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    if (error.name === "SequelizeValidationError") {
+      return res.status(400).json({
+        error: "Validation error: Please check the provided data.",
+      });
+    }
+    res
+      .status(500)
+      .json({
+        error: `An error occurred while updating the package: ${error.message}`,
+      });
   }
 };
 
-// Delete a Package
+// Delete a package
 const deletePackage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -106,7 +124,11 @@ const deletePackage = async (req, res) => {
     await package.destroy();
     res.status(200).json({ message: "Package deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res
+      .status(500)
+      .json({
+        error: `An error occurred while deleting the package: ${error.message}`,
+      });
   }
 };
 

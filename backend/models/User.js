@@ -6,50 +6,45 @@ const User = sequelize.define(
   {
     userId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
     },
     userName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150),
       allowNull: false,
     },
     userType: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
     userPassword: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     userTP: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.STRING(45),
+      allowNull: false,
     },
     userNIC: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.STRING(45),
+      allowNull: false,
     },
     userEmail: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(200),
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
     },
     userAddress: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.STRING(150),
+      allowNull: false,
     },
     userStatus: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING(45),
       allowNull: false,
-      defaultValue: true,
     },
   },
   {
-    timestamps: false, 
     tableName: "users",
+    timestamps: false,
   }
 );
 

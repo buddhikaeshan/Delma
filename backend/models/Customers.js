@@ -1,38 +1,39 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../index");
 
-const Customers = sequelize.define(
-  "Customers",
+const Customer = sequelize.define(
+  "Customer",
   {
     customersId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
     },
     cusFullName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
     cusNIC: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
     cusTP: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
     cusEmail: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150),
       allowNull: false,
     },
     cusAddress: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(200),
       allowNull: false,
     },
   },
   {
-    timestamps: false,
     tableName: "customers",
+    timestamps: false,
   }
 );
-module.exports = Customers;
+
+module.exports = Customer;

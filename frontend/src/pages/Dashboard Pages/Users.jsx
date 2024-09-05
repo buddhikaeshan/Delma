@@ -53,7 +53,7 @@ function Users() {
     const handleSave = (event) => {
         event.preventDefault();
         console.log("User information saved");
-        fetchUsers(); // Refresh the table after saving a new user
+        fetchUsers(); 
         setModalOpen(false);
     };
 

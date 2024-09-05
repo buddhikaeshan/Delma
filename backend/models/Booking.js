@@ -1,43 +1,49 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../index");
+const Customer = require("./Customers");
 
-const Room = sequelize.define(
-  "Room",
+const Booking = sequelize.define(
+  "Booking",
   {
-    roomId: {
+    bookingId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    roomNumber: {
+    cusCheckIn: {
       type: DataTypes.STRING(45),
       allowNull: false,
     },
-    roomType: {
+    cusCheckOut: {
       type: DataTypes.STRING(45),
       allowNull: false,
     },
-    bedType: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    roomCapacity: {
+    numberOfPersons: {
       type: DataTypes.STRING(45),
       allowNull: false,
     },
-    price: {
+    payMethod: {
       type: DataTypes.STRING(45),
       allowNull: false,
     },
-    status: {
+    payStatus: {
       type: DataTypes.STRING(45),
       allowNull: false,
+    },
+    customers_customersId: {
+      // Verify this field name
+      type: DataTypes.INTEGER,
+      allowNull: false, // Ensure this matches your DB schema
+      references: {
+        model: Customer,
+        key: "customersId",
+      },
     },
   },
   {
-    tableName: "rooms",
+    tableName: "bookings",
     timestamps: false,
   }
 );
 
-module.exports = Room;
+module.exports = Booking;
