@@ -32,9 +32,9 @@ const createRoom = async (req, res) => {
     res.status(201).json(newRoom);
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      return res.status(400).json({
-        error: "Validation error: Please check the provided data.",
-      });
+      return res
+        .status(400)
+        .json({ error: "Validation error: Please check the provided data." });
     }
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
@@ -96,13 +96,19 @@ const updateRoom = async (req, res) => {
     res.status(200).json(room);
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
+      return res
+        .status(400)
+        .json({ error: "Validation error: Please check the provided data." });
+    }
+    if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
-        error: "Validation error: Please check the provided data.",
+        error: "Duplicate field value: A room with this number already exists.",
       });
     }
     res.status(500).json({ error: `An error occurred: ${error.message}` });
   }
 };
+
 // Delete a room
 const deleteRoom = async (req, res) => {
   try {

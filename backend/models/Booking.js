@@ -1,51 +1,59 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../index");
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../index"); // Adjust the path as needed
 
-const User = sequelize.define(
-  "User",
+const Booking = sequelize.define(
+  "Booking",
   {
-    userId: {
+    cusId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    userName: {
+    cusFullName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userType: {
+    cusNIC: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userPassword: {
+    cusNIC: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userTP: {
+    cusEmail: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userNIC: {
+    cusAddress: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userEmail: {
+    cusCheckIn: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userAddress: {
+    cusCheckOut: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userStatus: {
+    numberOfPersons: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    payMethod: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    payStatus: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    tableName: "users",
+    tableName: "booking",
     timestamps: false,
   }
 );
 
-module.exports = User;
+module.exports = Booking;

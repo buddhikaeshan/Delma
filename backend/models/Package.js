@@ -6,25 +6,25 @@ const Package = sequelize.define(
   {
     packageId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
     },
     packageName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     bedType: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
     packagePrice: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
   },
   {
-    timestamps: false,
     tableName: "packages",
+    timestamps: false,
   }
 );
 
