@@ -14,7 +14,9 @@ import Social from '../../components/Social/Social';
 
 const Home = () => {
     return (
+        
         <div>
+           
             <div className=""><Social/></div>
             <div id="home"><NavBar/><Book/></div>
             <div id="about"><About/></div>
