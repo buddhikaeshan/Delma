@@ -6,9 +6,7 @@ import axios from 'axios';
 import config from '../../config';
 
 function Users() {
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [users, setUsers] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
 
     const columns = ["Name", "Type", "Telephone", "NIC", "Email", "Address"];
@@ -20,23 +18,9 @@ function Users() {
     const fetchUsers = async () => {
         try {
             const response = await axios.get(`${config.BASE_URL}/users`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch users');
-            }
-            const users = await response.json();
-            const formattedData = users.map(user => [
-                user.userName,
-                user.userType,
-                user.userTP,
-                user.userNIC,
-                user.userEmail,
-                user.userAddress
-            ]);
-            setData(formattedData);
-            setIsLoading(false);
-        } catch (err) {
-            setError(err.message);
-            setIsLoading(false);
+            setUsers(response.data);
+        } catch (error) {
+            console.error("Error fetching User:", error);
         }
     };
 
@@ -62,20 +46,21 @@ function Users() {
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Users</h2>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : error ? (
-                    <p>Error: {error}</p>
-                ) : (
                     <Table
-                        data={data}
+                        data={users.map(user => [
+                            user.userName,
+                            user.userType,
+                            user.userTP,
+                            user.userNIC,
+                            user.userEmail,
+                            user.userAddress
+                        ])}
                         columns={columns}
                         btnName="Add New User"
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                         onAdd={handleOpenModal}
                     />
-                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"

@@ -31,13 +31,15 @@ const createUser = async (req, res) => {
     // Check if a user with the same NIC already exists
     const existingUser = await User.findOne({ where: { userNIC } });
     if (existingUser) {
-      return res.status(400).json({ error: "A user with this NIC already exists." });
+      return res
+        .status(400)
+        .json({ error: "A user with this NIC already exists." });
     }
 
     const newUser = await User.create({
       userName,
       userType,
-      userPassword, 
+      userPassword,
       userTP,
       userNIC,
       userEmail,
@@ -111,7 +113,7 @@ const updateUser = async (req, res) => {
     await user.update({
       userName,
       userType,
-      userPassword, 
+      userPassword,
       userTP,
       userNIC,
       userEmail,
@@ -146,7 +148,9 @@ const loginUser = async (req, res) => {
     const { userName, userPassword } = req.body;
 
     if (!userName || !userPassword) {
-      return res.status(400).json({ error: "Username and password are required." });
+      return res
+        .status(400)
+        .json({ error: "Username and password are required." });
     }
 
     const user = await User.findOne({ where: { userName } });
@@ -167,7 +171,7 @@ const loginUser = async (req, res) => {
         userType: user.userType,
       },
       secretKey,
-      { expiresIn: "6h" } 
+      { expiresIn: "6h" }
     );
 
     // Respond with the token

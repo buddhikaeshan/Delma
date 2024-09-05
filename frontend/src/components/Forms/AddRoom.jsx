@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import config from '../../config'
 
 function AddRoom({ onClose, onSave }) {
-    const [roomNumber, setroomNumber] = useState('');
+    const [roomNumber, setRoomNumber] = useState('');
     const [roomType, setRoomType] = useState('');
     const [bedType, setBedType] = useState('');
-    const [roomCapacity, setroomCapacity] = useState('');
+    const [roomCapacity, setRoomCapacity] = useState('');
     const [price, setPrice] = useState('');
-    const [status, setStstus] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -31,7 +30,6 @@ function AddRoom({ onClose, onSave }) {
                 bedType: bedType,
                 roomCapacity: roomCapacity,
                 price: parseFloat(price),
-                status: status,
             });
 
             console.log('Response:', response.data);
@@ -67,7 +65,7 @@ function AddRoom({ onClose, onSave }) {
                             className="form-control"
                             placeholder="Room Number"
                             value={roomNumber}
-                            onChange={(e) => setroomNumber(e.target.value)}
+                            onChange={(e) => setRoomNumber(e.target.value)}
                         />
                     </div>
                 </div>
@@ -75,11 +73,15 @@ function AddRoom({ onClose, onSave }) {
                 <div className="col-md-6">
                     <div className="form-group">
                         <h5 htmlFor="roomType">Room Type</h5>
-                        <select id="roomType" className="form-control">
-                            <option>Select Room Type</option>
-                            <option>Single</option>
-                            <option>Double</option>
-                        </select>
+                        <input
+                            type="text"
+                            id="roomType"
+                            name="roomType"
+                            className="form-control"
+                            placeholder="Room Type"
+                            value={roomType}
+                            onChange={(e) => setRoomType(e.target.value)}
+                        />
                     </div>
                 </div>
             </div>
@@ -94,6 +96,8 @@ function AddRoom({ onClose, onSave }) {
                             name="pricePerNight"
                             className="form-control"
                             placeholder="Price Per Night"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
                 </div>
@@ -107,6 +111,8 @@ function AddRoom({ onClose, onSave }) {
                             name="roomCapacity"
                             className="form-control"
                             placeholder="Room Capacity"
+                            value={roomCapacity}
+                            onChange={(e) => setRoomCapacity(e.target.value)}
                         />
                     </div>
                 </div>
@@ -115,11 +121,15 @@ function AddRoom({ onClose, onSave }) {
                 <div className="col-md-6">
                     <div className="form-group">
                         <h5 htmlFor="bedType">Bed Type</h5>
-                        <select id="bedType" className="form-control">
-                            <option>Select Bed Type</option>
-                            <option>Single Bed</option>
-                            <option>Double Bed</option>
-                        </select>
+                        <input
+                            type="text"
+                            id="bedType"
+                            name="bedType"
+                            className="form-control"
+                            placeholder="Bed Type"
+                            value={bedType}
+                            onChange={(e) => setBedType(e.target.value)}
+                        />
                     </div>
                 </div>
             </div>
