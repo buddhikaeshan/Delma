@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import "./SideBar.css";
+import "../SideBar/SideBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -36,13 +36,13 @@ const SideBar = ({ onLogout }) => {
             <FontAwesomeIcon icon={faHome} />
           </button>
           <div className="sidebar-logo">
-            <Link to="/dashboard">
+            <Link to="/dashboarduser">
               Delma Mount View
             </Link>
           </div>
         </div>
         <ul className="sidebar-nav">
-          <li className="sidebar-item">
+          {/* <li className="sidebar-item">
             <Link
               to="/dashboard"
               className={`sidebar-link ${isActive("/dashboard") ? "active" : ""}`}
@@ -50,11 +50,11 @@ const SideBar = ({ onLogout }) => {
               <FontAwesomeIcon icon={faTachometerAlt} />
               <span>Dashboard</span>
             </Link>
-          </li>
+          </li> */}
           <li className="sidebar-item">
             <Link
-              to="/bookingCalendar"
-              className={`sidebar-link ${isActive("/bookingCalendar") ? "active" : ""}`}
+              to="/dashboardUser"
+              className={`sidebar-link ${isActive("/bookingCalUser") ? "active" : ""}`}
             >
               <FontAwesomeIcon icon={faCalendarDays} />
               <span>Booking Calendar</span>
@@ -62,8 +62,8 @@ const SideBar = ({ onLogout }) => {
           </li>
           <li className="sidebar-item">
             <Link
-              to="/rooms"
-              className={`sidebar-link ${isActive("/rooms") ? "active" : ""}`}
+              to="/roomsUser"
+              className={`sidebar-link ${isActive("/roomsUser") ? "active" : ""}`}
             >
               <FontAwesomeIcon icon={faBed} />
               <span>Rooms</span>
@@ -72,8 +72,8 @@ const SideBar = ({ onLogout }) => {
 
           <li className="sidebar-item">
             <Link
-              to="/bookings"
-              className={`sidebar-link ${isActive("/bookings") ? "active" : ""}`}
+              to="/bookingUser"
+              className={`sidebar-link ${isActive("/bookingsUser") ? "active" : ""}`}
             >
               <FontAwesomeIcon icon={faBookBookmark} />
               <span>Booking </span>
@@ -81,8 +81,8 @@ const SideBar = ({ onLogout }) => {
           </li>
           <li className="sidebar-item">
             <Link
-              to="/Packages"
-              className={`sidebar-link ${isActive("/Packages") ? "active" : ""}`}
+              to="/PackagesUser"
+              className={`sidebar-link ${isActive("/PackagesUser") ? "active" : ""}`}
             >
               <FontAwesomeIcon icon={faChartSimple} />
               <span>Packages</span>
@@ -96,7 +96,7 @@ const SideBar = ({ onLogout }) => {
               <FontAwesomeIcon icon={faImage} />
               <span>Gallery</span>
             </Link>
-          </li> */}
+          </li>
           <li className="sidebar-item">
             <Link
               to="/users"
@@ -105,7 +105,7 @@ const SideBar = ({ onLogout }) => {
               <FontAwesomeIcon icon={faUserPlus} />
               <span>Add Users</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
         <div className="sidebar-footer mb-3">
           <Link to="/" className="sidebar-link" onClick={logout}>

@@ -16,6 +16,11 @@ import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
 import Loader from "./components/Loader/Loader";
 import CusBookingForm from "./components/CusBookingForm/CusBookingForm";
+import SidebarUser from './components/SidebarUser/SidebarUser';
+import UserBookingCalender from './pages/UserDashboard/UserBookingCalender';
+import UserBooking from './pages/UserDashboard/UserBookings';
+import UserPackages from './pages/UserDashboard/UserPackages';
+import UserRooms from './pages/UserDashboard/UserRooms';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -47,6 +52,10 @@ function App() {
 
           <Route path="/cusBooking" element={<CusBookingForm />} />
 
+          <Route path="/dashboardUser" element={<UserBookingCalender/>}/>
+          <Route path="/bookingUser" element={<UserBooking/>}/>
+          <Route path="/packagesUser" element={<UserPackages/>}/>
+          <Route path="/roomsUser" element={<UserRooms/>}/>
         </Routes>
       </BrowserRouter>
     </div>
