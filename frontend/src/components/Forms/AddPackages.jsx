@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import config from '../../config';
 
+
 function AddPackages({ onClose, onSave }) {
     const [packageName, setPackageName] = useState('');
     const [roomType, setRoomType] = useState('');
@@ -9,7 +10,6 @@ function AddPackages({ onClose, onSave }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         // Basic input validation
         if (!packageName || !roomType || !price) {
             alert("Please fill out all fields.");
@@ -44,7 +44,6 @@ function AddPackages({ onClose, onSave }) {
             } else {
                 // Error setting up the request
                 console.error('Error Message:', error.message);
-                alert('Error: Failed to save the package. Please try again.');
             }
         }
     };
@@ -109,6 +108,7 @@ function AddPackages({ onClose, onSave }) {
                 <button
                     type="submit"
                     className="btn btn-success"
+                    onClick={onSave}
                 >
                     Save Changes
                 </button>

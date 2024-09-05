@@ -1,57 +1,38 @@
-import { useState } from 'react'
-import axios from 'axios'
-import config from '../../config'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function AddRoom({ onClose, onSave }) {
-    const [roomNumber, setRoomNumber] = useState('');
-    const [roomType, setRoomType] = useState('');
-    const [bedType, setBedType] = useState('');
-    const [roomCapacity, setRoomCapacity] = useState('');
-    const [price, setPrice] = useState('');
+    // State to hold form data
+    const [formData, setFormData] = useState({
+        roomNumber: '',
+        roomType: '',
+        price: '',
+        roomCapacity: '',
+        bedType: ''
+    });
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    // Handle input change
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
-        // Basic input validation
-        if (!roomNumber || !roomType || !bedType || !roomCapacity || !price) {
-            alert("Please fill out all fields.");
-            return;
-        }
-
-        if (isNaN(price)) {
-            alert("Price must be a valid number.");
-            return;
-        }
-
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            const response = await axios.post(`${config.BASE_URL}/package`, {
-                roomNumber,
-                roomType: roomType,
-                bedType: bedType,
-                roomCapacity: roomCapacity,
-                price: parseFloat(price),
-            });
-
-            console.log('Response:', response.data);
-            alert('Package saved successfully!');
-            onSave();
-            onClose();
+            // Send form data to backend API
+            const response = await axios.post('http://localhost:5000/rooms', formData);
+            console.log('Room added successfully:', response.data);
+            onSave();  // Callback to parent if needed
         } catch (error) {
-            if (error.response) {
-                console.error('Error Response Data:', error.response.data);
-                console.error('Error Response Status:', error.response.status);
-                console.error('Error Response Headers:', error.response.headers);
-            } else if (error.request) {
-                // Error if the request was made but no response received
-                console.error('Error Request:', error.request);
-                alert('No response from the server. Please check your network.');
-            } else {
-                // Error setting up the request
-                console.error('Error Message:', error.message);
-                alert('Error: Failed to save the package. Please try again.');
-            }
+            console.error('Error adding room:', error);
         }
     };
+
     return (
         <form className="p-3" onSubmit={handleSubmit}>
             <div className="row mb-3">
@@ -64,12 +45,11 @@ function AddRoom({ onClose, onSave }) {
                             name="roomNumber"
                             className="form-control"
                             placeholder="Room Number"
-                            value={roomNumber}
-                            onChange={(e) => setRoomNumber(e.target.value)}
+                            value={formData.roomNumber}
+                            onChange={handleChange}
                         />
                     </div>
                 </div>
-
                 <div className="col-md-6">
                     <div className="form-group">
                         <h5 htmlFor="roomType">Room Type</h5>
@@ -79,29 +59,27 @@ function AddRoom({ onClose, onSave }) {
                             name="roomType"
                             className="form-control"
                             placeholder="Room Type"
-                            value={roomType}
-                            onChange={(e) => setRoomType(e.target.value)}
+                            value={formData.roomType}
+                            onChange={handleChange}
                         />
                     </div>
                 </div>
             </div>
-
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="pricePerNight">Price Per Night</h5>
+                        <h5 htmlFor="price">Price Per Night</h5>
                         <input
                             type="text"
-                            id="pricePerNight"
-                            name="pricePerNight"
+                            id="price"
+                            name="price"
                             className="form-control"
                             placeholder="Price Per Night"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
+                            value={formData.price}
+                            onChange={handleChange}
                         />
                     </div>
                 </div>
-
                 <div className="col-md-6">
                     <div className="form-group">
                         <h5 htmlFor="roomCapacity">Room Capacity</h5>
@@ -111,8 +89,8 @@ function AddRoom({ onClose, onSave }) {
                             name="roomCapacity"
                             className="form-control"
                             placeholder="Room Capacity"
-                            value={roomCapacity}
-                            onChange={(e) => setRoomCapacity(e.target.value)}
+                            value={formData.roomCapacity}
+                            onChange={handleChange}
                         />
                     </div>
                 </div>
@@ -127,28 +105,31 @@ function AddRoom({ onClose, onSave }) {
                             name="bedType"
                             className="form-control"
                             placeholder="Bed Type"
-                            value={bedType}
-                            onChange={(e) => setBedType(e.target.value)}
+                            value={formData.bedType}
+                            onChange={handleChange}
                         />
                     </div>
                 </div>
             </div>
+
             <div className="d-flex justify-content-end mt-3">
                 <button
                     type="button"
                     className="btn btn-secondary mr-2"
+                    onClick={onClose}
                 >
                     Close
                 </button>
                 <button
                     type="submit"
                     className="btn btn-success"
+                    onClick={onSave}
                 >
                     Save Changes
                 </button>
             </div>
         </form>
-    )
+    );
 }
 
-export default AddRoom
+export default AddRoom;
