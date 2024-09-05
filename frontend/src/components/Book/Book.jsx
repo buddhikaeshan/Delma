@@ -1,16 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Book.css'
 import assets from '../../assets/assets';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Book = () => {
+
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate('/cusBooking', { state: { startDate, endDate } });
+    };
+
+
     useEffect(() => {
         AOS.init({ duration: 1000 });
     }, []);
+
+
     return (
         <div>
             <div className="text-foreground ">
@@ -54,23 +67,24 @@ const Book = () => {
                         <div class="card-book shadow">
                             <div className="inputs">
 
-                                <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                    <input type="date" id="input" required="" />
-                                    <label for="input" className="label">Check In Date</label>
-                                    <div className="underline"></div>
-                                </div>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                        <input type="date" id="input" value={startDate} onChange={(e) => setStartDate(e.target.value)} required/>
+                                        <label for="input" className="label">Check In Date</label>
+                                        <div className="underline"></div>
+                                    </div>
 
-                                <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                    <input type="date" id="input" required="" />
-                                    <label for="input" className="label">Check Out Date</label>
-                                    <div className="underline"></div>
-                                </div>
+                                    <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                        <input type="date" id="input" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+                                        <label for="input" className="label">Check Out Date</label>
+                                        <div className="underline"></div>
+                                    </div>
 
-                                <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                                <NavLink to="/cusBooking" exact activeClassName="active">
-                                    <button className="w-100 button ">Check Now</button>
-                                </NavLink>
-                            </div>
+                                    <div className="input_container" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                        <button type='submit' className="w-100 button ">Check Now</button>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>

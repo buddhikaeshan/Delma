@@ -15,6 +15,8 @@
 
 .input_container input[type="date"] {
   font-size: 20px;
+  font-weight: 500;
+  color: #333;
   width: 100%;
   border: none;
   border-bottom: 2px solid #ccc;
@@ -25,18 +27,18 @@
 
 .input_container .label {
   position: absolute;
-  top: 0;
+  top: -20px;
   left: 0;
-  color: #ccc;
+  color: rgb(0, 0, 0);
   transition: all 0.3s ease;
   pointer-events: none;
 }
 
-.input_container input[type="date"]:focus ~ .label,
-.input_container input[type="date"]:valid ~ .label {
+.input form .input_container input[type="date"]:focus ~ .label,
+.input form .input_container input[type="date"]:valid ~ .label {
   top: -20px;
   font-size: 16px;
-  font-weight: 100;
+  font-weight: 500;
   color: #333;
 }
 
@@ -65,7 +67,7 @@
   object-fit: cover;
 }
 
-.inputs {
+.inputs form {
   display: flex;
   gap: 50px;
   justify-content: center;
