@@ -124,10 +124,52 @@ const deleteRoom = async (req, res) => {
   }
 };
 
+const searchRooms = async (req, res) => {
+  try {
+    const { num, id, type, price, } = req.query;
+
+    const whereClause = {};
+
+    if (num) {
+      whereClause.roomNumber = {
+        [Op.like]: `%${num}%`,
+      };
+    }
+    if (id) {
+      whereClause.roomId = id;
+    }
+    if (type) {
+      whereClause.roomType = type;
+    }
+    if (price) {
+      whereClause.price = price;
+    }
+    
+    console.log("Where Clause:", whereClause);
+
+    const room= await Room.findAll({
+      where: whereClause,
+      raw: true,
+    });
+
+    console.log("Room found:", room);
+
+    if (room.length === 0) {
+      return res.status(404).json({ message: "No Room found" });
+    }
+
+    res.status(200).json(room);
+  } catch (error) {
+    console.error("Error in search Room:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createRoom,
   getAllRooms,
   getRoomById,
   updateRoom,
   deleteRoom,
+  searchRooms,
 };

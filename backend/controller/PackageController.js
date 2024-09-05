@@ -55,11 +55,9 @@ const getAllPackages = async (req, res) => {
     const packages = await Package.findAll();
     res.status(200).json(packages);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `An error occurred while retrieving packages: ${error.message}`,
-      });
+    res.status(500).json({
+      error: `An error occurred while retrieving packages: ${error.message}`,
+    });
   }
 };
 
@@ -73,11 +71,9 @@ const getPackageById = async (req, res) => {
     }
     res.status(200).json(package);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `An error occurred while retrieving the package: ${error.message}`,
-      });
+    res.status(500).json({
+      error: `An error occurred while retrieving the package: ${error.message}`,
+    });
   }
 };
 
@@ -105,11 +101,9 @@ const updatePackage = async (req, res) => {
         error: "Validation error: Please check the provided data.",
       });
     }
-    res
-      .status(500)
-      .json({
-        error: `An error occurred while updating the package: ${error.message}`,
-      });
+    res.status(500).json({
+      error: `An error occurred while updating the package: ${error.message}`,
+    });
   }
 };
 
@@ -124,11 +118,50 @@ const deletePackage = async (req, res) => {
     await package.destroy();
     res.status(200).json({ message: "Package deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `An error occurred while deleting the package: ${error.message}`,
-      });
+    res.status(500).json({
+      error: `An error occurred while deleting the package: ${error.message}`,
+    });
+  }
+};
+
+const searchPackage = async (req, res) => {
+  try {
+    const { name, id, type, price } = req.query;
+
+    const whereClause = {};
+
+    if (name) {
+      whereClause.packageName = {
+        [Op.like]: `%${name}%`,
+      };
+    }
+    if (id) {
+      whereClause.packageId = id;
+    }
+    if (type) {
+      whereClause.bedType = type;
+    }
+    if (price) {
+      whereClause.packagePrice = price;
+    }
+
+    console.log("Where Clause:", whereClause);
+
+    const package = await Package.findAll({
+      where: whereClause,
+      raw: true,
+    });
+
+    console.log("Package found:", package);
+
+    if (package.length === 0) {
+      return res.status(404).json({ message: "No Package found" });
+    }
+
+    res.status(200).json(package);
+  } catch (error) {
+    console.error("Error in search Package:", error);
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -138,4 +171,5 @@ module.exports = {
   getPackageById,
   updatePackage,
   deletePackage,
+  searchPackage,
 };

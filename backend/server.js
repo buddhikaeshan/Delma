@@ -16,12 +16,13 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // User Routes
-app.post("/users", UserController.createUser);
-app.get("/users", UserController.getAllUsers);
-app.get("/users/:id", UserController.getUserById);
-app.put("/users/:id", UserController.updateUser);
-app.delete("/users/:id", UserController.deleteUser);
+app.post("/user", UserController.createUser);
+app.get("/user", UserController.getAllUsers);
+app.get("/user/:id", UserController.getUserById);
+app.put("/user/:id", UserController.updateUser);
+app.delete("/user/:id", UserController.deleteUser);
 app.post("/loginUser", UserController.loginUser);
+app.get("/user/search", UserController.searchUsers);
 
 // Room Routes
 app.post("/rooms", RoomController.createRoom);
@@ -29,6 +30,7 @@ app.get("/rooms", RoomController.getAllRooms);
 app.get("/rooms/:id", RoomController.getRoomById);
 app.put("/rooms/:id", RoomController.updateRoom);
 app.delete("/rooms/:id", RoomController.deleteRoom);
+app.get("/rooms/search",RoomController.searchRooms)
 
 // Room Routes
 app.post("/customer", CustomerController.createCustomer);
@@ -36,13 +38,15 @@ app.get("/customer", CustomerController.getAllCustomers);
 app.get("/customer/:id", CustomerController.getCustomerById);
 app.put("/customer/:id", CustomerController.updateCustomer);
 app.delete("/customer/:id", CustomerController.deleteCustomer);
+app.get("/customer/search", CustomerController.searchCustomers);
 
 //Package Routes
-app.post("/package", PackageController.createPackage);
-app.get("/package", PackageController.getAllPackages);
-app.get("/package/:id", PackageController.getPackageById);
-app.put("/package/:id", PackageController.updatePackage);
-app.delete("/package/:id", PackageController.deletePackage);
+app.post("/packages", PackageController.createPackage);
+app.get("/packages", PackageController.getAllPackages);
+app.get("/packages/:id", PackageController.getPackageById);
+app.put("/packages/:id", PackageController.updatePackage);
+app.delete("/packages/:id", PackageController.deletePackage);
+app.get("/packages/search",PackageController.searchPackage);
 
 //Booking Routes
 app.post("/booking", BookingController.createBooking);
@@ -50,6 +54,7 @@ app.get("/booking", BookingController.getAllBookings);
 app.get("/booking/:id", BookingController.getBookingById);
 app.put("/booking/:id", BookingController.updateBooking);
 app.delete("/booking/:id", BookingController.deleteBooking);
+app.get("booking/search", BookingController.searchBookings);
 
 // Sync the database
 sequelize
