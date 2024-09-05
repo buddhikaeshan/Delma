@@ -11,10 +11,10 @@ function Rooms() {
     const [isModalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
-       
+
         const fetchRooms = async () => {
             try {
-                const response = await axios.get(`${config.BASE_URL}/rooms`); 
+                const response = await axios.get(`${config.BASE_URL}/rooms`);
                 setRooms(response.data);
             } catch (error) {
                 console.error("Error fetching rooms:", error);
@@ -28,8 +28,6 @@ function Rooms() {
         try {
             const response = await axios.put(`${config.API_URL}/rooms/${roomId}`, { status: newStatus });
             console.log('Room status updated:', response.data);
-
-        
             setRooms(prevRooms =>
                 prevRooms.map(room =>
                     room.id === roomId ? { ...room, status: newStatus } : room
@@ -71,7 +69,7 @@ function Rooms() {
                         <select
                             id="status"
                             className="form-control"
-                            value={room.status}  
+                            value={room.status}
                             onChange={(e) => handleStatusChange(room.id, e.target.value)}
                         >
                             <option value="Available">Available</option>

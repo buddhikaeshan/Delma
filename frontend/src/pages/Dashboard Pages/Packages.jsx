@@ -1,23 +1,36 @@
-import {useState} from 'react'
-import SideBar from '../../components/SideBar/SideBar'
-import Table from '../../components/Table'
+import { useEffect, useState } from 'react';
+import SideBar from '../../components/SideBar/SideBar';
+import Table from '../../components/Table';
 import AddPackages from '../../components/Forms/AddPackages';
+import config from '../../config';
+import axios from 'axios';
 
 function Packages() {
-    const columns = ["package Name", "Bed Type","Price"];
-    const data = [
-        ["Bed only","Double", "1500"],
-    ];
-    const btnName = "Add New Package";
+    const [packages, setPackages] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const columns = ["Package Name", "Bed Type", "Price"];
+
+    useEffect(() => {
+        const fetchPackage = async () => {
+            try {
+                const response = await axios.get(`${config.BASE_URL}/package`);
+                setPackages(response.data); // Set the fetched data to state
+            } catch (error) {
+                console.error("Error fetching package", error);
+            }
+        };
+
+        fetchPackage(); // Call the function correctly
+    }, []);
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
     };
+
     const handleDelete = (rowIndex) => {
         console.log(`Deleting row ${rowIndex}`);
     };
 
-    const [isModalOpen, setModalOpen] = useState(false);
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
     const handleSave = (event) => {
@@ -25,15 +38,20 @@ function Packages() {
         console.log("Package information saved");
         setModalOpen(false);
     };
+
     return (
         <div className='d-flex'>
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Packages</h2>
                 <Table
-                    data={data}
+                    data={packages.map((pkg) => [
+                        pkg.packageName,
+                        pkg.bedType,
+                        pkg.packagePrice,
+                    ])}
                     columns={columns}
-                    btnName={btnName}
+                    btnName="Add Package"
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onAdd={handleOpenModal}
@@ -75,7 +93,7 @@ function Packages() {
                 )}
             </div>
         </div>
-    )
+    );
 }
 
-export default Packages
+export default Packages;

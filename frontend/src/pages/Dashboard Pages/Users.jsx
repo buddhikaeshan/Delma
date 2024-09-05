@@ -1,14 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SideBar from '../../components/SideBar/SideBar'
 import Table from '../../components/Table';
 import AddUsers from '../../components/Forms/AddUsers';
+import config from '../../config';
+import axios from 'axios';
 
 function Users() {
+    const [users, setUsers] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false);
     const columns = ["Name", "type", "Telephone", "NIC", "Email", "Address"];
-    const data = [
-        ["John", "Cashier", "0123456789", "0123456789", "john@gmail.com", "Kandy"],
-    ];
-    const btnName = "Add New User";
+
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get(`${config.BASE_URL}/users`);
+                setUsers(response.data); // Set the fetched data to state
+            } catch (error) {
+                console.error("Error fetching Users", error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
@@ -17,7 +31,6 @@ function Users() {
     const handleDelete = (rowIndex) => {
         console.log(`Deleting row ${rowIndex}`);
     };
-    const [isModalOpen, setModalOpen] = useState(false);
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
     const handleSave = (event) => {
@@ -31,9 +44,17 @@ function Users() {
             <div className="flex-grow-1 p-3">
                 <h2>Users</h2>
                 <Table
-                    data={data}
+                    data={users.map((user) => [
+                        user.userName,
+                        user.userType,
+                        user.userTP,
+                        user.userNIC,
+                        user.userEmail,
+                        user.userAddress,
+                        user.userStatus,
+                    ])}
                     columns={columns}
-                    btnName={btnName}
+                    btnName="Add New User"
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onAdd={handleOpenModal}
