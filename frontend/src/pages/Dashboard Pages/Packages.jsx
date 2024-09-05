@@ -8,27 +8,52 @@ import axios from 'axios';
 function Packages() {
     const [packages, setPackages] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
-    const columns = ["Package Name", "Bed Type", "Price"];
+    const columns = ["Package ID", "Package Name", "Bed Type", "Price"];
 
     useEffect(() => {
-        const fetchPackage = async () => {
-            try {
-                const response = await axios.get(`${config.BASE_URL}/package`);
-                setPackages(response.data); // Set the fetched data to state
-            } catch (error) {
-                console.error("Error fetching package", error);
-            }
-        };
 
-        fetchPackage(); // Call the function correctly
+        fetchPackage();
+
     }, []);
+
+    const fetchPackage = async () => {
+        try {
+            const response = await axios.get(`${config.BASE_URL}/package`);
+            setPackages(response.data);
+        } catch (error) {
+            console.error("Error fetching package", error);
+        }
+    };
+
+    const handleDelete = async (rowIndex) => {
+        const packageToDelete = packages[rowIndex];
+
+        if (!packageToDelete) {
+            alert("Package not found.");
+            return;
+        }
+
+        const confirmDelete = window.confirm(
+            `Are you sure you want to delete the package "${packageToDelete.packageName}"?`
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            // Send delete request to the server
+            await axios.delete(`${config.BASE_URL}/package/${packageToDelete.packageId}`);
+            // Remove the package from the list after successful deletion
+            setPackages((prev) => prev.filter((_, index) => index !== rowIndex));
+            alert("Package deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting package:", error);
+            alert("Failed to delete the package. Please try again.");
+        }
+    };
+
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
-    };
-
-    const handleDelete = (rowIndex) => {
-        console.log(`Deleting row ${rowIndex}`);
     };
 
     const handleOpenModal = () => setModalOpen(true);
@@ -37,6 +62,7 @@ function Packages() {
         event.preventDefault();
         console.log("Package information saved");
         setModalOpen(false);
+        fetchPackage();
     };
 
     return (
@@ -46,6 +72,7 @@ function Packages() {
                 <h2>Packages</h2>
                 <Table
                     data={packages.map((pkg) => [
+                        pkg.packageId,
                         pkg.packageName,
                         pkg.bedType,
                         pkg.packagePrice,

@@ -8,7 +8,7 @@ const Table = ({ data, columns, onAdd, btnName, onEdit, onDelete }) => {
     const [tableColumns, setTableColumns] = useState(columns);
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 8;
 
     useEffect(() => {
         setTableData(data);

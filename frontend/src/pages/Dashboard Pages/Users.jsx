@@ -1,28 +1,44 @@
-import { useState, useEffect } from 'react'
-import SideBar from '../../components/SideBar/SideBar'
+import { useState, useEffect } from 'react';
+import SideBar from '../../components/SideBar/SideBar';
 import Table from '../../components/Table';
 import AddUsers from '../../components/Forms/AddUsers';
-import config from '../../config';
 import axios from 'axios';
+import config from '../../config';
 
 function Users() {
-    const [users, setUsers] = useState([]);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
-    const columns = ["Name", "type", "Telephone", "NIC", "Email", "Address"];
 
+    const columns = ["Name", "Type", "Telephone", "NIC", "Email", "Address"];
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(`${config.BASE_URL}/users`);
-                setUsers(response.data); // Set the fetched data to state
-            } catch (error) {
-                console.error("Error fetching Users", error);
-            }
-        };
-
         fetchUsers();
     }, []);
+
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get(`${config.BASE_URL}/users`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch users');
+            }
+            const users = await response.json();
+            const formattedData = users.map(user => [
+                user.userName,
+                user.userType,
+                user.userTP,
+                user.userNIC,
+                user.userEmail,
+                user.userAddress
+            ]);
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
+        }
+    };
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
@@ -31,34 +47,35 @@ function Users() {
     const handleDelete = (rowIndex) => {
         console.log(`Deleting row ${rowIndex}`);
     };
+
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
     const handleSave = (event) => {
         event.preventDefault();
         console.log("User information saved");
+        fetchUsers();
         setModalOpen(false);
     };
+
     return (
         <div className='d-flex'>
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Users</h2>
-                <Table
-                    data={users.map((user) => [
-                        user.userName,
-                        user.userType,
-                        user.userTP,
-                        user.userNIC,
-                        user.userEmail,
-                        user.userAddress,
-                        user.userStatus,
-                    ])}
-                    columns={columns}
-                    btnName="Add New User"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={handleOpenModal}
-                />
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
+                    <Table
+                        data={data}
+                        columns={columns}
+                        btnName="Add New User"
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onAdd={handleOpenModal}
+                    />
+                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"
@@ -67,7 +84,7 @@ function Users() {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header bg-success text-white">
-                                    <h5 className="modal-title">Add New Room</h5>
+                                    <h5 className="modal-title">Add New User</h5>
                                     <button
                                         type="button"
                                         className="close"
@@ -99,4 +116,4 @@ function Users() {
     )
 }
 
-export default Users
+export default Users;

@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-
 const secretKey = process.env.SECRET_KEY;
 
 // Create a new user
@@ -27,6 +26,12 @@ const createUser = async (req, res) => {
       !userAddress
     ) {
       return res.status(400).json({ error: "All fields are required." });
+    }
+
+    // Check if a user with the same NIC already exists
+    const existingUser = await User.findOne({ where: { userNIC } });
+    if (existingUser) {
+      return res.status(400).json({ error: "A user with this NIC already exists." });
     }
 
     const newUser = await User.create({
@@ -181,12 +186,11 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
   updateUser,
   deleteUser,
-  loginUser
+  loginUser,
 };

@@ -6,24 +6,24 @@ import AddRoom from '../../components/Forms/AddRoom';
 import config from '../../config';
 
 function Rooms() {
-    const columns = ["Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night", "Status"];
+    const columns = ["Room ID", "Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night", "Status"];
     const [rooms, setRooms] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
 
-        const fetchRooms = async () => {
-            try {
-                const response = await axios.get(`${config.BASE_URL}/rooms`);
-                setRooms(response.data);
-            } catch (error) {
-                console.error("Error fetching rooms:", error);
-            }
-        };
-
         fetchRooms();
+
     }, []);
 
+    const fetchRooms = async () => {
+        try {
+            const response = await axios.get(`${config.BASE_URL}/rooms`);
+            setRooms(response.data);
+        } catch (error) {
+            console.error("Error fetching rooms:", error);
+        }
+    };
     const handleStatusChange = async (roomId, newStatus) => {
         try {
             const response = await axios.put(`${config.API_URL}/rooms/${roomId}`, { status: newStatus });
@@ -38,12 +38,32 @@ function Rooms() {
         }
     };
 
-    const handleEdit = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+    const handleDelete = async (rowIndex) => {
+        const roomToDelete = rooms[rowIndex];
+
+        if (!roomToDelete) {
+            alert("Room not found.");
+            return;
+        }
+
+        const confirmDelete = window.confirm(
+            `Are you sure you want to delete the Room "${roomToDelete.roomNumber}"?`
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`${config.BASE_URL}/rooms/${roomToDelete.roomId}`);
+            setRooms((prev) => prev.filter((_, index) => index !== rowIndex));
+            alert("Room deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting Room:", error);
+            alert("Failed to delete the Room. Please try again.");
+        }
     };
 
-    const handleDelete = (rowIndex) => {
-        console.log(`Deleting row ${rowIndex}`);
+    const handleEdit = (rowIndex) => {
+        console.log(`Editing row ${rowIndex}`);
     };
 
     const handleOpenModal = () => setModalOpen(true);
@@ -52,6 +72,7 @@ function Rooms() {
         event.preventDefault();
         console.log("Room information saved");
         setModalOpen(false);
+        fetchRooms();
     };
 
     return (
@@ -61,6 +82,7 @@ function Rooms() {
                 <h2>Rooms</h2>
                 <Table
                     data={rooms.map(room => [
+                        room.roomId,
                         room.roomNumber,
                         room.roomType,
                         room.bedType,
