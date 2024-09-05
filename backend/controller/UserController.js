@@ -235,6 +235,17 @@ const searchUsers = async (req, res) => {
   }
 };
 
+const countUsers = async (req, res) => {
+  try {
+    const count = await User.count();
+    console.log("Total users:", count);
+    res.status(200).json({ count });
+  } catch (error) {
+    console.error("Error counting users:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -243,4 +254,5 @@ module.exports = {
   deleteUser,
   loginUser,
   searchUsers,
+  countUsers,
 };

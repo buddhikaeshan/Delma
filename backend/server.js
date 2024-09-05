@@ -23,6 +23,7 @@ app.put("/user/:id", UserController.updateUser);
 app.delete("/user/:id", UserController.deleteUser);
 app.post("/loginUser", UserController.loginUser);
 app.get("/user/search", UserController.searchUsers);
+app.get("/user/count",UserController.countUsers);
 
 // Room Routes
 app.post("/rooms", RoomController.createRoom);
@@ -55,6 +56,7 @@ app.get("/booking/:id", BookingController.getBookingById);
 app.put("/booking/:id", BookingController.updateBooking);
 app.delete("/booking/:id", BookingController.deleteBooking);
 app.get("booking/search", BookingController.searchBookings);
+app.get("booking/count",BookingController.countBookings);
 
 // Sync the database
 sequelize

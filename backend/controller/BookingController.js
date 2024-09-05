@@ -188,6 +188,18 @@ const searchBookings = async (req, res) => {
   }
 };
 
+// Count total bookings
+const countBookings = async (req, res) => {
+  try {
+    const totalBookings = await Booking.count();
+    console.log(`Total bookings: ${totalBookings}`);
+    return res.status(200).json({ totalBookings });
+  } catch (error) {
+    console.error("Error counting bookings:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createBooking,
   getAllBookings,
@@ -195,4 +207,5 @@ module.exports = {
   updateBooking,
   deleteBooking,
   searchBookings,
+  countBookings,
 };
