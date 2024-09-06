@@ -168,47 +168,6 @@ const deleteBooking = async (req, res) => {
   }
 };
 
-// Search Bookings by name, id, tp, email, or NIC
-const searchBookings = async (req, res) => {
-  try {
-    const { name, id, tp, email, nic } = req.query;
-
-    const whereClause = {};
-
-    if (name) {
-      whereClause.cusFullName = {
-        [Op.like]: `%${name}%`,
-      };
-    }
-    if (id) {
-      whereClause.customers_customersId = id;
-    }
-    if (tp) {
-      whereClause.cusTP = tp;
-    }
-    if (email) {
-      whereClause.cusEmail = email;
-    }
-    if (nic) {
-      whereClause.cusNIC = nic;
-    }
-
-    const booking = await Booking.findAll({
-      where: whereClause,
-      include: [{ model: Customer, as: "customer" }],
-    });
-
-    if (booking.length === 0) {
-      return res.status(404).json({ message: "No Booking found" });
-    }
-
-    res.status(200).json(booking);
-  } catch (error) {
-    console.error("Error in search Booking:", error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
 // Count total bookings
 const countBookings = async (req, res) => {
   try {
@@ -227,6 +186,5 @@ module.exports = {
   getBookingById,
   updateBooking,
   deleteBooking,
-  searchBookings,
   countBookings,
 };
