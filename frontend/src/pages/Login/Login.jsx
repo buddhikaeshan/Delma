@@ -1,13 +1,21 @@
-import React, { useState } from "react";
-import './Login.css'
-import { useNavigate } from "react-router-dom"; // Updated import
+import React, { useState, useEffect } from "react";
+import './Login.css';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [error, setError] = useState("");
-    const navigate = useNavigate(); // Updated to useNavigate
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            localStorage.removeItem("token");
+            navigate("/login");
+        }
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,33 +43,43 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div class="form-container">
-                <p class="title">Delma Mount View</p>
-                <form class="form" onSubmit={handleSubmit}>
+            <div className="form-container">
+                <p className="title">Delma Mount View</p>
+                <form className="form" onSubmit={handleSubmit}>
                     <div className="input-box">
-                        <div class="input-group">
-                            <label for="username">Username</label>
-                            <input type="text" id="userName" value={userName} onChange={(e) => setUserName(e.target.value)} required />
+                        <div className="input-group">
+                            <label htmlFor="username">Username</label>
+                            <input
+                                type="text"
+                                id="userName"
+                                value={userName}
+                                onChange={(e) => setUserName(e.target.value)}
+                                required
+                            />
                         </div>
 
-                        <div class="input-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="userPassword" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} required />
+                        <div className="input-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                id="userPassword"
+                                value={userPassword}
+                                onChange={(e) => setUserPassword(e.target.value)}
+                                required
+                            />
                         </div>
                     </div>
                     {error && <p className="error-message">{error}</p>}
-                    <button class="sign" type="submit">Login</button>
+                    <button className="sign" type="submit">Login</button>
                 </form>
 
-                <div class="signup-box">
-                    <p class="signup">Don't have an account?
-                        <a rel="noopener noreferrer" href="#" class="">Sign up</a>
+                <div className="signup-box">
+                    <p className="signup">Don't have an account?
+                        <a rel="noopener noreferrer" href="#" className="">Sign up</a>
                     </p>
                 </div>
-
             </div>
         </div>
-
     );
 };
 

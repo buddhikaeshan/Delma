@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'aos/dist/aos.css';
@@ -25,9 +25,12 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Check if token exists in localStorage and set the authentication state accordingly
     const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
+    if (token) {
+      setIsAuthenticated(true); // User is authenticated if the token is found
+    }
+  }, []); // This effect runs once, when the app mounts
 
   return (
     <div className="App">
