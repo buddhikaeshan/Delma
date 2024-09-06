@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import "bootswatch/dist/lux/bootstrap.min.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'aos/dist/aos.css';
@@ -14,27 +13,21 @@ import GalleryPage from "./pages/Dashboard Pages/GalleryPage";
 import Packages from "./pages/Dashboard Pages/Packages";
 import Users from "./pages/Dashboard Pages/Users";
 import Bookings from "./pages/Dashboard Pages/Bookings";
-import Loader from "./components/Loader/Loader";
 import CusBookingForm from "./components/CusBookingForm/CusBookingForm";
-import SidebarUser from './components/SidebarUser/SidebarUser';
 import UserBookingCalender from './pages/UserDashboard/UserBookingCalender';
 import UserBooking from './pages/UserDashboard/UserBookings';
 import UserPackages from './pages/UserDashboard/UserPackages';
 import UserRooms from './pages/UserDashboard/UserRooms';
+import Login from "./pages/Login/Login";
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); 
-    return () => clearTimeout(timer);
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
   }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <div className="App">
@@ -42,20 +35,23 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sidebar" element={<SideBar />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/rooms" element={<Rooms />} />
-          <Route path="/bookingCalendar" element={<BookingCalendar />} />
-          <Route path="/bookings" element={<Bookings />} />
-          <Route path="/Packages" element={<Packages />} />
-          <Route path="/GalleryPage" element={<GalleryPage />} />
-          <Route path="/users" element={<Users />} />
-
+          <Route path="/login" element={<Login />} />
           <Route path="/cusBooking" element={<CusBookingForm />} />
 
-          <Route path="/dashboardUser" element={<UserBookingCalender/>}/>
-          <Route path="/bookingUser" element={<UserBooking/>}/>
-          <Route path="/packagesUser" element={<UserPackages/>}/>
-          <Route path="/roomsUser" element={<UserRooms/>}/>
+          {/*admin */}
+          <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/rooms" element={<ProtectedRoute element={<Rooms />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/bookingCalendar" element={<ProtectedRoute element={<BookingCalendar />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/bookings" element={<ProtectedRoute element={<Bookings />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/packages" element={<ProtectedRoute element={<Packages />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/galleryPage" element={<ProtectedRoute element={<GalleryPage />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/users" element={<ProtectedRoute element={<Users />} isAuthenticated={isAuthenticated} />} />
+
+          {/* User */}
+          <Route path="/dashboardUser" element={<ProtectedRoute element={<UserBookingCalender />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/bookingUser" element={<ProtectedRoute element={<UserBooking />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/packagesUser" element={<ProtectedRoute element={<UserPackages />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/roomsUser" element={<ProtectedRoute element={<UserRooms />} isAuthenticated={isAuthenticated} />} />
         </Routes>
       </BrowserRouter>
     </div>
