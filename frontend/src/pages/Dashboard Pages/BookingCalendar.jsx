@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SideBar from '../../components/SideBar/SideBar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import config from '../../config';
 
 function BookingCalendar() {
+  const events = [
+    {
+      title: 'Single Day Event',
+      start: '2024-09-01', 
+      end: '2024-09-01',   
+    },
+    {
+      title: 'Multi-Day Event',
+      start: '2024-09-02', 
+      end: '2024-09-05',   
+    }
+  ];
+
   return (
     <div className="d-flex">
       <SideBar />
@@ -17,10 +31,8 @@ function BookingCalendar() {
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
               weekends={true}
-              events={[
-                { title: 'Event 1', date: '2024-09-01' },
-                { title: 'Event 2', date: '2024-09-02' },
-              ]}
+              events={events}
+              editable={true}
               height="100%"
             />
           </div>

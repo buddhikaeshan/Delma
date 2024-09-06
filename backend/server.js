@@ -52,6 +52,7 @@ app.get("/booking/:id", BookingController.getBookingById);
 app.put("/booking/:id", BookingController.updateBooking);
 app.delete("/booking/:id", BookingController.deleteBooking);
 app.get("booking/count", BookingController.countBookings);
+app.post("/booking/calendar",BookingController.BookingCalendar);
 
 // Sync the database
 sequelize
