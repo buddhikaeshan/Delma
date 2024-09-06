@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SideBar from '../../components/SideBar/SideBar';
 import Table from '../../components/Table';
 import AddUsers from '../../components/Forms/AddUsers';
+import config from '../../config';
 
 function Users() {
     const [data, setData] = useState([]);
@@ -9,7 +10,7 @@ function Users() {
     const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const columns = ["Name", "Type", "Password", "Telephone", "NIC", "Email", "Address"];
+    const columns = ["Name", "Type", "Telephone", "NIC", "Email", "Address","Status"];
     const btnName = "Add New User";
 
     useEffect(() => {
@@ -18,7 +19,7 @@ function Users() {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch("http://localhost:5000/user"); 
+            const response = await fetch("http://localhost:5000/users"); 
             if (!response.ok) {
                 throw new Error('Failed to fetch users');
             }
@@ -26,11 +27,11 @@ function Users() {
             const formattedData = users.map(user => [
                 user.userName,
                 user.userType,
-                user.userPassword, 
                 user.userTP,
                 user.userNIC,
                 user.userEmail,
-                user.userAddress
+                user.userAddress,
+                user.userStatus,
             ]);
             setData(formattedData);
             setIsLoading(false);

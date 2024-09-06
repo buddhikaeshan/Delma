@@ -1,40 +1,56 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import config from '../../config';
 
 function AddRoom({ onClose, onSave }) {
-    // State to hold form data
     const [formData, setFormData] = useState({
         roomNumber: '',
         roomType: '',
         price: '',
         roomCapacity: '',
-        bedType: ''
+        bedType: '',
     });
+    const [error, setError] = useState(null);
 
-    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData(prevData => ({
+            ...prevData,
             [name]: value
-        });
+        }));
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        // If e exists and is an event, prevent default behavior
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
+        setError(null);
         try {
-            // Send form data to backend API
-            const response = await axios.post('http://localhost:5000/rooms', formData);
-            console.log('Room added successfully:', response.data);
-            onSave();  // Callback to parent if needed
+            const response = await fetch(`${config.BASE_URL}/rooms`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to add room');
+            }
+
+            const data = await response.json();
+            console.log('Room added successfully:', data);
+            onSave(data);
+            onClose();
         } catch (error) {
             console.error('Error adding room:', error);
+            setError(error.message);
         }
     };
-
     return (
-        <form className="p-3" onSubmit={handleSubmit}>
+        <form className="p-3" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+             {error && <div className="alert alert-danger">{error}</div>}
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
@@ -47,6 +63,7 @@ function AddRoom({ onClose, onSave }) {
                             placeholder="Room Number"
                             value={formData.roomNumber}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                 </div>
@@ -61,6 +78,7 @@ function AddRoom({ onClose, onSave }) {
                             placeholder="Room Type"
                             value={formData.roomType}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                 </div>
@@ -70,13 +88,14 @@ function AddRoom({ onClose, onSave }) {
                     <div className="form-group">
                         <h5 htmlFor="price">Price Per Night</h5>
                         <input
-                            type="text"
+                            type="number"
                             id="price"
                             name="price"
                             className="form-control"
                             placeholder="Price Per Night"
                             value={formData.price}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                 </div>
@@ -84,13 +103,14 @@ function AddRoom({ onClose, onSave }) {
                     <div className="form-group">
                         <h5 htmlFor="roomCapacity">Room Capacity</h5>
                         <input
-                            type="text"
+                            type="number"
                             id="roomCapacity"
                             name="roomCapacity"
                             className="form-control"
                             placeholder="Room Capacity"
                             value={formData.roomCapacity}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                 </div>
@@ -107,6 +127,7 @@ function AddRoom({ onClose, onSave }) {
                             placeholder="Bed Type"
                             value={formData.bedType}
                             onChange={handleChange}
+                            required
                         />
                     </div>
                 </div>

@@ -3,54 +3,45 @@ import SideBar from '../../components/SideBar/SideBar';
 import Table from '../../components/Table';
 import AddPackages from '../../components/Forms/AddPackages';
 import config from '../../config';
-import axios from 'axios';
 
 function Packages() {
-    const [packages, setPackages] = useState([]);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+
     const columns = ["Package ID", "Package Name", "Bed Type", "Price"];
+    const btnName = "Add New Package";
 
     useEffect(() => {
-
         fetchPackage();
-
     }, []);
 
     const fetchPackage = async () => {
         try {
-            const response = await axios.get(`${config.BASE_URL}/package`);
-            setPackages(response.data);
-        } catch (error) {
-            console.error("Error fetching package", error);
+            const response = await fetch(`${config.BASE_URL}/packages`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch Package');
+            }
+            const packages = await response.json();
+            const formattedData = packages.map(packages => [
+                packages.packageId,
+                packages.packageName,
+                packages.bedType,
+                packages.packagePrice,
+            ]);
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
         }
     };
 
-    const handleDelete = async (rowIndex) => {
-        const packageToDelete = packages[rowIndex];
 
-        if (!packageToDelete) {
-            alert("Package not found.");
-            return;
-        }
-
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete the package "${packageToDelete.packageName}"?`
-        );
-
-        if (!confirmDelete) return;
-
-        try {
-            // Send delete request to the server
-            await axios.delete(`${config.BASE_URL}/package/${packageToDelete.packageId}`);
-            // Remove the package from the list after successful deletion
-            setPackages((prev) => prev.filter((_, index) => index !== rowIndex));
-            alert("Package deleted successfully.");
-        } catch (error) {
-            console.error("Error deleting package:", error);
-            alert("Failed to delete the package. Please try again.");
-        }
+    const handleDelete = (rowIndex) => {
+        console.log(`Editing row ${rowIndex}`);
     };
-
 
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
@@ -70,19 +61,20 @@ function Packages() {
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Packages</h2>
-                <Table
-                    data={packages.map((pkg) => [
-                        pkg.packageId,
-                        pkg.packageName,
-                        pkg.bedType,
-                        pkg.packagePrice,
-                    ])}
-                    columns={columns}
-                    btnName="Add Package"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={handleOpenModal}
-                />
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
+                    <Table
+                        data={data}
+                        columns={columns}
+                        btnName={btnName}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onAdd={handleOpenModal}
+                    />
+                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"

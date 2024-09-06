@@ -135,55 +135,10 @@ const deleteCustomer = async (req, res) => {
   }
 };
 
-const searchCustomers = async (req, res) => {
-  try {
-    const { name, id, tp, email, nic } = req.query;
-
-    const whereClause = {};
-
-    if (name) {
-      whereClause.cusFullName = {
-        [Op.like]: `%${name}%`,
-      };
-    }
-    if (id) {
-      whereClause.customersId = id;
-    }
-    if (tp) {
-      whereClause.cusTP = tp;
-    }
-    if (email) {
-      whereClause.cusEmail = email;
-    }
-    if (nic) {
-      whereClause.cusNIC = nic;
-    }
-
-    console.log("Where Clause:", whereClause);
-
-    const customer = await Customer.findAll({
-      where: whereClause,
-      raw: true,
-    });
-
-    console.log("Customers found:", customer);
-
-    if (customer.length === 0) {
-      return res.status(404).json({ message: "No customers found" });
-    }
-
-    res.status(200).json(customer);
-  } catch (error) {
-    console.error("Error in searchCustomers:", error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
 module.exports = {
   createCustomer,
   getAllCustomers,
   getCustomerById,
   updateCustomer,
   deleteCustomer,
-  searchCustomers,
 };

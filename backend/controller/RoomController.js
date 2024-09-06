@@ -3,29 +3,21 @@ const Room = require("../models/Room");
 // Create a new room
 const createRoom = async (req, res) => {
   try {
-    const { roomNumber, roomType, bedType, roomCapacity, price, status } =
-      req.body;
+    const { roomNumber, roomType, bedType, roomCapacity, price } = req.body;
 
     // Check if all required fields are present
-    if (
-      !roomNumber ||
-      !roomType ||
-      !bedType ||
-      !roomCapacity ||
-      !price ||
-      !status
-    ) {
+    if (!roomNumber || !roomType || !bedType || !roomCapacity || !price) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
-    // Create a new room
+    // Create a new room with status always set to "Active"
     const newRoom = await Room.create({
       roomNumber,
       roomType,
       bedType,
       roomCapacity,
       price,
-      status,
+      status: "Active", 
     });
 
     // Return the newly created room with status 201
@@ -73,8 +65,7 @@ const getRoomById = async (req, res) => {
 const updateRoom = async (req, res) => {
   try {
     const { id } = req.params;
-    const { roomNumber, roomType, bedType, roomCapacity, price, status } =
-      req.body;
+    const { roomNumber, roomType, bedType, roomCapacity, price } = req.body;
 
     // Find the room by primary key (ID)
     const room = await Room.findByPk(id);
@@ -82,14 +73,13 @@ const updateRoom = async (req, res) => {
       return res.status(404).json({ message: "Room not found" });
     }
 
-    // Update the room details
+    // Update the room details, excluding `status`
     await room.update({
       roomNumber,
       roomType,
       bedType,
       roomCapacity,
       price,
-      status,
     });
 
     // Return the updated room
@@ -124,52 +114,10 @@ const deleteRoom = async (req, res) => {
   }
 };
 
-const searchRooms = async (req, res) => {
-  try {
-    const { num, id, type, price, } = req.query;
-
-    const whereClause = {};
-
-    if (num) {
-      whereClause.roomNumber = {
-        [Op.like]: `%${num}%`,
-      };
-    }
-    if (id) {
-      whereClause.roomId = id;
-    }
-    if (type) {
-      whereClause.roomType = type;
-    }
-    if (price) {
-      whereClause.price = price;
-    }
-    
-    console.log("Where Clause:", whereClause);
-
-    const room= await Room.findAll({
-      where: whereClause,
-      raw: true,
-    });
-
-    console.log("Room found:", room);
-
-    if (room.length === 0) {
-      return res.status(404).json({ message: "No Room found" });
-    }
-
-    res.status(200).json(room);
-  } catch (error) {
-    console.error("Error in search Room:", error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
 module.exports = {
   createRoom,
   getAllRooms,
   getRoomById,
   updateRoom,
   deleteRoom,
-  searchRooms,
 };

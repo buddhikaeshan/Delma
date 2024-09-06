@@ -124,46 +124,7 @@ const deletePackage = async (req, res) => {
   }
 };
 
-const searchPackage = async (req, res) => {
-  try {
-    const { name, id, type, price } = req.query;
 
-    const whereClause = {};
-
-    if (name) {
-      whereClause.packageName = {
-        [Op.like]: `%${name}%`,
-      };
-    }
-    if (id) {
-      whereClause.packageId = id;
-    }
-    if (type) {
-      whereClause.bedType = type;
-    }
-    if (price) {
-      whereClause.packagePrice = price;
-    }
-
-    console.log("Where Clause:", whereClause);
-
-    const package = await Package.findAll({
-      where: whereClause,
-      raw: true,
-    });
-
-    console.log("Package found:", package);
-
-    if (package.length === 0) {
-      return res.status(404).json({ message: "No Package found" });
-    }
-
-    res.status(200).json(package);
-  } catch (error) {
-    console.error("Error in search Package:", error);
-    res.status(500).json({ error: error.message });
-  }
-};
 
 module.exports = {
   createPackage,
@@ -171,5 +132,4 @@ module.exports = {
   getPackageById,
   updatePackage,
   deletePackage,
-  searchPackage,
 };

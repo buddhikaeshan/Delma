@@ -14,7 +14,6 @@ const createUser = async (req, res) => {
       userNIC,
       userEmail,
       userAddress,
-      userStatus,
     } = req.body;
 
     if (
@@ -45,7 +44,7 @@ const createUser = async (req, res) => {
       userNIC,
       userEmail,
       userAddress,
-      userStatus,
+      userStatus: "Active",
     });
 
     res.status(201).json(newUser);
@@ -191,50 +190,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-const searchUsers = async (req, res) => {
-  try {
-    const { name, id, tp, email, nic } = req.query;
-
-    const whereClause = {};
-
-    if (name) {
-      whereClause.userName = {
-        [Op.like]: `%${name}%`,
-      };
-    }
-    if (id) {
-      whereClause.userId = id;
-    }
-    if (tp) {
-      whereClause.userTP = tp;
-    }
-    if (email) {
-      whereClause.userEmail = email;
-    }
-    if (nic) {
-      whereClause.userNIC = nic;
-    }
-
-    console.log("Where Clause:", whereClause);
-
-    const user = await User.findAll({
-      where: whereClause,
-      raw: true,
-    });
-
-    console.log("User found:", user);
-
-    if (user.length === 0) {
-      return res.status(404).json({ message: "No User found" });
-    }
-
-    res.status(200).json(user);
-  } catch (error) {
-    console.error("Error in search User:", error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
 const countUsers = async (req, res) => {
   try {
     const count = await User.count();
@@ -253,6 +208,5 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
-  searchUsers,
   countUsers,
 };
