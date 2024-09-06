@@ -1,98 +1,115 @@
-import { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import config from '../../config';
 
-
 function AddPackages({ onClose, onSave }) {
-    const [packageName, setPackageName] = useState('');
-    const [roomType, setRoomType] = useState('');
-    const [price, setPrice] = useState('');
+    const [formData, setFormData] = useState({
+        packageName: '',
+        bedType: '',
+        packagePrice: '',
+    });
+    const [error, setError] = useState(null);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        // Check if e is an event and has preventDefault
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
+        setError(null);
+
         // Basic input validation
-        if (!packageName || !roomType || !price) {
-            alert("Please fill out all fields.");
+        if (!formData.packageName || !formData.bedType || !formData.packagePrice) {
+            setError("All fields are required.");
             return;
         }
 
-        if (isNaN(price)) {
-            alert("Price must be a valid number.");
+        if (isNaN(formData.packagePrice)) {
+            setError("Price must be a valid number.");
             return;
         }
 
         try {
-            const response = await axios.post(`${config.BASE_URL}/package`, {
-                packageName,
-                bedType: roomType,
-                packagePrice: parseFloat(price),
+            const response = await fetch(`${config.BASE_URL}/packages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    packageName: formData.packageName,
+                    bedType: formData.bedType,
+                    packagePrice: parseFloat(formData.packagePrice),
+                }),
             });
 
-            console.log('Response:', response.data);
-            alert('Package saved successfully!');
-            onSave();
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to add package');
+            }
+
+            const data = await response.json();
+            console.log('Package added successfully:', data);
+            onSave(data);
             onClose();
         } catch (error) {
-            if (error.response) {
-                console.error('Error Response Data:', error.response.data);
-                console.error('Error Response Status:', error.response.status);
-                console.error('Error Response Headers:', error.response.headers);
-            } else if (error.request) {
-                // Error if the request was made but no response received
-                console.error('Error Request:', error.request);
-                alert('No response from the server. Please check your network.');
-            } else {
-                // Error setting up the request
-                console.error('Error Message:', error.message);
-            }
+            setError(error.message || "An error occurred while saving the package.");
+            console.error('Error:', error);
         }
     };
 
-
     return (
-        <form className="p-3" onSubmit={handleSubmit}>
+        <form className="p-3" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            {error && <div className="alert alert-danger">{error}</div>}
             <div className="row mb-3">
                 <div className="form-group">
-                    <h5 htmlFor="name">Package Name</h5>
+                    <h5 htmlFor="packageName">Package Name</h5>
                     <input
                         type="text"
                         id="packageName"
                         name="packageName"
                         className="form-control"
                         placeholder="Package Name"
-                        value={packageName}
-                        onChange={(e) => setPackageName(e.target.value)}
+                        value={formData.packageName}
+                        onChange={handleChange}
+                        required
                     />
-
                 </div>
             </div>
 
             <div className="row mb-3">
                 <div className="form-group">
-                    <h5 htmlFor="roomType">Room Type</h5>
+                    <h5 htmlFor="bedType">Room Type</h5>
                     <input
                         type="text"
-                        id="roomType"
-                        name="roomType"
+                        id="bedType"
+                        name="bedType"
                         className="form-control"
-                        placeholder="Room Name"
-                        value={roomType}
-                        onChange={(e) => setRoomType(e.target.value)}
+                        placeholder="Room Type"
+                        value={formData.bedType}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
             </div>
 
             <div className="row mb-3">
                 <div className="form-group">
-                    <h5 htmlFor="price">Price</h5>
+                    <h5 htmlFor="packagePrice">Price</h5>
                     <input
-                        type="text"
-                        id="price"
-                        name="price"
+                        type="number"
+                        id="packagePrice"
+                        name="packagePrice"
                         className="form-control"
                         placeholder="Price"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        value={formData.packagePrice}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
             </div>
@@ -108,7 +125,6 @@ function AddPackages({ onClose, onSave }) {
                 <button
                     type="submit"
                     className="btn btn-success"
-                    onClick={onSave}
                 >
                     Save Changes
                 </button>

@@ -1,67 +1,48 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import SideBar from '../../components/SideBar/SideBar';
 import Table from '../../components/Table';
 import AddRoom from '../../components/Forms/AddRoom';
 import config from '../../config';
 
 function Rooms() {
-    const columns = ["Room ID", "Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night", "Status"];
-    const [rooms, setRooms] = useState([]);
+
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
 
+    const columns = ["Room ID", "Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night"];
+    const btnName = "Add New Room";
+
     useEffect(() => {
-
         fetchRooms();
-
     }, []);
-
     const fetchRooms = async () => {
         try {
-            const response = await axios.get(`${config.BASE_URL}/rooms`);
-            setRooms(response.data);
-        } catch (error) {
-            console.error("Error fetching rooms:", error);
-        }
-    };
-    const handleStatusChange = async (roomId, newStatus) => {
-        try {
-            const response = await axios.put(`${config.API_URL}/rooms/${roomId}`, { status: newStatus });
-            console.log('Room status updated:', response.data);
-            setRooms(prevRooms =>
-                prevRooms.map(room =>
-                    room.id === roomId ? { ...room, status: newStatus } : room
-                )
-            );
-        } catch (error) {
-            console.error('Error updating room status:', error);
-        }
-    };
-
-    const handleDelete = async (rowIndex) => {
-        const roomToDelete = rooms[rowIndex];
-
-        if (!roomToDelete) {
-            alert("Room not found.");
-            return;
-        }
-
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete the Room "${roomToDelete.roomNumber}"?`
-        );
-
-        if (!confirmDelete) return;
-
-        try {
-            await axios.delete(`${config.BASE_URL}/rooms/${roomToDelete.roomId}`);
-            setRooms((prev) => prev.filter((_, index) => index !== rowIndex));
-            alert("Room deleted successfully.");
-        } catch (error) {
-            console.error("Error deleting Room:", error);
-            alert("Failed to delete the Room. Please try again.");
+            const response = await fetch(`${config.BASE_URL}/rooms`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch Room');
+            }
+            const room = await response.json();
+            const formattedData = room.map(room => [
+                room.roomId,
+                room.roomNumber,
+                room.roomType,
+                room.bedType,
+                room.roomCapacity,
+                room.price,
+            ]);
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
         }
     };
 
+    const handleDelete = (rowIndex) => {
+        console.log(`Delete row ${rowIndex}`);
+    };
     const handleEdit = (rowIndex) => {
         console.log(`Editing row ${rowIndex}`);
     };
@@ -80,31 +61,20 @@ function Rooms() {
             <SideBar />
             <div className="flex-grow-1 p-3">
                 <h2>Rooms</h2>
-                <Table
-                    data={rooms.map(room => [
-                        room.roomId,
-                        room.roomNumber,
-                        room.roomType,
-                        room.bedType,
-                        room.roomCapacity,
-                        room.price,
-                        <select
-                            id="status"
-                            className="form-control"
-                            value={room.status}
-                            onChange={(e) => handleStatusChange(room.id, e.target.value)}
-                        >
-                            <option value="Available">Available</option>
-                            <option value="Unavailable">Unavailable</option>
-                            <option value="Cleaning">Cleaning</option>
-                        </select>
-                    ])}
-                    columns={columns}
-                    btnName="Add New Room"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={handleOpenModal}
-                />
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
+                    <Table
+                        data={data}
+                        columns={columns}
+                        btnName={btnName}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onAdd={handleOpenModal}
+                    />
+                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"

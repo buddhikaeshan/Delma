@@ -1,5 +1,6 @@
 const Booking = require("../models/Booking");
 const Customer = require("../models/Customers");
+const { Op } = require("sequelize");
 const { validationResult } = require("express-validator");
 
 // Create Booking
@@ -14,22 +15,34 @@ const createBooking = async (req, res) => {
       cusCheckIn,
       cusCheckOut,
       numberOfPersons,
+      roomType,
+      roomNumber,
       payMethod,
       payStatus,
     } = req.body;
 
-    if (!cusFullName || !cusTP || !cusNIC || !cusEmail || !cusAddress) {
+    if (!cusFullName || !cusNIC || !cusTP || !cusEmail || !cusAddress) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
-    // Check if a user with the same NIC already exists in the Customer table
+    // Check if a customer with the same NIC already exists
     const existingCustomer = await Customer.findOne({ where: { cusNIC } });
+    let customerId;
     if (existingCustomer) {
-      return res
-        .status(400)
-        .json({ error: "A user with this NIC already exists." });
+      customerId = existingCustomer.customersId;
+    } else {
+      // If customer doesn't exist, create a new one
+      const newCustomer = await Customer.create({
+        cusFullName,
+        cusNIC,
+        cusTP,
+        cusEmail,
+        cusAddress,
+      });
+      customerId = newCustomer.customersId;
     }
 
+    // Create a new booking
     const newBooking = await Booking.create({
       cusFullName,
       cusNIC,
@@ -39,8 +52,11 @@ const createBooking = async (req, res) => {
       cusCheckIn,
       cusCheckOut,
       numberOfPersons,
+      roomType,
+      roomNumber,
       payMethod,
       payStatus,
+      customers_customersId: customerId, // Link the customer
     });
 
     res.status(201).json(newBooking);
@@ -66,7 +82,9 @@ const createBooking = async (req, res) => {
 // Get all bookings
 const getAllBookings = async (req, res) => {
   try {
-    const bookings = await Booking.findAll();
+    const bookings = await Booking.findAll({
+      include: [{ model: Customer, as: "customer" }],
+    });
     return res.status(200).json(bookings);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -77,7 +95,9 @@ const getAllBookings = async (req, res) => {
 const getBookingById = async (req, res) => {
   try {
     const { id } = req.params;
-    const booking = await Booking.findByPk(id);
+    const booking = await Booking.findByPk(id, {
+      include: [{ model: Customer, as: "customer" }],
+    });
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
     }
@@ -100,6 +120,8 @@ const updateBooking = async (req, res) => {
       cusCheckIn,
       cusCheckOut,
       numberOfPersons,
+      roomType,
+      roomNumber,
       payMethod,
       payStatus,
     } = req.body;
@@ -119,6 +141,8 @@ const updateBooking = async (req, res) => {
       cusCheckIn,
       cusCheckOut,
       numberOfPersons,
+      roomType,
+      roomNumber,
       payMethod,
       payStatus,
     });
@@ -144,6 +168,7 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+// Search Bookings by name, id, tp, email, or NIC
 const searchBookings = async (req, res) => {
   try {
     const { name, id, tp, email, nic } = req.query;
@@ -156,7 +181,7 @@ const searchBookings = async (req, res) => {
       };
     }
     if (id) {
-      whereClause.customersId = id;
+      whereClause.customers_customersId = id;
     }
     if (tp) {
       whereClause.cusTP = tp;
@@ -168,14 +193,10 @@ const searchBookings = async (req, res) => {
       whereClause.cusNIC = nic;
     }
 
-    console.log("Where Clause:", whereClause);
-
     const booking = await Booking.findAll({
       where: whereClause,
-      raw: true,
+      include: [{ model: Customer, as: "customer" }],
     });
-
-    console.log("Booking found:", booking);
 
     if (booking.length === 0) {
       return res.status(404).json({ message: "No Booking found" });

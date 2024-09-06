@@ -14,7 +14,6 @@ const createUser = async (req, res) => {
       userNIC,
       userEmail,
       userAddress,
-      userStatus,
     } = req.body;
 
     if (
@@ -45,7 +44,7 @@ const createUser = async (req, res) => {
       userNIC,
       userEmail,
       userAddress,
-      userStatus,
+      userStatus: "Active",
     });
 
     res.status(201).json(newUser);
