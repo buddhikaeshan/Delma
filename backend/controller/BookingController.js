@@ -16,9 +16,7 @@ const createBooking = async (req, res) => {
       cusCheckOut,
       numberOfPersons,
       roomType,
-      roomNumber,
       payMethod,
-      payStatus,
     } = req.body;
 
     if (!cusFullName || !cusNIC || !cusTP || !cusEmail || !cusAddress) {
@@ -42,7 +40,7 @@ const createBooking = async (req, res) => {
       customerId = newCustomer.customersId;
     }
 
-    // Create a new booking with status set to 'Pending'
+    // Create a new booking without roomNumber and payStatus
     const newBooking = await Booking.create({
       cusFullName,
       cusNIC,
@@ -53,11 +51,8 @@ const createBooking = async (req, res) => {
       cusCheckOut,
       numberOfPersons,
       roomType,
-      roomNumber,
       payMethod,
-      payStatus,
-      status: "Pending", // Set initial status
-      customers_customersId: customerId, // Link the customer
+      customers_customersId: customerId,
     });
 
     res.status(201).json(newBooking);
@@ -125,7 +120,6 @@ const updateBooking = async (req, res) => {
       roomNumber,
       payMethod,
       payStatus,
-      status,
     } = req.body;
 
     const booking = await Booking.findByPk(id);
@@ -133,7 +127,7 @@ const updateBooking = async (req, res) => {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    // Update booking fields including status
+    // Update only the booking-specific fields
     await booking.update({
       cusFullName,
       cusNIC,
@@ -147,7 +141,6 @@ const updateBooking = async (req, res) => {
       roomNumber,
       payMethod,
       payStatus,
-      status, // Update status
     });
 
     return res.status(200).json(booking);

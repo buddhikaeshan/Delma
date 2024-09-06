@@ -40,6 +40,7 @@ const User = sequelize.define(
     userStatus: {
       type: DataTypes.STRING,
       allowNull: false,
+      userStatus: "Active",
     },
   },
   {

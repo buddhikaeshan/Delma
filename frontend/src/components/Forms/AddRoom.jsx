@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import config from '../../config';
 
-function AddRoom({ onClose, onSave }) {
+function AddRoom({ onClose, onSave, room }) {
     const [formData, setFormData] = useState({
         roomNumber: '',
         roomType: '',
@@ -10,6 +10,18 @@ function AddRoom({ onClose, onSave }) {
         bedType: '',
     });
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (room) {
+            setFormData({
+                roomNumber: room.roomNumber || '',
+                roomType: room.roomType || '',
+                price: room.price || '',
+                roomCapacity: room.roomCapacity || '',
+                bedType: room.bedType || '',
+            });
+        }
+    }, [room]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,14 +32,16 @@ function AddRoom({ onClose, onSave }) {
     };
 
     const handleSubmit = async (e) => {
-        // If e exists and is an event, prevent default behavior
-        if (e && typeof e.preventDefault === 'function') {
-            e.preventDefault();
-        }
+        e.preventDefault();
         setError(null);
         try {
-            const response = await fetch(`${config.BASE_URL}/rooms`, {
-                method: 'POST',
+            const method = room ? 'PUT' : 'POST';
+            const url = room
+                ? `${config.BASE_URL}/rooms/${room.roomId}`
+                : `${config.BASE_URL}/rooms`;
+
+            const response = await fetch(url, {
+                method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -36,21 +50,22 @@ function AddRoom({ onClose, onSave }) {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to add room');
+                throw new Error(errorData.error || 'Failed to save room');
             }
 
             const data = await response.json();
-            console.log('Room added successfully:', data);
-            onSave(data);
+            console.log('Room saved successfully:', data);
+            onSave();
             onClose();
         } catch (error) {
-            console.error('Error adding room:', error);
+            console.error('Error saving room:', error);
             setError(error.message);
         }
     };
+
     return (
-        <form className="p-3" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-             {error && <div className="alert alert-danger">{error}</div>}
+        <form className="p-3" onSubmit={handleSubmit}>
+            {error && <div className="alert alert-danger">{error}</div>}
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
@@ -132,7 +147,6 @@ function AddRoom({ onClose, onSave }) {
                     </div>
                 </div>
             </div>
-
             <div className="d-flex justify-content-end mt-3">
                 <button
                     type="button"
@@ -144,7 +158,6 @@ function AddRoom({ onClose, onSave }) {
                 <button
                     type="submit"
                     className="btn btn-success"
-                    onClick={onSave}
                 >
                     Save Changes
                 </button>

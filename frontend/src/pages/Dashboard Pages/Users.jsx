@@ -9,8 +9,9 @@ function Users() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
-    const columns = ["Name", "Type", "Telephone", "NIC", "Email", "Address","Status"];
+    const columns = ["Id", "Name", "Type", "Telephone", "NIC", "Email", "Address", "Status"];
     const btnName = "Add New User";
 
     useEffect(() => {
@@ -19,12 +20,13 @@ function Users() {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch("http://localhost:5000/users"); 
+            const response = await fetch(`${config.BASE_URL}/user`);
             if (!response.ok) {
                 throw new Error('Failed to fetch users');
             }
             const users = await response.json();
             const formattedData = users.map(user => [
+                user.userId,
                 user.userName,
                 user.userType,
                 user.userTP,
@@ -42,19 +44,47 @@ function Users() {
     };
 
     const handleEdit = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+        const selectedUserData = data[rowIndex];
+        setSelectedUser({
+            userId: selectedUserData[0],
+            userName: selectedUserData[1],
+            userType: selectedUserData[2],
+            userTP: selectedUserData[3],
+            userNIC: selectedUserData[4],
+            userEmail: selectedUserData[5],
+            userAddress: selectedUserData[6],
+
+        });
+        setModalOpen(true);
     };
 
-    const handleDelete = (rowIndex) => {
-        console.log(`Deleting row ${rowIndex}`);
+    const handleDelete = async (rowIndex) => {
+        try {
+            const userId = data[rowIndex][0];
+            const response = await fetch(`${config.BASE_URL}/user/${userId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete User');
+            }
+
+            setData(prevData => prevData.filter((_, index) => index !== rowIndex));
+            console.log(`User with ID ${userId} deleted successfully`);
+            fetchUsers();
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            setError(err.message);
+        }
     };
+
 
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
     const handleSave = (event) => {
         event.preventDefault();
         console.log("User information saved");
-        fetchUsers(); 
+        fetchUsers();
         setModalOpen(false);
     };
 
@@ -106,7 +136,7 @@ function Users() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddUsers onClose={handleCloseModal} onSave={handleSave} />
+                                    <AddUsers onClose={handleCloseModal} onSave={handleSave} user={selectedUser} />
                                 </div>
                             </div>
                         </div>

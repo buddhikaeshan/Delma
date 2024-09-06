@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import config from '../../config';
 
-function AddPackages({ onClose, onSave }) {
+function AddPackages({ onClose, onSave, packages }) {
     const [formData, setFormData] = useState({
         packageName: '',
         bedType: '',
         packagePrice: '',
     });
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (packages) {
+            setFormData({
+                packageName: packages.packageName || '',
+                bedType: packages.bedType || '',
+                packagePrice: packages.packagePrice || '',
+            });
+        }
+    }, [packages]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,7 +28,6 @@ function AddPackages({ onClose, onSave }) {
     };
 
     const handleSubmit = async (e) => {
-        // Check if e is an event and has preventDefault
         if (e && typeof e.preventDefault === 'function') {
             e.preventDefault();
         }
@@ -36,8 +45,13 @@ function AddPackages({ onClose, onSave }) {
         }
 
         try {
-            const response = await fetch(`${config.BASE_URL}/packages`, {
-                method: 'POST',
+            const method = packages ? 'PUT' : 'POST';
+            const url = packages
+                ? `${config.BASE_URL}/packages/${packages.PackageId}` 
+                : `${config.BASE_URL}/packages`;
+
+            const response = await fetch(url, {
+                method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -50,11 +64,11 @@ function AddPackages({ onClose, onSave }) {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to add package');
+                throw new Error(errorData.error || 'Failed to save package');
             }
 
             const data = await response.json();
-            console.log('Package added successfully:', data);
+            console.log('Package saved successfully:', data);
             onSave(data);
             onClose();
         } catch (error) {
@@ -64,7 +78,7 @@ function AddPackages({ onClose, onSave }) {
     };
 
     return (
-        <form className="p-3" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+        <form className="p-3" onSubmit={handleSubmit}>
             {error && <div className="alert alert-danger">{error}</div>}
             <div className="row mb-3">
                 <div className="form-group">

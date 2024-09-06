@@ -48,7 +48,7 @@ const Booking = sequelize.define(
     },
     roomNumber: {
       type: DataTypes.STRING(45),
-      allowNull: false,
+      allowNull: true,
     },
     payMethod: {
       type: DataTypes.STRING(45),
@@ -56,7 +56,8 @@ const Booking = sequelize.define(
     },
     payStatus: {
       type: DataTypes.STRING(45),
-      allowNull: false,
+      allowNull: true,
+      defaultValue: "Pending",
     },
     status:{
       type:DataTypes.STRING(45),

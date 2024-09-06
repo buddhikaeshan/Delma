@@ -9,6 +9,7 @@ function Packages() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedPackage, setSelectedPackage] = useState(null);
 
     const columns = ["Package ID", "Package Name", "Bed Type", "Price"];
     const btnName = "Add New Package";
@@ -38,19 +39,47 @@ function Packages() {
         }
     };
 
+    const handleDelete = async (rowIndex) => {
+        try {
+            const packageId = data[rowIndex][0];
+            const response = await fetch(`${config.BASE_URL}/packages/${packageId}`, {
+                method: 'DELETE',
+            });
 
-    const handleDelete = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+            if (!response.ok) {
+                throw new Error('Failed to delete package');
+            }
+            setData(prevData => prevData.filter((_, index) => index !== rowIndex));
+            console.log(`Package with ID ${packageId} deleted successfully`);
+            fetchPackage();
+        } catch (err) {
+            console.error('Error deleting package:', err);
+            setError(err.message);
+        }
     };
 
     const handleEdit = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+        const selectedPackageData = data[rowIndex];
+        setSelectedPackage({
+            packageId: selectedPackageData[0],
+            packageName: selectedPackageData[1],
+            bedType: selectedPackageData[2],
+            packagePrice: selectedPackageData[3],
+        });
+        setModalOpen(true);
     };
 
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
+
     const handleSave = (event) => {
-        event.preventDefault();
+        // Check if event is indeed an event object
+        if (event && typeof event.preventDefault === 'function') {
+            event.preventDefault();
+        } else {
+            console.error('Event object is missing or invalid');
+            return;
+        }
         console.log("Package information saved");
         setModalOpen(false);
         fetchPackage();
@@ -104,7 +133,7 @@ function Packages() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddPackages onClose={handleCloseModal} onSave={handleSave} />
+                                    <AddPackages onClose={handleCloseModal} onSave={handleSave} packages={selectedPackage} />
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import config from "../../config";
 
-function AddUsers({ onClose }) {
+function AddUsers({ onClose, onSave, user }) {
   const [formData, setFormData] = useState({
     userName: "",
     userType: "",
@@ -13,6 +13,21 @@ function AddUsers({ onClose }) {
   });
 
   const [errors, setErrors] = useState({});
+
+  // Pre-fill form if editing an existing user
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        userName: user.userName || "",
+        userType: user.userType || "",
+        userPassword: "",
+        userTP: user.userTP || "",
+        userNIC: user.userNIC || "",
+        userEmail: user.userEmail || "",
+        userAddress: user.userAddress || "",
+      });
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,9 +50,10 @@ function AddUsers({ onClose }) {
       newErrors.userType = "User Type is required.";
     }
 
-    if (!formData.userPassword) {
+    // Only validate password if creating a new user or changing password
+    if (!user && !formData.userPassword) {
       newErrors.userPassword = "Password is required.";
-    } else if (!passwordRegex.test(formData.userPassword)) {
+    } else if (formData.userPassword && !passwordRegex.test(formData.userPassword)) {
       newErrors.userPassword =
         "Password must have at least 8 characters, including upper/lowercase letters, numbers, and special characters.";
     }
@@ -63,34 +79,44 @@ function AddUsers({ onClose }) {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; 
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+    e.preventDefault(); 
+    if (!validateForm()) return; 
 
     try {
-      const response = await fetch(`${config.BASE_URL}/user`, {
-        method: "POST",
+      const method = user ? "PUT" : "POST"; 
+      const url = user
+        ? `${config.BASE_URL}/user/${user.userId}`
+        : `${config.BASE_URL}/user`;
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        setErrors({ form: data.error });
+        console.error("Error from API:", data);
+        setErrors({ form: data.error || "Error occurred" });
       } else {
+        const data = await response.json();
         setErrors({});
-        onClose();
+        onSave(data); 
+        onClose();    
       }
     } catch (err) {
-      setErrors({ form: "Failed to submit form" });
+      console.error("Request failed with error:", err);
+      setErrors({ form: "Failed to submit form. Check the console for more details." });
     }
   };
 
+
   return (
-    <form className="p-3" onSubmit={handleSubmit}>
+    <form className="p-3" onClick={handleSubmit}>
       {errors.form && <div className="alert alert-danger">{errors.form}</div>}
       <div className="row mb-3">
         <div className="col-md-6">
