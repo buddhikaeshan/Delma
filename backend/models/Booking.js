@@ -58,6 +58,11 @@ const Booking = sequelize.define(
       type: DataTypes.STRING(45),
       allowNull: false,
     },
+    status:{
+      type:DataTypes.STRING(45),
+      allowNull:false,
+      defaultValue: "Pending",
+    },
     // Foreign key to the customer table
     customers_customersId: {
       type: DataTypes.INTEGER,
