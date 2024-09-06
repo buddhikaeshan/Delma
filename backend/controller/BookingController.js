@@ -42,7 +42,7 @@ const createBooking = async (req, res) => {
       customerId = newCustomer.customersId;
     }
 
-    // Create a new booking
+    // Create a new booking with status set to 'Pending'
     const newBooking = await Booking.create({
       cusFullName,
       cusNIC,
@@ -56,6 +56,7 @@ const createBooking = async (req, res) => {
       roomNumber,
       payMethod,
       payStatus,
+      status: "Pending", // Set initial status
       customers_customersId: customerId, // Link the customer
     });
 
@@ -124,6 +125,7 @@ const updateBooking = async (req, res) => {
       roomNumber,
       payMethod,
       payStatus,
+      status,
     } = req.body;
 
     const booking = await Booking.findByPk(id);
@@ -131,7 +133,7 @@ const updateBooking = async (req, res) => {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    // Update only the booking-specific fields
+    // Update booking fields including status
     await booking.update({
       cusFullName,
       cusNIC,
@@ -145,6 +147,7 @@ const updateBooking = async (req, res) => {
       roomNumber,
       payMethod,
       payStatus,
+      status, // Update status
     });
 
     return res.status(200).json(booking);
@@ -190,25 +193,23 @@ const BookingCalendar = async (req, res) => {
     }
 
     // Create calendar events for all bookings
-    const calendarEvents = bookings.map(booking => ({
+    const calendarEvents = bookings.map((booking) => ({
       title: `Reservation for ${booking.cusFullName}`,
       start: booking.cusCheckIn,
-      end: booking.cusCheckOut
+      end: booking.cusCheckOut,
     }));
 
-    console.log('Passing to calendar:', calendarEvents);
-    
-    res.status(200).json({ 
-      message: "All bookings successfully passed to calendar",
-      events: calendarEvents
-    });
+    console.log("Passing to calendar:", calendarEvents);
 
+    res.status(200).json({
+      message: "All bookings successfully passed to calendar",
+      events: calendarEvents,
+    });
   } catch (error) {
-    console.error('Error passing bookings to calendar:', error);
+    console.error("Error passing bookings to calendar:", error);
     res.status(500).json({ error: `An error occurred: ${error.message}` });
   }
 };
-
 
 module.exports = {
   createBooking,

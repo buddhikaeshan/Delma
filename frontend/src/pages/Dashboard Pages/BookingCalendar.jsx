@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import SideBar from '../../components/SideBar/SideBar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import config from '../../config';
 
 function BookingCalendar() {
   const events = [
