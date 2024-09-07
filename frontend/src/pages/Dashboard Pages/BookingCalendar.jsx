@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import config from '../../config';
 
 // List of colors
-const colors = ['purple', 'blue', 'green', 'orange', 'red'];
+const colors = ['purple', 'blue', 'green', 'orange', 'yellow'];
 
 function BookingCalendar() {
   const [events, setEvents] = useState([]);
