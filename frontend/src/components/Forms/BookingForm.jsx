@@ -1,239 +1,219 @@
 import React, { useState, useEffect } from 'react';
-import config from '../../config';
 
-function BookingForm({ onSave, onClose, bookingData }) {
+function BookingForm({ onSave, onClose, booking }) {
     const [formData, setFormData] = useState({
-        fullName: '',
-        mobileNumber: '',
-        nic: '',
-        email: '',
-        checkIn: '',
-        checkOut: '',
-        persons: '',
-        roomType: '',
-        payMethod: '',
+        cusFullName: '',
+        cusNIC: '',
+        cusTP: '',
+        cusEmail: '',
+        cusAddress: '',
+        cusCheckIn: '',
+        cusCheckOut: '',
+        numberOfPersons: 1,
+        roomType: 'Select The Room Type',
+        payMethod: 'Select The Payment Method',
     });
-    const [error, setError] = useState(null);
 
+    const [errors, setErrors] = useState({});
+
+    // Use effect to update form data when editing a booking
     useEffect(() => {
-        if (bookingData) {
+        if (booking) {
             setFormData({
-                fullName: bookingData.fullName || '',
-                mobileNumber: bookingData.mobileNumber || '',
-                nic: bookingData.nic || '',
-                email: bookingData.email || '',
-                checkIn: bookingData.checkIn || '',
-                checkOut: bookingData.checkOut || '',
-                persons: bookingData.persons || '',
-                roomType: bookingData.roomType || '',
-                payMethod: bookingData.payMethod || '',
+                cusFullName: booking.cusFullName || '',
+                cusNIC: booking.cusNIC || '',
+                cusTP: booking.cusTP || '',
+                cusEmail: booking.cusEmail || '',
+                cusAddress: booking.cusAddress || '',
+                cusCheckIn: booking.cusCheckIn || '',
+                cusCheckOut: booking.cusCheckOut || '',
+                numberOfPersons: booking.numberOfPersons || 1,
+                roomType: booking.roomType || 'Select The Room Type',
+                payMethod: booking.payMethod || 'Select The Payment Method',
             });
         }
-    }, [bookingData]);
+    }, [booking]);  // Run this when `booking` prop changes
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+    // Regex for phone number (example: must be 10 digits)
+    const phoneRegex = /^[0-9]{10}$/;
+
+    const validate = () => {
+        const newErrors = {};
+        if (!phoneRegex.test(formData.cusTP)) {
+            newErrors.cusTP = 'Phone number must be 10 digits';
+        }
+        // You can add more validation rules here (e.g., email, NIC, etc.)
+        if (!formData.cusFullName.trim()) {
+            newErrors.cusFullName = 'Full Name is required';
+        }
+        if (!formData.cusNIC.trim()) {
+            newErrors.cusNIC = 'NIC is required';
+        }
+        if (!formData.cusEmail.trim()) {
+            newErrors.cusEmail = 'Email is required';
+        }
+        if (!formData.roomType || formData.roomType === 'Select The Room Type') {
+            newErrors.roomType = 'Please select a room type';
+        }
+        if (!formData.payMethod || formData.payMethod === 'Select The Payment Method') {
+            newErrors.payMethod = 'Please select a payment method';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setError(null);
-
-        if (!formData.fullName || !formData.mobileNumber || !formData.email || !formData.nic || !formData.checkIn || !formData.checkOut || !formData.persons || !formData.roomType || !formData.payMethod) {
-            setError("All fields are required.");
-            return;
-        }
-
-        try {
-            const method = bookingData ? 'PUT' : 'POST';
-            const url = bookingData
-                ? `${config.BASE_URL}/booking/${bookingData.id}`
-                : `${config.BASE_URL}/booking`;
-
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cusFullName: formData.fullName,
-                    cusNIC: formData.nic,
-                    cusTP: formData.mobileNumber,
-                    cusEmail: formData.email,
-                    cusCheckIn: formData.checkIn,
-                    cusCheckOut: formData.checkOut,
-                    numberOfPersons: formData.persons,
-                    roomType: formData.roomType,
-                    payMethod: formData.payMethod,
-                }),
-            });
-
-            const contentType = response.headers.get('Content-Type');
-            if (!response.ok || !contentType || !contentType.includes('application/json')) {
-                const text = await response.text(); // Get response as text
-                throw new Error(`Unexpected response: ${text}`);
-            }
-
-            const data = await response.json();
-            onSave(data);
+        if (validate()) {
+            onSave(formData);
             onClose();
-        } catch (error) {
-            setError(error.message || "An error occurred while saving the booking.");
-            console.error('Error:', error);
         }
     };
 
     return (
-        <form className="p-3" onSubmit={handleSubmit}>
-            {error && <div className="alert alert-danger">{error}</div>}
-            <div className="row mb-3">
-                <div className="form-group">
-                    <h5 htmlFor="fullName">Full Name</h5>
+        <form onSubmit={handleSubmit} className='p-3'>
+            <div className='row mb-3'>
+                <div className='col-md-6'>
+                    <h5>Full Name:</h5>
                     <input
+                        className='form-control'
                         type="text"
-                        id="fullName"
-                        name="fullName"
-                        className="form-control"
-                        placeholder="Full Name"
-                        value={formData.fullName}
+                        name="cusFullName"
+                        value={formData.cusFullName}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.cusFullName && <small className="text-danger">{errors.cusFullName}</small>}
+                </div>
+                <div className='col-md-6'>
+                    <h5>NIC:</h5>
+                    <input
+                        className='form-control'
+                        type="text"
+                        name="cusNIC"
+                        value={formData.cusNIC}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.cusNIC && <small className="text-danger">{errors.cusNIC}</small>}
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div className='col-md-6'>
+                    <h5>Telephone:</h5>
+                    <input
+                        className='form-control'
+                        type="text"
+                        name="cusTP"
+                        value={formData.cusTP}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.cusTP && <small className="text-danger">{errors.cusTP}</small>}
+                </div>
+                <div className='col-md-6'>
+                    <h5>Email:</h5>
+                    <input
+                        className='form-control'
+                        type="email"
+                        name="cusEmail"
+                        value={formData.cusEmail}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.cusEmail && <small className="text-danger">{errors.cusEmail}</small>}
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div>
+                    <h5>Address:</h5>
+                    <input
+                        className='form-control'
+                        type="text"
+                        name="cusAddress"
+                        value={formData.cusAddress}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div className='col-md-6'>
+                    <h5>Check-in Date:</h5>
+                    <input
+                        className='form-control'
+                        type="date"
+                        name="cusCheckIn"
+                        value={formData.cusCheckIn}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className='col-md-6'>
+                    <h5>Check-out Date:</h5>
+                    <input
+                        className='form-control'
+                        type="date"
+                        name="cusCheckOut"
+                        value={formData.cusCheckOut}
                         onChange={handleChange}
                         required
                     />
                 </div>
             </div>
 
-            <div className="row mb-3">
-                <div className="form-group">
-                    <h5 htmlFor="mobileNumber">Mobile Number</h5>
+            <div className='row mb-3'>
+                <div className='col-md-6'>
+                    <h5>Number of Persons:</h5>
                     <input
-                        type="text"
-                        id="mobileNumber"
-                        name="mobileNumber"
-                        className="form-control"
-                        placeholder="Mobile Number"
-                        value={formData.mobileNumber}
+                        className='form-control'
+                        type="number"
+                        name="numberOfPersons"
+                        value={formData.numberOfPersons}
                         onChange={handleChange}
                         required
                     />
                 </div>
-            </div>
 
-            <div className="row mb-3">
                 <div className='col-md-6'>
-                    <div className="form-group">
-                        <h5 htmlFor="nic">NIC</h5>
-                        <input
-                            type="text"
-                            id="nic"
-                            name="nic"
-                            className="form-control"
-                            placeholder="NIC"
-                            value={formData.nic}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-                <div className='col-md-6'>
-                    <div className="form-group">
-                        <h5 htmlFor="email">Email</h5>
-                        <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            className="form-control"
-                            placeholder="Email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <h5>Room Type:</h5>
+                    <select
+                        className='form-control'
+                        name="roomType"
+                        value={formData.roomType}
+                        onChange={handleChange}
+                    >
+                        <option value="selectRoomType">- Select The Room Type -</option>
+                        <option value="single">Single</option>
+                        <option value="double">Double</option>
+                        <option value="suite">Suite</option>
+                    </select>
+                    {errors.roomType && <small className="text-danger">{errors.roomType}</small>}
                 </div>
             </div>
 
-            <div className="row mb-3">
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <h5 htmlFor="checkIn">Check In</h5>
-                        <input
-                            type="date"
-                            id="checkIn"
-                            name="checkIn"
-                            className="form-control"
-                            value={formData.checkIn}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <h5 htmlFor="checkOut">Check Out</h5>
-                        <input
-                            type="date"
-                            id="checkOut"
-                            name="checkOut"
-                            className="form-control"
-                            value={formData.checkOut}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div className="row mb-3">
+            <div className='row mb-3'>
                 <div className='col-md-6'>
-                    <div className="form-group">
-                        <h5 htmlFor="persons">Persons</h5>
-                        <input
-                            type="number"
-                            id="persons"
-                            name="persons"
-                            className="form-control"
-                            placeholder="Persons"
-                            value={formData.persons}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-                <div className='col-md-6'>
-                    <div className="form-group">
-                        <h5 htmlFor="roomType">Room Type</h5>
-                        <select
-                            className="form-control"
-                            value={formData.roomType}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="single">Single</option>
-                            <option value="double">Double</option>
-                            <option value="triple">Triple</option>
-                        </select>,
-                    </div>
-                </div>
-            </div>
-
-            <div className="row mb-3">
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <h5 htmlFor="payMethod">Pay Method</h5>
-                        <input
-                            type="text"
-                            id="payMethod"
-                            name="payMethod"
-                            className="form-control"
-                            placeholder="Pay Method"
-                            value={formData.payMethod}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <h5>Payment Method:</h5>
+                    <select
+                        className='form-control'
+                        name="payMethod"
+                        value={formData.payMethod}
+                        onChange={handleChange}
+                    >
+                        <option value="selectPaymentMethod">- Select The Payment Method -</option>
+                        <option value="card">Card</option>
+                        <option value="cash">Cash</option>
+                    </select>
+                    {errors.payMethod && <small className="text-danger">{errors.payMethod}</small>}
                 </div>
             </div>
 
@@ -242,7 +222,7 @@ function BookingForm({ onSave, onClose, bookingData }) {
                     Close
                 </button>
                 <button type="submit" className="btn btn-success">
-                    Save Changes
+                    {booking ? 'Update' : 'Save Changes'}
                 </button>
             </div>
         </form>

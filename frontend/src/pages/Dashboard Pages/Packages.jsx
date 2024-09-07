@@ -70,19 +70,41 @@ function Packages() {
     };
 
     const handleOpenModal = () => setModalOpen(true);
-    const handleCloseModal = () => setModalOpen(false);
-
-    const handleSave = (event) => {
-        // Check if event is indeed an event object
-        if (event && typeof event.preventDefault === 'function') {
-            event.preventDefault();
-        } else {
-            console.error('Event object is missing or invalid');
-            return;
-        }
-        console.log("Package information saved");
+    const handleCloseModal = () => {
+        setSelectedPackage(null);
         setModalOpen(false);
-        fetchPackage();
+    }
+
+    const handleSave = async (formData) => {
+        try {
+            let url = `${config.BASE_URL}/packages`;
+            let method = 'POST';
+
+            // If editing, update the booking
+            if (selectedPackage) {
+                url = `${config.BASE_URL}/packages/${selectedPackage.packageId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log('Package saved successfully');
+                fetchPackage();
+            } else {
+                console.error('Error saving package');
+            }
+        } catch (error) {
+            console.error('Error saving package:', error);
+        } finally {
+            setModalOpen(false);
+        }
     };
 
     return (

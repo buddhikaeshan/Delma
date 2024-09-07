@@ -72,19 +72,42 @@ function Rooms() {
         setModalOpen(true);
     };
 
-    const handleOpenModal = () => {
-        setSelectedRoom(null); // Clear selected room when opening modal for new entry
-        setModalOpen(true);
-    };
-
+    const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => {
         setSelectedRoom(null);
         setModalOpen(false);
     };
 
-    const handleSave = async () => {
-        await fetchRooms();
-        setModalOpen(false);
+    const handleSave = async (formData) => {
+        try {
+            let url = `${config.BASE_URL}/rooms`;
+            let method = 'POST';
+
+            // If editing, update 
+            if (selectedRoom) {
+                url = `${config.BASE_URL}/rooms/${selectedRoom.roomId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log('Room saved successfully');
+                fetchRooms();
+            } else {
+                console.error('Error saving room');
+            }
+        } catch (error) {
+            console.error('Error saving room:', error);
+        } finally {
+            setModalOpen(false);
+        }
     };
 
     return (
@@ -135,10 +158,10 @@ function Rooms() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddRoom 
-                                        onClose={handleCloseModal} 
-                                        onSave={handleSave} 
-                                        room={selectedRoom} 
+                                    <AddRoom
+                                        onClose={handleCloseModal}
+                                        onSave={handleSave}
+                                        room={selectedRoom}
                                     />
                                 </div>
                             </div>

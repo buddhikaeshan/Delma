@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import config from '../../config';
-
 function AddRoom({ onClose, onSave, room }) {
     const [formData, setFormData] = useState({
         roomNumber: '',
@@ -24,43 +22,38 @@ function AddRoom({ onClose, onSave, room }) {
     }, [room]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
-        try {
-            const method = room ? 'PUT' : 'POST';
-            const url = room
-                ? `${config.BASE_URL}/rooms/${room.roomId}`
-                : `${config.BASE_URL}/rooms`;
 
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to save room');
-            }
-
-            const data = await response.json();
-            console.log('Room saved successfully:', data);
-            onSave();
-            onClose();
-        } catch (error) {
-            console.error('Error saving room:', error);
-            setError(error.message);
+        // Basic input validation
+        if (!formData.roomNumber || !formData.roomType || !formData.price || !formData.bedType) {
+            setError("All fields are required.");
+            return;
         }
+
+        if (isNaN(formData.price)) {
+            setError("Price must be a valid number.");
+            return;
+        }
+
+        // Call the onSave function with the form data
+        onSave({
+            roomNumber: formData.roomNumber,
+            roomType: formData.roomType,
+            price: parseFloat(formData.price),
+            bedType: formData.bedType,
+        });
+
+        // Close the form after saving
+        onClose();
+
     };
 
     return (
@@ -159,7 +152,7 @@ function AddRoom({ onClose, onSave, room }) {
                     type="submit"
                     className="btn btn-success"
                 >
-                    Save Changes
+                    {room ? 'Update' : 'Save Changes'}
                 </button>
             </div>
         </form>

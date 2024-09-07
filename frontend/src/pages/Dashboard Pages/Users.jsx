@@ -19,6 +19,8 @@ function Users() {
     }, []);
 
     const fetchUsers = async () => {
+        setIsLoading(true);
+        setError(null);
         try {
             const response = await fetch(`${config.BASE_URL}/user`);
             if (!response.ok) {
@@ -36,9 +38,9 @@ function Users() {
                 user.userStatus,
             ]);
             setData(formattedData);
-            setIsLoading(false);
         } catch (err) {
             setError(err.message);
+        } finally {
             setIsLoading(false);
         }
     };
@@ -53,39 +55,62 @@ function Users() {
             userNIC: selectedUserData[4],
             userEmail: selectedUserData[5],
             userAddress: selectedUserData[6],
-
         });
         setModalOpen(true);
     };
 
     const handleDelete = async (rowIndex) => {
+        const userId = data[rowIndex][0];
         try {
-            const userId = data[rowIndex][0];
             const response = await fetch(`${config.BASE_URL}/user/${userId}`, {
                 method: 'DELETE',
             });
 
             if (!response.ok) {
-                throw new Error('Failed to delete User');
+                throw new Error('Failed to delete user');
             }
 
             setData(prevData => prevData.filter((_, index) => index !== rowIndex));
             console.log(`User with ID ${userId} deleted successfully`);
-            fetchUsers();
         } catch (err) {
             console.error('Error deleting user:', err);
             setError(err.message);
         }
     };
 
-
     const handleOpenModal = () => setModalOpen(true);
-    const handleCloseModal = () => setModalOpen(false);
-    const handleSave = (event) => {
-        event.preventDefault();
-        console.log("User information saved");
-        fetchUsers();
+    const handleCloseModal = () => {
+        setSelectedUser(null);
         setModalOpen(false);
+    };
+
+    const handleSave = async (formData) => {
+        const isEditing = Boolean(selectedUser);
+        const url = isEditing
+            ? `${config.BASE_URL}/user/${selectedUser.userId}`
+            : `${config.BASE_URL}/user`;
+        const method = isEditing ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save user');
+            }
+
+            console.log('User saved successfully');
+            fetchUsers();
+        } catch (error) {
+            console.error('Error saving user:', error);
+        } finally {
+            handleCloseModal();
+        }
     };
 
     return (
@@ -115,7 +140,7 @@ function Users() {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header bg-success text-white">
-                                    <h5 className="modal-title">Add New User</h5>
+                                    <h5 className="modal-title">{selectedUser ? "Edit User" : "Add New User"}</h5>
                                     <button
                                         type="button"
                                         className="close"
@@ -144,7 +169,7 @@ function Users() {
                 )}
             </div>
         </div>
-    )
+    );
 }
 
 export default Users;

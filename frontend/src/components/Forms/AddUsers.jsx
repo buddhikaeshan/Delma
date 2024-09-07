@@ -29,11 +29,6 @@ function AddUsers({ onClose, onSave, user }) {
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); 
-  };
-
   const validateForm = () => {
     const newErrors = {};
     const mobileRegex = /^[0-9]{10}$/;
@@ -79,44 +74,48 @@ function AddUsers({ onClose, onSave, user }) {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; 
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    if (!validateForm()) return; 
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        const method = user ? "PUT" : "POST";
+        const url = user
+          ? `${config.BASE_URL}/user/${user.userId}`
+          : `${config.BASE_URL}/user`;
 
-    try {
-      const method = user ? "PUT" : "POST"; 
-      const url = user
-        ? `${config.BASE_URL}/user/${user.userId}`
-        : `${config.BASE_URL}/user`;
+        const response = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
 
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        console.error("Error from API:", data);
-        setErrors({ form: data.error || "Error occurred" });
-      } else {
-        const data = await response.json();
-        setErrors({});
-        onSave(data); 
-        onClose();    
+        if (!response.ok) {
+          const data = await response.json();
+          console.error("Error from API:", data);
+          setErrors({ form: data.error || "Error occurred" });
+        } else {
+          const data = await response.json();
+          setErrors({});
+          onSave(data);
+          onClose();
+        }
+      } catch (err) {
+        console.error("Request failed with error:", err);
+        setErrors({ form: "Failed to submit form. Check the console for more details." });
       }
-    } catch (err) {
-      console.error("Request failed with error:", err);
-      setErrors({ form: "Failed to submit form. Check the console for more details." });
     }
   };
 
-
   return (
-    <form className="p-3" onClick={handleSubmit}>
+    <form className="p-3" onSubmit={handleSubmit}>
       {errors.form && <div className="alert alert-danger">{errors.form}</div>}
       <div className="row mb-3">
         <div className="col-md-6">
@@ -243,7 +242,7 @@ function AddUsers({ onClose, onSave, user }) {
           Close
         </button>
         <button type="submit" className="btn btn-success">
-          Save Changes
+          {user ? 'Update' : 'Save Changes'}
         </button>
       </div>
     </form>

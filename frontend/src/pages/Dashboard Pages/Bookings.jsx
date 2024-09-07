@@ -16,6 +16,7 @@ function Bookings() {
         'Name',
         'Mobile Number',
         'Email',
+        'Address',
         'NIC',
         'Check In',
         'Check Out',
@@ -43,6 +44,7 @@ function Bookings() {
                 booking.cusFullName,
                 booking.cusTP,
                 booking.cusEmail,
+                booking.cusAddress,
                 booking.cusNIC,
                 booking.cusCheckIn,
                 booking.cusCheckOut,
@@ -99,7 +101,7 @@ function Bookings() {
                                 <option value="Unpaid">Unpaid</option>
                                 <option value="Pending">Pending</option>
                             </select>,
-                            item[10] // Keep the status field intact
+                            item[10]
                         ]
                         : item
                 )
@@ -111,18 +113,21 @@ function Bookings() {
 
     const handleEdit = (rowIndex) => {
         const selectedBookingData = data[rowIndex];
+
         setSelectedBooking({
             bookingId: selectedBookingData[0],
             cusFullName: selectedBookingData[1],
             cusTP: selectedBookingData[2],
             cusEmail: selectedBookingData[3],
-            cusNIC: selectedBookingData[4],
-            cusCheckIn: selectedBookingData[5],
-            cusCheckOut: selectedBookingData[6],
-            numberOfPersons: selectedBookingData[7],
-            roomType: selectedBookingData[8],
-            payMethod: selectedBookingData[9],
+            cusAddress: selectedBookingData[4],
+            cusNIC: selectedBookingData[5],
+            cusCheckIn: selectedBookingData[6],
+            cusCheckOut: selectedBookingData[7],
+            numberOfPersons: selectedBookingData[8],
+            roomType: selectedBookingData[9],
+            payMethod: selectedBookingData[10],
         });
+
         setModalOpen(true);
     };
 
@@ -152,17 +157,42 @@ function Bookings() {
         setModalOpen(false);
     };
 
-    const handleSave = (event) => {
-        event.preventDefault();
-        console.log('Booking information saved');
-        setModalOpen(false);
-        fetchBooking(); // Refetch bookings after saving
+    const handleSave = async (formData) => {
+        try {
+            let url = `${config.BASE_URL}/booking`;
+            let method = 'POST';
+
+            // If editing, update the booking
+            if (selectedBooking) {
+                url = `${config.BASE_URL}/booking/${selectedBooking.bookingId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log('Booking saved successfully');
+                fetchBooking();
+            } else {
+                console.error('Error saving booking');
+            }
+        } catch (error) {
+            console.error('Error saving booking:', error);
+        } finally {
+            setModalOpen(false);
+        }
     };
 
     return (
         <div className="d-flex">
             <SideBar />
-            <div className="flex-grow-1 p-3">
+            <div className="flex-grow-1 p-5" >
                 <h2>Bookings</h2>
                 {isLoading ? (
                     <p>Loading...</p>
@@ -170,6 +200,7 @@ function Bookings() {
                     <p>Error: {error}</p>
                 ) : (
                     <Table
+                        style={{ width: '100%', height: '500px', overflow: 'auto' }}
                         data={data}
                         columns={columns}
                         btnName={btnName}
