@@ -20,6 +20,7 @@ import UserPackages from './pages/UserDashboard/UserPackages';
 import UserRooms from './pages/UserDashboard/UserRooms';
 import Login from "./pages/Login/Login";
 import ProtectedRoute from './components/ProtectedRoute';
+import BookingConfirm from "./components/BookingConfirm/BookingConfirm";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cusBooking" element={<CusBookingForm />} />
+          <Route path="/confirm" element={<BookingConfirm />} />
 
           {/* Admin routes */}
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
