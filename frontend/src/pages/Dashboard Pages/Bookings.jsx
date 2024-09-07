@@ -63,7 +63,7 @@ function Bookings() {
                     <option value="Unpaid">Unpaid</option>
                     <option value="Pending">Pending</option>
                 </select>,
-                booking.status,
+                booking.payStatus,
             ]);
             setData(formattedData);
             setIsLoading(false);
@@ -88,23 +88,35 @@ function Bookings() {
             }
 
             setData((prevData) =>
-                prevData.map((item) =>
-                    item[0] === id
-                        ? [
-                            ...item.slice(0, 9),
+                prevData.map((item) => {
+                    if (item[0] === id) {
+                        return [
+                            item[0],
+                            item[1],
+                            item[2],
+                            item[3],
+                            item[4],
+                            item[5],
+                            item[6],
+                            item[7],
+                            item[8],
+                            item[9],
+                            item[10],
                             <select
                                 key={`payStatus-${id}`}
                                 value={newStatus}
                                 onChange={(e) => handleStatusChange(id, e.target.value)}
+                                className="form-control"
                             >
                                 <option value="Paid">Paid</option>
                                 <option value="Unpaid">Unpaid</option>
                                 <option value="Pending">Pending</option>
                             </select>,
-                            item[10]
-                        ]
-                        : item
-                )
+                            item[12],
+                        ];
+                    }
+                    return item;
+                })
             );
         } catch (error) {
             console.error('Failed to update status:', error);
@@ -192,7 +204,7 @@ function Bookings() {
     return (
         <div className="d-flex">
             <SideBar />
-            <div className="flex-grow-1 p-3" >
+            <div className="flex-grow-1 p-3" style={{ maxWidth: '100%', overflow: 'auto' }}>
                 <h2>Bookings</h2>
                 {isLoading ? (
                     <p>Loading...</p>
@@ -200,7 +212,6 @@ function Bookings() {
                     <p>Error: {error}</p>
                 ) : (
                     <Table
-                        style={{ width: '100%', height: '500px', overflow: 'auto' }}
                         data={data}
                         columns={columns}
                         btnName={btnName}

@@ -1,9 +1,35 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import SidebarUser from '../../components/SidebarUser/SidebarUser';
+import axios from 'axios';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import config from '../../config';
 
-function BookingCalendar() {
+const colors = ['purple', 'blue', 'green', 'orange', 'yellow'];
+function UserBookingCalender() {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.post(`${config.BASE_URL}/booking/calendar`);
+        if (response.status === 200) {
+          const eventsWithColors = response.data.events.map((event, index) => {
+            const color = colors[index % colors.length];
+            return { ...event, backgroundColor: color };
+          });
+          setEvents(eventsWithColors);
+        }
+      } catch (error) {
+        console.error('Error fetching bookings:', error);
+      }
+    };
+
+    fetchBookings();
+  }, []);
   return (
     <div className="d-flex">
       <SidebarUser />
@@ -14,20 +40,24 @@ function BookingCalendar() {
         <div className="d-flex justify-content-center align-items-center">
           <div style={{ width: '175vh', height: '85vh', overflow: 'auto' }}>
             <FullCalendar
-              plugins={[dayGridPlugin]}
+              plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
               initialView="dayGridMonth"
               weekends={true}
-              events={[
-                { title: 'Event 1', date: '2024-09-01' },
-                { title: 'Event 2', date: '2024-09-02' },
-              ]}
+              events={events}
+              editable={true}
+              dayMaxEvents={true}
               height="100%"
+              headerToolbar={{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+              }}
             />
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default BookingCalendar;
+export default UserBookingCalender
