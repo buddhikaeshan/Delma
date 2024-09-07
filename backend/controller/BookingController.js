@@ -179,7 +179,7 @@ const countBookings = async (req, res) => {
 const BookingCalendar = async (req, res) => {
   try {
     // Fetch all bookings from the database
-    const bookings = await Booking.findAll(); // Adjust the query method if needed (e.g., Booking.find() for MongoDB)
+    const bookings = await Booking.findAll(); 
 
     // Check if there are no bookings
     if (bookings.length === 0) {
