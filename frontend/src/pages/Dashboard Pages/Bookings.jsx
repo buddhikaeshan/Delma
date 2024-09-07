@@ -192,7 +192,7 @@ function Bookings() {
     return (
         <div className="d-flex">
             <SideBar />
-            <div className="flex-grow-1 p-5" >
+            <div className="flex-grow-1 p-3" >
                 <h2>Bookings</h2>
                 {isLoading ? (
                     <p>Loading...</p>

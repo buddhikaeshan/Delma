@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import './Login.css';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import config from "../../config";
+
 
 const Login = () => {
     const [userName, setUserName] = useState("");
@@ -22,7 +24,7 @@ const Login = () => {
         setError("");
       
         try {
-          const response = await axios.post("http://localhost:5000/loginUser", {
+          const response = await axios.post(`${config.BASE_URL}/loginUser`, {
             userName,
             userPassword,
           });
@@ -30,7 +32,7 @@ const Login = () => {
           const { token, user } = response.data;
       
           localStorage.setItem("token", token);
-          localStorage.setItem("userType", user.userType); // Store userType
+          localStorage.setItem("userType", user.userType); 
       
           if (user.userType === "Admin") {
             navigate("/dashboard");
@@ -75,11 +77,11 @@ const Login = () => {
                     <button className="sign" type="submit">Login</button>
                 </form>
 
-                <div className="signup-box">
+                {/* <div className="signup-box">
                     <p className="signup">Don't have an account?
                         <a rel="noopener noreferrer" href="#" className="">Sign up</a>
                     </p>
-                </div>
+                </div> */}
             </div>
         </div>
     );
