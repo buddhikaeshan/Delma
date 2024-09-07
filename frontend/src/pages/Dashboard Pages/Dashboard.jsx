@@ -19,17 +19,14 @@ function Dashboard() {
         setCustomer(customerCount.size);
 
         // rooms
-        const roomRes = await axios.get('https://localhost:5000/rooms');
+        const roomRes = await axios.get('http://localhost:5000/rooms');
         const roomCount = new Set(roomRes.data.map(item => item.roomNumber));
         setRooms(roomCount.size);
 
         // booking
-        const bookingRes = await axios.get('https://localhost:5000/booking')
+        const bookingRes = await axios.get('http://localhost:5000/booking')
         const bookingCount = new Set(bookingRes.data.map(item=>item.bookingId));
         setBooking(bookingCount.size)
-
-        // income
-        const incomeRes =await axios.get('https://localhost:5000/')
 
       } catch (error){
         console.error('Error fetching dashboard data:', error);
@@ -65,13 +62,6 @@ function Dashboard() {
               num={customers}
               bgColor="bg-gradient-to-r from-green-400 to-teal-500"
             />
-
-            <Panel
-              title={"Income"}
-              num={income}
-              bgColor="bg-gradient-to-r  from-green-400 to-teal-500 "
-            />
-
           </main>
         </div>
       </div>
