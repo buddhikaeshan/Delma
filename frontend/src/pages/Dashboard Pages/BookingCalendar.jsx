@@ -3,6 +3,8 @@ import axios from 'axios';
 import SideBar from '../../components/SideBar/SideBar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 import config from '../../config';
 
 // List of colors
@@ -40,13 +42,18 @@ function BookingCalendar() {
         <div className="d-flex justify-content-center align-items-center">
           <div style={{ width: '175vh', height: '85vh', overflow: 'auto' }}>
             <FullCalendar
-              plugins={[dayGridPlugin]}
+              plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
               initialView="dayGridMonth"
               weekends={true}
               events={events}
               editable={true}
               dayMaxEvents={true}
               height="100%"
+              headerToolbar={{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+              }}
             />
           </div>
         </div>
