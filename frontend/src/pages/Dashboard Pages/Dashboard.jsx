@@ -31,7 +31,7 @@ function Dashboard() {
         // income
         const incomeRes =await axios.get('https://localhost:5000/')
 
-      } catch (error) {
+      } catch (error){
         console.error('Error fetching dashboard data:', error);
       }
     };
