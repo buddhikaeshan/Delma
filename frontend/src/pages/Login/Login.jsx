@@ -20,26 +20,28 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-
+      
         try {
-            const response = await axios.post("http://localhost:5000/loginUser", {
-                userName,
-                userPassword,
-            });
-
-            const { token, user } = response.data;
-
-            localStorage.setItem("token", token);
-
-            if (user.userType === "Admin") {
-                navigate("/dashboard");
-            } else if (user.userType === "User") {
-                navigate("/dashboardUser");
-            }
+          const response = await axios.post("http://localhost:5000/loginUser", {
+            userName,
+            userPassword,
+          });
+      
+          const { token, user } = response.data;
+      
+          localStorage.setItem("token", token);
+          localStorage.setItem("userType", user.userType); // Store userType
+      
+          if (user.userType === "Admin") {
+            navigate("/dashboard");
+          } else if (user.userType === "User") {
+            navigate("/dashboardUser");
+          }
         } catch (err) {
-            setError(err.response?.data?.error || "An error occurred. Please try again.");
+          setError(err.response?.data?.error || "An error occurred. Please try again.");
         }
-    };
+      };
+      
 
     return (
         <div className="login-container">

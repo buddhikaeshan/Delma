@@ -25,35 +25,35 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Check if token exists in localStorage and set the authentication state accordingly
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuthenticated(true);
+      setIsAuthenticated(true); // User is authenticated if the token is found
     }
-  }, []);
+  }, []); // This effect runs once, when the app mounts
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sidebar" element={<SideBar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cusBooking" element={<CusBookingForm />} />
 
           {/* Admin routes */}
-          <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/rooms" element={<ProtectedRoute element={<Rooms />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/bookingCalendar" element={<ProtectedRoute element={<BookingCalendar />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/bookings" element={<ProtectedRoute element={<Bookings />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/packages" element={<ProtectedRoute element={<Packages />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/galleryPage" element={<ProtectedRoute element={<GalleryPage />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/users" element={<ProtectedRoute element={<Users />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
+          <Route path="/rooms" element={<ProtectedRoute element={<Rooms />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
+          <Route path="/bookingCalendar" element={<ProtectedRoute element={<BookingCalendar />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
+          <Route path="/bookings" element={<ProtectedRoute element={<Bookings />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
+          <Route path="/packages" element={<ProtectedRoute element={<Packages />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
+          <Route path="/galleryPage" element={<ProtectedRoute element={<GalleryPage />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
+          <Route path="/users" element={<ProtectedRoute element={<Users />} isAuthenticated={isAuthenticated} allowedRoles={["Admin"]} />} />
 
           {/* User routes */}
-          <Route path="/dashboardUser" element={<ProtectedRoute element={<UserBookingCalender />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/bookingUser" element={<ProtectedRoute element={<UserBooking />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/packagesUser" element={<ProtectedRoute element={<UserPackages />} isAuthenticated={isAuthenticated} />} />
-          <Route path="/roomsUser" element={<ProtectedRoute element={<UserRooms />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/dashboardUser" element={<ProtectedRoute element={<UserBookingCalender />} isAuthenticated={isAuthenticated} allowedRoles={["User"]} />} />
+          <Route path="/roomsUser" element={<ProtectedRoute element={<UserRooms />} isAuthenticated={isAuthenticated} allowedRoles={["User"]} />} />
+          <Route path="/bookingUser" element={<ProtectedRoute element={<UserBooking />} isAuthenticated={isAuthenticated} allowedRoles={["User"]} />} />
+          <Route path="/packagesUser" element={<ProtectedRoute element={<UserPackages />} isAuthenticated={isAuthenticated} allowedRoles={["User"]} />} />
         </Routes>
       </BrowserRouter>
     </div>
@@ -61,4 +61,3 @@ function App() {
 }
 
 export default App;
-
