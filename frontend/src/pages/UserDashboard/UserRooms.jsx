@@ -1,78 +1,113 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import SidebarUser from '../../components/SidebarUser/SidebarUser';
 import Table from '../../components/Table';
 import AddRoom from '../../components/Forms/AddRoom';
 import config from '../../config';
 
 function Rooms() {
-    const columns = ["Room ID", "Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night", "Status"];
-    const [rooms, setRooms] = useState([]);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedRoom, setSelectedRoom] = useState(null);
+
+    const columns = ["Room ID", "Room Number", "Room Type", "Bed Type", "Room Capacity", "Price Per Night"];
+    const btnName = "Add New Room";
 
     useEffect(() => {
-
         fetchRooms();
-
     }, []);
 
     const fetchRooms = async () => {
         try {
-            const response = await axios.get(`${config.BASE_URL}/rooms`);
-            setRooms(response.data);
-        } catch (error) {
-            console.error("Error fetching rooms:", error);
-        }
-    };
-    const handleStatusChange = async (roomId, newStatus) => {
-        try {
-            const response = await axios.put(`${config.API_URL}/rooms/${roomId}`, { status: newStatus });
-            console.log('Room status updated:', response.data);
-            setRooms(prevRooms =>
-                prevRooms.map(room =>
-                    room.id === roomId ? { ...room, status: newStatus } : room
-                )
-            );
-        } catch (error) {
-            console.error('Error updating room status:', error);
+            const response = await fetch(`${config.BASE_URL}/rooms`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch rooms');
+            }
+            const rooms = await response.json();
+            const formattedData = rooms.map(room => [
+                room.roomId,
+                room.roomNumber,
+                room.roomType,
+                room.bedType,
+                room.roomCapacity,
+                room.price,
+            ]);
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
         }
     };
 
     const handleDelete = async (rowIndex) => {
-        const roomToDelete = rooms[rowIndex];
-
-        if (!roomToDelete) {
-            alert("Room not found.");
-            return;
-        }
-
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete the Room "${roomToDelete.roomNumber}"?`
-        );
-
-        if (!confirmDelete) return;
-
         try {
-            await axios.delete(`${config.BASE_URL}/rooms/${roomToDelete.roomId}`);
-            setRooms((prev) => prev.filter((_, index) => index !== rowIndex));
-            alert("Room deleted successfully.");
-        } catch (error) {
-            console.error("Error deleting Room:", error);
-            alert("Failed to delete the Room. Please try again.");
+            const roomId = data[rowIndex][0];
+            const response = await fetch(`${config.BASE_URL}/rooms/${roomId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete room');
+            }
+
+            setData(prevData => prevData.filter((_, index) => index !== rowIndex));
+            fetchRooms();
+        } catch (err) {
+            setError(err.message);
         }
     };
 
     const handleEdit = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+        const selectedRoomData = data[rowIndex];
+        setSelectedRoom({
+            roomId: selectedRoomData[0],
+            roomNumber: selectedRoomData[1],
+            roomType: selectedRoomData[2],
+            bedType: selectedRoomData[3],
+            roomCapacity: selectedRoomData[4],
+            price: selectedRoomData[5],
+        });
+        setModalOpen(true);
     };
 
     const handleOpenModal = () => setModalOpen(true);
-    const handleCloseModal = () => setModalOpen(false);
-    const handleSave = (event) => {
-        event.preventDefault();
-        console.log("Room information saved");
+    const handleCloseModal = () => {
+        setSelectedRoom(null);
         setModalOpen(false);
-        fetchRooms();
+    };
+
+    const handleSave = async (formData) => {
+        try {
+            let url = `${config.BASE_URL}/rooms`;
+            let method = 'POST';
+
+            // If editing, update 
+            if (selectedRoom) {
+                url = `${config.BASE_URL}/rooms/${selectedRoom.roomId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log('Room saved successfully');
+                fetchRooms();
+            } else {
+                console.error('Error saving room');
+            }
+        } catch (error) {
+            console.error('Error saving room:', error);
+        } finally {
+            setModalOpen(false);
+        }
     };
 
     return (
@@ -80,31 +115,20 @@ function Rooms() {
             <SidebarUser />
             <div className="flex-grow-1 p-3">
                 <h2>Rooms</h2>
-                <Table
-                    data={rooms.map(room => [
-                        room.roomId,
-                        room.roomNumber,
-                        room.roomType,
-                        room.bedType,
-                        room.roomCapacity,
-                        room.price,
-                        <select
-                            id="status"
-                            className="form-control"
-                            value={room.status}
-                            onChange={(e) => handleStatusChange(room.id, e.target.value)}
-                        >
-                            <option value="Available">Available</option>
-                            <option value="Unavailable">Unavailable</option>
-                            <option value="Cleaning">Cleaning</option>
-                        </select>
-                    ])}
-                    columns={columns}
-                    btnName="Add New Room"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={handleOpenModal}
-                />
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
+                    <Table
+                        data={data}
+                        columns={columns}
+                        btnName={btnName}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onAdd={handleOpenModal}
+                    />
+                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"
@@ -113,7 +137,7 @@ function Rooms() {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header bg-success text-white">
-                                    <h5 className="modal-title">Add New Room</h5>
+                                    <h5 className="modal-title">{selectedRoom ? 'Edit Room' : 'Add New Room'}</h5>
                                     <button
                                         type="button"
                                         className="close"
@@ -134,7 +158,11 @@ function Rooms() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddRoom onClose={handleCloseModal} onSave={handleSave} />
+                                    <AddRoom
+                                        onClose={handleCloseModal}
+                                        onSave={handleSave}
+                                        room={selectedRoom}
+                                    />
                                 </div>
                             </div>
                         </div>

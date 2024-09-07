@@ -6,63 +6,106 @@ import config from '../../config';
 import axios from 'axios';
 
 function Packages() {
-    const [packages, setPackages] = useState([]);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedPackage, setSelectedPackage] = useState(null);
+
     const columns = ["Package ID", "Package Name", "Bed Type", "Price"];
+    const btnName = "Add New Package";
 
     useEffect(() => {
-
         fetchPackage();
-
     }, []);
 
     const fetchPackage = async () => {
         try {
-            const response = await axios.get(`${config.BASE_URL}/package`);
-            setPackages(response.data);
-        } catch (error) {
-            console.error("Error fetching package", error);
+            const response = await fetch(`${config.BASE_URL}/packages`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch Package');
+            }
+            const packages = await response.json();
+            const formattedData = packages.map(packages => [
+                packages.packageId,
+                packages.packageName,
+                packages.bedType,
+                packages.packagePrice,
+            ]);
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
         }
     };
 
     const handleDelete = async (rowIndex) => {
-        const packageToDelete = packages[rowIndex];
-
-        if (!packageToDelete) {
-            alert("Package not found.");
-            return;
-        }
-
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete the package "${packageToDelete.packageName}"?`
-        );
-
-        if (!confirmDelete) return;
-
         try {
-            // Send delete request to the server
-            await axios.delete(`${config.BASE_URL}/package/${packageToDelete.packageId}`);
-            // Remove the package from the list after successful deletion
-            setPackages((prev) => prev.filter((_, index) => index !== rowIndex));
-            alert("Package deleted successfully.");
-        } catch (error) {
-            console.error("Error deleting package:", error);
-            alert("Failed to delete the package. Please try again.");
+            const packageId = data[rowIndex][0];
+            const response = await fetch(`${config.BASE_URL}/packages/${packageId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete package');
+            }
+            setData(prevData => prevData.filter((_, index) => index !== rowIndex));
+            console.log(`Package with ID ${packageId} deleted successfully`);
+            fetchPackage();
+        } catch (err) {
+            console.error('Error deleting package:', err);
+            setError(err.message);
         }
     };
 
-
     const handleEdit = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+        const selectedPackageData = data[rowIndex];
+        setSelectedPackage({
+            packageId: selectedPackageData[0],
+            packageName: selectedPackageData[1],
+            bedType: selectedPackageData[2],
+            packagePrice: selectedPackageData[3],
+        });
+        setModalOpen(true);
     };
 
     const handleOpenModal = () => setModalOpen(true);
-    const handleCloseModal = () => setModalOpen(false);
-    const handleSave = (event) => {
-        event.preventDefault();
-        console.log("Package information saved");
+    const handleCloseModal = () => {
+        setSelectedPackage(null);
         setModalOpen(false);
-        fetchPackage();
+    }
+
+    const handleSave = async (formData) => {
+        try {
+            let url = `${config.BASE_URL}/packages`;
+            let method = 'POST';
+
+            // If editing, update the booking
+            if (selectedPackage) {
+                url = `${config.BASE_URL}/packages/${selectedPackage.packageId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log('Package saved successfully');
+                fetchPackage();
+            } else {
+                console.error('Error saving package');
+            }
+        } catch (error) {
+            console.error('Error saving package:', error);
+        } finally {
+            setModalOpen(false);
+        }
     };
 
     return (
@@ -70,19 +113,20 @@ function Packages() {
             <SidebarUser />
             <div className="flex-grow-1 p-3">
                 <h2>Packages</h2>
-                <Table
-                    data={packages.map((pkg) => [
-                        pkg.packageId,
-                        pkg.packageName,
-                        pkg.bedType,
-                        pkg.packagePrice,
-                    ])}
-                    columns={columns}
-                    btnName="Add Package"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={handleOpenModal}
-                />
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
+                    <Table
+                        data={data}
+                        columns={columns}
+                        btnName={btnName}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onAdd={handleOpenModal}
+                    />
+                )}
                 {isModalOpen && (
                     <div
                         className="modal d-block"
@@ -112,7 +156,7 @@ function Packages() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddPackages onClose={handleCloseModal} onSave={handleSave} />
+                                    <AddPackages onClose={handleCloseModal} onSave={handleSave} packages={selectedPackage} />
                                 </div>
                             </div>
                         </div>
