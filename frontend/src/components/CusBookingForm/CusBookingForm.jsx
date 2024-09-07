@@ -3,6 +3,7 @@ import { Bed } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config';
+import emailjs from 'emailjs-com'; // Import EmailJS
 
 const CusBookingForm = () => {
     const location = useLocation();
@@ -22,7 +23,7 @@ const CusBookingForm = () => {
         payMethod: 'Pending',
     });
 
-    const [bookingSuccess, setBookingSuccess] = useState(false); 
+    const [bookingSuccess, setBookingSuccess] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,12 +33,40 @@ const CusBookingForm = () => {
         }));
     };
 
+
+
+    // send email using EmailJS
+
+    const serviceID = process.env.REACT_APP_YOUR_SERVICE_ID;
+    const templateID = process.env.REACT_APP_YOUR_TEMPLATE_ID;
+    const publicKey = process.env.REACT_APP_YOUR_PUBLIC_KEY;
+
+    const sendConfirmationEmail = (formData) => {
+        const templateParams = {
+            cusFullName: formData.cusFullName,
+            cusEmail: formData.cusEmail
+        };
+
+        
+        emailjs.send(serviceID, templateID, templateParams, publicKey)
+            .then((response) => {
+                console.log('SUCCESS!', response.status, response.text);
+            }, (err) => {
+                console.error('FAILED...', err);
+            });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${config.BASE_URL}/booking`, formData);
             console.log('Booking created:', response.data);
+
             setBookingSuccess(true); // Set booking success to true
+            
+            // Call the email sending function
+            sendConfirmationEmail(formData);
+
             navigate('/confirm', { state: { bookingDetails: response.data } });
         } catch (error) {
             console.error('Error creating booking:', error);

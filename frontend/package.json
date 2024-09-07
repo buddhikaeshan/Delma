@@ -22,6 +22,7 @@
     "axios": "^1.7.7",
     "bootswatch": "^5.3.3",
     "delma": "file:",
+    "emailjs-com": "^3.2.0",
     "ldrs": "^1.0.2",
     "lucide-react": "^0.438.0",
     "react": "^18.3.1",
