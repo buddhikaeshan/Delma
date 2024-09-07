@@ -25,12 +25,11 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if token exists in localStorage and set the authentication state accordingly
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuthenticated(true); // User is authenticated if the token is found
+      setIsAuthenticated(true);
     }
-  }, []); // This effect runs once, when the app mounts
+  }, []);
 
   return (
     <div className="App">
