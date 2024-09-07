@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import "../SideBar/SideBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,13 +17,16 @@ import {
 const SideBar = ({ onLogout }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
 
   const logout = () => {
-    onLogout();
+    localStorage.removeItem("token");
+    localStorage.removeItem("userType");
+    navigate("/login");
   };
 
   const isActive = (path) => location.pathname === path;
