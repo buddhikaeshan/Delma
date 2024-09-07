@@ -38,7 +38,7 @@ const CusBookingForm = () => {
             const response = await axios.post(`${config.BASE_URL}/booking`, formData);
             console.log('Booking created:', response.data);
             setBookingSuccess(true); // Set booking success to true
-            navigate('/', { state: { bookingDetails: response.data } });
+            navigate('/confirm', { state: { bookingDetails: response.data } });
         } catch (error) {
             console.error('Error creating booking:', error);
         }
