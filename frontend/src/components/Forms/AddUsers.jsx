@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import config from "../../config";
 
-function AddUsers({ onClose }) {
+function AddUsers({ onClose, onSave, user }) {
   const [formData, setFormData] = useState({
     userName: "",
     userType: "",
@@ -14,10 +14,20 @@ function AddUsers({ onClose }) {
 
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); 
-  };
+  // Pre-fill form if editing an existing user
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        userName: user.userName || "",
+        userType: user.userType || "",
+        userPassword: "",
+        userTP: user.userTP || "",
+        userNIC: user.userNIC || "",
+        userEmail: user.userEmail || "",
+        userAddress: user.userAddress || "",
+      });
+    }
+  }, [user]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -35,9 +45,10 @@ function AddUsers({ onClose }) {
       newErrors.userType = "User Type is required.";
     }
 
-    if (!formData.userPassword) {
+    // Only validate password if creating a new user or changing password
+    if (!user && !formData.userPassword) {
       newErrors.userPassword = "Password is required.";
-    } else if (!passwordRegex.test(formData.userPassword)) {
+    } else if (formData.userPassword && !passwordRegex.test(formData.userPassword)) {
       newErrors.userPassword =
         "Password must have at least 8 characters, including upper/lowercase letters, numbers, and special characters.";
     }
@@ -66,26 +77,40 @@ function AddUsers({ onClose }) {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (validateForm()) {
+      try {
+        const method = user ? "PUT" : "POST";
+        const url = user
+          ? `${config.BASE_URL}/user/${user.userId}`
+          : `${config.BASE_URL}/user`;
 
-    try {
-      const response = await fetch(`${config.BASE_URL}/user`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+        const response = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
 
-      if (!response.ok) {
-        const data = await response.json();
-        setErrors({ form: data.error });
-      } else {
-        setErrors({});
-        onClose();
+        if (!response.ok) {
+          const data = await response.json();
+          console.error("Error from API:", data);
+          setErrors({ form: data.error || "Error occurred" });
+        } else {
+          const data = await response.json();
+          setErrors({});
+          onSave(data);
+          onClose();
+        }
+      } catch (err) {
+        console.error("Request failed with error:", err);
+        setErrors({ form: "Failed to submit form. Check the console for more details." });
       }
-    } catch (err) {
-      setErrors({ form: "Failed to submit form" });
     }
   };
 
@@ -217,7 +242,7 @@ function AddUsers({ onClose }) {
           Close
         </button>
         <button type="submit" className="btn btn-success">
-          Save Changes
+          {user ? 'Update' : 'Save Changes'}
         </button>
       </div>
     </form>

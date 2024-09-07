@@ -9,8 +9,9 @@ function Users() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
-    const columns = ["Name", "Type", "Telephone", "NIC", "Email", "Address","Status"];
+    const columns = ["Id", "Name", "Type", "Telephone", "NIC", "Email", "Address", "Status"];
     const btnName = "Add New User";
 
     useEffect(() => {
@@ -18,13 +19,16 @@ function Users() {
     }, []);
 
     const fetchUsers = async () => {
+        setIsLoading(true);
+        setError(null);
         try {
-            const response = await fetch("http://localhost:5000/users"); 
+            const response = await fetch(`${config.BASE_URL}/user`);
             if (!response.ok) {
                 throw new Error('Failed to fetch users');
             }
             const users = await response.json();
             const formattedData = users.map(user => [
+                user.userId,
                 user.userName,
                 user.userType,
                 user.userTP,
@@ -34,28 +38,79 @@ function Users() {
                 user.userStatus,
             ]);
             setData(formattedData);
-            setIsLoading(false);
         } catch (err) {
             setError(err.message);
+        } finally {
             setIsLoading(false);
         }
     };
 
     const handleEdit = (rowIndex) => {
-        console.log(`Editing row ${rowIndex}`);
+        const selectedUserData = data[rowIndex];
+        setSelectedUser({
+            userId: selectedUserData[0],
+            userName: selectedUserData[1],
+            userType: selectedUserData[2],
+            userTP: selectedUserData[3],
+            userNIC: selectedUserData[4],
+            userEmail: selectedUserData[5],
+            userAddress: selectedUserData[6],
+        });
+        setModalOpen(true);
     };
 
-    const handleDelete = (rowIndex) => {
-        console.log(`Deleting row ${rowIndex}`);
+    const handleDelete = async (rowIndex) => {
+        const userId = data[rowIndex][0];
+        try {
+            const response = await fetch(`${config.BASE_URL}/user/${userId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+
+            setData(prevData => prevData.filter((_, index) => index !== rowIndex));
+            console.log(`User with ID ${userId} deleted successfully`);
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            setError(err.message);
+        }
     };
 
     const handleOpenModal = () => setModalOpen(true);
-    const handleCloseModal = () => setModalOpen(false);
-    const handleSave = (event) => {
-        event.preventDefault();
-        console.log("User information saved");
-        fetchUsers(); 
+    const handleCloseModal = () => {
+        setSelectedUser(null);
         setModalOpen(false);
+    };
+
+    const handleSave = async (formData) => {
+        const isEditing = Boolean(selectedUser);
+        const url = isEditing
+            ? `${config.BASE_URL}/user/${selectedUser.userId}`
+            : `${config.BASE_URL}/user`;
+        const method = isEditing ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save user');
+            }
+
+            console.log('User saved successfully');
+            fetchUsers();
+        } catch (error) {
+            console.error('Error saving user:', error);
+        } finally {
+            handleCloseModal();
+        }
     };
 
     return (
@@ -85,7 +140,7 @@ function Users() {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header bg-success text-white">
-                                    <h5 className="modal-title">Add New User</h5>
+                                    <h5 className="modal-title">{selectedUser ? "Edit User" : "Add New User"}</h5>
                                     <button
                                         type="button"
                                         className="close"
@@ -106,7 +161,7 @@ function Users() {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AddUsers onClose={handleCloseModal} onSave={handleSave} />
+                                    <AddUsers onClose={handleCloseModal} onSave={handleSave} user={selectedUser} />
                                 </div>
                             </div>
                         </div>
@@ -114,7 +169,7 @@ function Users() {
                 )}
             </div>
         </div>
-    )
+    );
 }
 
 export default Users;

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import config from '../../config';
+import React, { useState, useEffect } from 'react';
 
-function AddPackages({ onClose, onSave }) {
+function AddPackages({ onClose, onSave, packages }) {
     const [formData, setFormData] = useState({
         packageName: '',
         bedType: '',
@@ -9,19 +8,28 @@ function AddPackages({ onClose, onSave }) {
     });
     const [error, setError] = useState(null);
 
+    // Populate form data when editing an existing package
+    useEffect(() => {
+        if (packages) {
+            setFormData({
+                packageName: packages.packageName || '',
+                bedType: packages.bedType || '',
+                packagePrice: packages.packagePrice || '',
+            });
+        }
+    }, [packages]);
+
+    // Handle input changes
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     };
 
-    const handleSubmit = async (e) => {
-        // Check if e is an event and has preventDefault
-        if (e && typeof e.preventDefault === 'function') {
-            e.preventDefault();
-        }
+    // Handle form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
         setError(null);
 
         // Basic input validation
@@ -35,36 +43,19 @@ function AddPackages({ onClose, onSave }) {
             return;
         }
 
-        try {
-            const response = await fetch(`${config.BASE_URL}/packages`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    packageName: formData.packageName,
-                    bedType: formData.bedType,
-                    packagePrice: parseFloat(formData.packagePrice),
-                }),
-            });
+        // Call the onSave function with the form data
+        onSave({
+            packageName: formData.packageName,
+            bedType: formData.bedType,
+            packagePrice: parseFloat(formData.packagePrice),
+        });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to add package');
-            }
-
-            const data = await response.json();
-            console.log('Package added successfully:', data);
-            onSave(data);
-            onClose();
-        } catch (error) {
-            setError(error.message || "An error occurred while saving the package.");
-            console.error('Error:', error);
-        }
+        // Close the form after saving
+        onClose();
     };
 
     return (
-        <form className="p-3" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+        <form className="p-3" onSubmit={handleSubmit}>
             {error && <div className="alert alert-danger">{error}</div>}
             <div className="row mb-3">
                 <div className="form-group">
@@ -126,7 +117,7 @@ function AddPackages({ onClose, onSave }) {
                     type="submit"
                     className="btn btn-success"
                 >
-                    Save Changes
+                    {packages ? 'Update' : 'Save Changes'}
                 </button>
             </div>
         </form>

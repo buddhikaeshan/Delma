@@ -77,7 +77,7 @@ const Table = ({ data, columns, onAdd, btnName, onEdit, onDelete }) => {
                                     ))}
                                     <td>
                                         <button
-                                            className="btn btn-warning btn-sm me-3"
+                                            className="btn btn-warning btn-sm mr-3"
                                             onClick={() => onEdit(rowIndex)}
                                         >
                                             <FontAwesomeIcon icon={faPen} />

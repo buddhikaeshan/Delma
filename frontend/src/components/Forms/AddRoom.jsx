@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import config from '../../config';
+import React, { useState, useEffect } from 'react';
 
-function AddRoom({ onClose, onSave }) {
+function AddRoom({ onClose, onSave, room }) {
     const [formData, setFormData] = useState({
         roomNumber: '',
         roomType: '',
@@ -11,50 +10,62 @@ function AddRoom({ onClose, onSave }) {
     });
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        if (room) {
+            setFormData({
+                roomNumber: room.roomNumber || '',
+                roomType: room.roomType || '',
+                price: room.price || '',
+                roomCapacity: room.roomCapacity || '',
+                bedType: room.bedType || '',
+            });
+        }
+    }, [room]);
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const handleSubmit = async (e) => {
-        // If e exists and is an event, prevent default behavior
-        if (e && typeof e.preventDefault === 'function') {
-            e.preventDefault();
-        }
+        e.preventDefault();
         setError(null);
-        try {
-            const response = await fetch(`${config.BASE_URL}/rooms`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to add room');
-            }
-
-            const data = await response.json();
-            console.log('Room added successfully:', data);
-            onSave(data);
-            onClose();
-        } catch (error) {
-            console.error('Error adding room:', error);
-            setError(error.message);
+        // Basic input validation
+        if (!formData.roomNumber || !formData.roomType || !formData.price || !formData.roomCapacity || !formData.bedType) {
+            setError("All fields are required.");
+            return;
         }
+
+        if (isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+            setError("Price must be a valid positive number.");
+            return;
+        }
+
+        if (isNaN(formData.roomCapacity) || parseInt(formData.roomCapacity) <= 0) {
+            setError("Room Capacity must be a valid positive number.");
+            return;
+        }
+
+        // Call the onSave function with the form data
+        onSave({
+            roomNumber: formData.roomNumber,
+            roomType: formData.roomType,
+            price: parseFloat(formData.price),
+            roomCapacity: parseInt(formData.roomCapacity),
+            bedType: formData.bedType,
+        });
     };
+
     return (
-        <form className="p-3" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-             {error && <div className="alert alert-danger">{error}</div>}
+        <form className="p-3" onSubmit={handleSubmit}>
+            {error && <div className="alert alert-danger">{error}</div>}
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="roomNumber">Room Number</h5>
+                        <label htmlFor="roomNumber">Room Number</label>
                         <input
                             type="text"
                             id="roomNumber"
@@ -69,7 +80,7 @@ function AddRoom({ onClose, onSave }) {
                 </div>
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="roomType">Room Type</h5>
+                        <label htmlFor="roomType">Room Type</label>
                         <input
                             type="text"
                             id="roomType"
@@ -86,7 +97,7 @@ function AddRoom({ onClose, onSave }) {
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="price">Price Per Night</h5>
+                        <label htmlFor="price">Price Per Night</label>
                         <input
                             type="number"
                             id="price"
@@ -101,7 +112,7 @@ function AddRoom({ onClose, onSave }) {
                 </div>
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="roomCapacity">Room Capacity</h5>
+                        <label htmlFor="roomCapacity">Room Capacity</label>
                         <input
                             type="number"
                             id="roomCapacity"
@@ -118,7 +129,7 @@ function AddRoom({ onClose, onSave }) {
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="bedType">Bed Type</h5>
+                        <label htmlFor="bedType">Bed Type</label>
                         <input
                             type="text"
                             id="bedType"
@@ -132,7 +143,6 @@ function AddRoom({ onClose, onSave }) {
                     </div>
                 </div>
             </div>
-
             <div className="d-flex justify-content-end mt-3">
                 <button
                     type="button"
@@ -144,9 +154,8 @@ function AddRoom({ onClose, onSave }) {
                 <button
                     type="submit"
                     className="btn btn-success"
-                    onClick={onSave}
                 >
-                    Save Changes
+                    {room ? 'Update' : 'Save Changes'}
                 </button>
             </div>
         </form>
