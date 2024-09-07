@@ -38,7 +38,7 @@ const CusBookingForm = () => {
             const response = await axios.post(`${config.BASE_URL}/booking`, formData);
             console.log('Booking created:', response.data);
             setBookingSuccess(true); // Set booking success to true
-            navigate('/', { state: { bookingDetails: response.data } });
+            navigate('/confirm', { state: { bookingDetails: response.data } });
         } catch (error) {
             console.error('Error creating booking:', error);
         }
@@ -47,7 +47,6 @@ const CusBookingForm = () => {
     return (
         <div className="w-100 mx-auto mt-10 p-6 bg-white rounded-lg">
             <h2 className="caption">Delma Mount View Hotel</h2>
-            
             {/* Show success message */}
             {bookingSuccess && (
                 <div className="p-4 mb-4 text-green-700 bg-green-100 rounded-lg">
