@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 function AddRoom({ onClose, onSave, room }) {
     const [formData, setFormData] = useState({
         roomNumber: '',
@@ -33,13 +34,18 @@ function AddRoom({ onClose, onSave, room }) {
         setError(null);
 
         // Basic input validation
-        if (!formData.roomNumber || !formData.roomType || !formData.price || !formData.bedType) {
+        if (!formData.roomNumber || !formData.roomType || !formData.price || !formData.roomCapacity || !formData.bedType) {
             setError("All fields are required.");
             return;
         }
 
-        if (isNaN(formData.price)) {
-            setError("Price must be a valid number.");
+        if (isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+            setError("Price must be a valid positive number.");
+            return;
+        }
+
+        if (isNaN(formData.roomCapacity) || parseInt(formData.roomCapacity) <= 0) {
+            setError("Room Capacity must be a valid positive number.");
             return;
         }
 
@@ -48,12 +54,9 @@ function AddRoom({ onClose, onSave, room }) {
             roomNumber: formData.roomNumber,
             roomType: formData.roomType,
             price: parseFloat(formData.price),
+            roomCapacity: parseInt(formData.roomCapacity),
             bedType: formData.bedType,
         });
-
-        // Close the form after saving
-        onClose();
-
     };
 
     return (
@@ -62,7 +65,7 @@ function AddRoom({ onClose, onSave, room }) {
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="roomNumber">Room Number</h5>
+                        <label htmlFor="roomNumber">Room Number</label>
                         <input
                             type="text"
                             id="roomNumber"
@@ -77,7 +80,7 @@ function AddRoom({ onClose, onSave, room }) {
                 </div>
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="roomType">Room Type</h5>
+                        <label htmlFor="roomType">Room Type</label>
                         <input
                             type="text"
                             id="roomType"
@@ -94,7 +97,7 @@ function AddRoom({ onClose, onSave, room }) {
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="price">Price Per Night</h5>
+                        <label htmlFor="price">Price Per Night</label>
                         <input
                             type="number"
                             id="price"
@@ -109,7 +112,7 @@ function AddRoom({ onClose, onSave, room }) {
                 </div>
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="roomCapacity">Room Capacity</h5>
+                        <label htmlFor="roomCapacity">Room Capacity</label>
                         <input
                             type="number"
                             id="roomCapacity"
@@ -126,7 +129,7 @@ function AddRoom({ onClose, onSave, room }) {
             <div className="row mb-3">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h5 htmlFor="bedType">Bed Type</h5>
+                        <label htmlFor="bedType">Bed Type</label>
                         <input
                             type="text"
                             id="bedType"
