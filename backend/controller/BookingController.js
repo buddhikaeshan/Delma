@@ -179,8 +179,9 @@ const countBookings = async (req, res) => {
 const BookingCalendar = async (req, res) => {
   try {
     // Fetch all bookings from the database
-    const bookings = await Booking.findAll();
+    const bookings = await Booking.findAll(); // Adjust the query method if needed (e.g., Booking.find() for MongoDB)
 
+    // Check if there are no bookings
     if (bookings.length === 0) {
       return res.status(404).json({ message: "No bookings found" });
     }
@@ -194,6 +195,7 @@ const BookingCalendar = async (req, res) => {
 
     console.log("Passing to calendar:", calendarEvents);
 
+    // Respond with the events
     res.status(200).json({
       message: "All bookings successfully passed to calendar",
       events: calendarEvents,
@@ -203,6 +205,7 @@ const BookingCalendar = async (req, res) => {
     res.status(500).json({ error: `An error occurred: ${error.message}` });
   }
 };
+
 
 module.exports = {
   createBooking,
