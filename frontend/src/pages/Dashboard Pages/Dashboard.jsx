@@ -1,8 +1,39 @@
 import SideBar from '../../components/SideBar/SideBar'
 import Panel from '../../components/Panel'
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Dashboard() {
+
+  const [rooms, setRooms] = useState(0);
+  const [booking, setBookigg] = useState(0);
+  const [customers, setCustomer] = useState(0)
+  const [income, setIncome] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // customer 
+        const customerRes = await axios.get('http://localhost:5000/customer');
+        const customerCount = new Set(customerRes.data.map(item => item.cusEmail));
+        setCustomer(customerCount.size);
+
+        // rooms
+        // const roomRes = await axios.get('https://localhost:5000/rooms');
+        // const room = roomRes.data;
+        // const roomCount = new Set(room.map(item=> item.roomNumber));
+        // setRooms(roomCount.size);
+
+        // booking
+        // const bookigRes = await axios.get('https://localhost:5000/booking')
+
+      } catch {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className='d-flex'>
       <SideBar />
@@ -15,7 +46,7 @@ function Dashboard() {
 
             <Panel
               title={"Rooms"}
-              num={'8'}
+              num={rooms}
               para={'Increased by 5%'}
               bgColor="bg-gradient-to-r from-blue-400 to-green-500 "
             />
@@ -29,16 +60,9 @@ function Dashboard() {
 
             <Panel
               title={"Customers"}
-              num={'10,000'}
+              num={customers}
               para={'Increased by 60%'}
               bgColor="bg-gradient-to-r from-green-400 to-teal-500"
-            />
-
-            <Panel
-              title={"Visitors"}
-              num={'95,5741'}
-              para={'Increased by 5%'}
-              bgColor="bg-gradient-to-r from-blue-400 to-cyan-900"
             />
 
             <Panel
@@ -48,12 +72,6 @@ function Dashboard() {
               bgColor="bg-gradient-to-r  from-green-400 to-teal-500 "
             />
 
-            <Panel
-              title={"Visitors"}
-              num={'15,000'}
-              para={'Increased by 5%'}
-              bgColor="bg-gradient-to-r from-yellow-400 to-teal-500 "
-            />
           </main>
         </div>
       </div>

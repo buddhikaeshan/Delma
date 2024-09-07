@@ -25,12 +25,11 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if token exists in localStorage and set the authentication state accordingly
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuthenticated(true); // User is authenticated if the token is found
+      setIsAuthenticated(true);
     }
-  }, []); // This effect runs once, when the app mounts
+  }, []);
 
   return (
     <div className="App">
@@ -41,7 +40,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/cusBooking" element={<CusBookingForm />} />
 
-          {/*admin */}
+          {/* Admin routes */}
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} isAuthenticated={isAuthenticated} />} />
           <Route path="/rooms" element={<ProtectedRoute element={<Rooms />} isAuthenticated={isAuthenticated} />} />
           <Route path="/bookingCalendar" element={<ProtectedRoute element={<BookingCalendar />} isAuthenticated={isAuthenticated} />} />
@@ -50,7 +49,7 @@ function App() {
           <Route path="/galleryPage" element={<ProtectedRoute element={<GalleryPage />} isAuthenticated={isAuthenticated} />} />
           <Route path="/users" element={<ProtectedRoute element={<Users />} isAuthenticated={isAuthenticated} />} />
 
-          {/* User */}
+          {/* User routes */}
           <Route path="/dashboardUser" element={<ProtectedRoute element={<UserBookingCalender />} isAuthenticated={isAuthenticated} />} />
           <Route path="/bookingUser" element={<ProtectedRoute element={<UserBooking />} isAuthenticated={isAuthenticated} />} />
           <Route path="/packagesUser" element={<ProtectedRoute element={<UserPackages />} isAuthenticated={isAuthenticated} />} />
@@ -62,3 +61,4 @@ function App() {
 }
 
 export default App;
+
