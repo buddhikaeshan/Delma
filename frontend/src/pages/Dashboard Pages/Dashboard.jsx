@@ -17,17 +17,7 @@ function Dashboard() {
         const customerRes = await axios.get('http://localhost:5000/customer');
         const customerCount = new Set(customerRes.data.map(item => item.cusEmail));
         setCustomer(customerCount.size);
-
-        // rooms
-        // const roomRes = await axios.get('https://localhost:5000/rooms');
-        // const room = roomRes.data;
-        // const roomCount = new Set(room.map(item=> item.roomNumber));
-        // setRooms(roomCount.size);
-
-        // booking
-        // const bookigRes = await axios.get('https://localhost:5000/booking')
-
-      } catch {
+      } catch (error){
         console.error('Error fetching dashboard data:', error);
       }
     };

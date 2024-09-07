@@ -1,20 +1,34 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import SideBar from '../../components/SideBar/SideBar';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import config from '../../config';
+
+// List of colors
+const colors = ['purple', 'blue', 'green', 'orange', 'red'];
 
 function BookingCalendar() {
-  const events = [
-    {
-      title: 'Single Day Event',
-      start: '2024-09-01', 
-      end: '2024-09-01',   
-    },
-    {
-      title: 'Multi-Day Event',
-      start: '2024-09-02', 
-      end: '2024-09-05',   
-    }
-  ];
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.post(`${config.BASE_URL}/booking/calendar`);
+        if (response.status === 200) {
+          const eventsWithColors = response.data.events.map((event, index) => {
+            const color = colors[index % colors.length];
+            return { ...event, backgroundColor: color };
+          });
+          setEvents(eventsWithColors);
+        }
+      } catch (error) {
+        console.error('Error fetching bookings:', error);
+      }
+    };
+
+    fetchBookings();
+  }, []);
 
   return (
     <div className="d-flex">
@@ -31,6 +45,7 @@ function BookingCalendar() {
               weekends={true}
               events={events}
               editable={true}
+              dayMaxEvents={true}
               height="100%"
             />
           </div>
