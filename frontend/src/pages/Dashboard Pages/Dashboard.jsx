@@ -15,8 +15,8 @@ function Dashboard() {
       try {
         // customer 
         const customerRes = await axios.get('http://localhost:5000/customer');
-        const customerCount = new Set(customerRes.data.map(item => item.cusEmail));
-        setCustomer(customerCount.size);
+        const customerCount = new Set(customerRes.data.map(item => item.cusNIC));
+        setCustomer(customerCount.size);  
 
         // rooms
         // const roomRes = await axios.get('https://localhost:5000/rooms');
