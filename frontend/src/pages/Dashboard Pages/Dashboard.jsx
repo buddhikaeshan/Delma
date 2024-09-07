@@ -6,7 +6,7 @@ import axios from 'axios';
 function Dashboard() {
 
   const [rooms, setRooms] = useState(0);
-  const [booking, setBookigg] = useState(0);
+  const [booking, setBooking] = useState(0);
   const [customers, setCustomer] = useState(0)
   const [income, setIncome] = useState(0);
 
@@ -16,16 +16,20 @@ function Dashboard() {
         // customer 
         const customerRes = await axios.get('http://localhost:5000/customer');
         const customerCount = new Set(customerRes.data.map(item => item.cusNIC));
-        setCustomer(customerCount.size);  
+        setCustomer(customerCount.size);
 
         // rooms
-        // const roomRes = await axios.get('https://localhost:5000/rooms');
-        // const room = roomRes.data;
-        // const roomCount = new Set(room.map(item=> item.roomNumber));
-        // setRooms(roomCount.size);
+        const roomRes = await axios.get('https://localhost:5000/rooms');
+        const roomCount = new Set(roomRes.data.map(item => item.roomNumber));
+        setRooms(roomCount.size);
 
         // booking
-        // const bookigRes = await axios.get('https://localhost:5000/booking')
+        const bookingRes = await axios.get('https://localhost:5000/booking')
+        const bookingCount = new Set(bookingRes.data.map(item=>item.bookingId));
+        setBooking(bookingCount.size)
+
+        // income
+        const incomeRes =await axios.get('https://localhost:5000/')
 
       } catch (error){
         console.error('Error fetching dashboard data:', error);
@@ -47,28 +51,24 @@ function Dashboard() {
             <Panel
               title={"Rooms"}
               num={rooms}
-              para={'Increased by 5%'}
               bgColor="bg-gradient-to-r from-blue-400 to-green-500 "
             />
 
             <Panel
               title={"Bookings"}
-              num={'45,6334'}
-              para={'Decreased by 10%'}
+              num={booking}
               bgColor="bg-gradient-to-r from-blue-400 to-cyan-500"
             />
 
             <Panel
               title={"Customers"}
               num={customers}
-              para={'Increased by 60%'}
               bgColor="bg-gradient-to-r from-green-400 to-teal-500"
             />
 
             <Panel
               title={"Income"}
-              num={'95,5741'}
-              para={'Increased by 60%'}
+              num={income}
               bgColor="bg-gradient-to-r  from-green-400 to-teal-500 "
             />
 
