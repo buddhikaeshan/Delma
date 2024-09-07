@@ -56,6 +56,15 @@ const SideBar = ({ onLogout }) => {
           </li> */}
           <li className="sidebar-item">
             <Link
+              to="/bookingUser"
+              className={`sidebar-link ${isActive("/bookingsUser") ? "active" : ""}`}
+            >
+              <FontAwesomeIcon icon={faBookBookmark} />
+              <span>Booking </span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            <Link
               to="/dashboardUser"
               className={`sidebar-link ${isActive("/bookingCalUser") ? "active" : ""}`}
             >
@@ -73,15 +82,7 @@ const SideBar = ({ onLogout }) => {
             </Link>
           </li>
 
-          <li className="sidebar-item">
-            <Link
-              to="/bookingUser"
-              className={`sidebar-link ${isActive("/bookingsUser") ? "active" : ""}`}
-            >
-              <FontAwesomeIcon icon={faBookBookmark} />
-              <span>Booking </span>
-            </Link>
-          </li>
+          
           <li className="sidebar-item">
             <Link
               to="/PackagesUser"

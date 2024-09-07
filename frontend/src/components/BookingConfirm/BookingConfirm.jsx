@@ -6,7 +6,7 @@ const BookingConfiram = () => {
     <div className="container mt-5">
       <div className="card text-center">
         <div className="card-header bg-success text-white">
-          <h1>Booking Confirmed!</h1>
+          <h1>Booking Placed Sucessfully!</h1>
         </div>
         <div className="card-body">
           <h5 className="card-title">Thank you for your booking.</h5>
