@@ -63,7 +63,18 @@ function Bookings() {
                     <option value="Unpaid">Unpaid</option>
                     <option value="Pending">Pending</option>
                 </select>,
-                booking.payStatus,
+                <select
+                    className="form-control"
+                    key={`status-${booking.bookingId}`}
+                    value={booking.status}
+                    onChange={(e) =>
+                        handleStatusChange(booking.bookingId, e.target.value)
+                    }
+                >
+                    <option value="booking">Booking</option>
+                    <option value="Pending">Pending</option>
+                </select>,
+
             ]);
             setData(formattedData);
             setIsLoading(false);
@@ -73,46 +84,62 @@ function Bookings() {
         }
     };
 
-    const handleStatusChange = async (id, newStatus) => {
+    const handleStatusChange = async (id, newStatus, type) => {
         try {
+            // Determine the body of the request based on the type of status being changed
+            const body = type === 'payStatus'
+                ? { payStatus: newStatus }
+                : { status: newStatus }; // Adjust request body based on status type
+
+            // Send the PUT request to update the status on the backend
             const response = await fetch(`${config.BASE_URL}/booking/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ payStatus: newStatus }),
+                body: JSON.stringify(body),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to update status');
             }
 
+            // Update the state with the new status values
             setData((prevData) =>
                 prevData.map((item) => {
                     if (item[0] === id) {
                         return [
                             item[0],
                             item[1],
-                            item[2],
-                            item[3],
-                            item[4],
-                            item[5],
-                            item[6],
-                            item[7],
+                            item[2], 
+                            item[3], 
+                            item[4], 
+                            item[5], 
+                            item[6], 
+                            item[7], 
                             item[8],
-                            item[9],
-                            item[10],
+                            item[9], 
+                            item[10], 
                             <select
                                 key={`payStatus-${id}`}
-                                value={newStatus}
-                                onChange={(e) => handleStatusChange(id, e.target.value)}
+                                value={type === 'payStatus' ? newStatus : item[11].props.value}
+                                onChange={(e) => handleStatusChange(id, e.target.value, 'payStatus')}
                                 className="form-control"
                             >
                                 <option value="Paid">Paid</option>
                                 <option value="Unpaid">Unpaid</option>
                                 <option value="Pending">Pending</option>
                             </select>,
-                            item[12],
+                            // Status Select
+                            <select
+                                key={`status-${id}`}
+                                value={type === 'status' ? newStatus : item[12].props.value}
+                                onChange={(e) => handleStatusChange(id, e.target.value, 'status')}
+                                className="form-control"
+                            >
+                                <option value="booking">Booking</option>
+                                <option value="Pending">Pending</option>
+                            </select>,
                         ];
                     }
                     return item;
@@ -122,6 +149,7 @@ function Bookings() {
             console.error('Failed to update status:', error);
         }
     };
+
 
     const handleEdit = (rowIndex) => {
         const selectedBookingData = data[rowIndex];
