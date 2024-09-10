@@ -67,7 +67,7 @@
   object-fit: cover;
 }
 
-.input .from  form {
+.inputs form {
   display: flex;
   gap: 50px;
   justify-content: center;
@@ -116,7 +116,7 @@
     height: auto;
   }
 
-  .input .from  {
+  .inputs form {
     
     gap: 100px;
   }
@@ -141,7 +141,7 @@
     height: auto;
   }
 
-  .input .from  {
+  .inputs form {
     
     gap: 20px;
   }
@@ -169,7 +169,7 @@
     padding: 10px;
   }
 
-  .input .from  {
+  .inputs form {
     gap: 15px;
     margin: 0 auto;
   }
@@ -204,7 +204,7 @@
     padding: 10px;
   }
 
-  .input .from  {
+  .inputs form {
     gap: 15px;
     margin: 0 auto ;
     width: 400px;
@@ -242,7 +242,7 @@
     padding: 10px;
   }
 
-  .input .from  {
+  .inputs form{
     gap: 15px;
     margin: 0 auto ;
     width: 380px;
@@ -280,7 +280,7 @@
     padding: 10px;
   }
 
-  .input .from  {
+  .inputs form {
     gap: 15px;
     
     width: 300px;
@@ -320,7 +320,7 @@
     width: auto;
   }
 
-  .input .from  {
+  .inputs {
     flex-direction: column;
     gap: 20px;
   }
