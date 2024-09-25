@@ -17,7 +17,7 @@ const NavBar = () => {
                     <ul className="flex font-medium p-2">
                         <li className=" px-6">077 299 8997</li>
                         <li className="px-6">213/7, Aladeniya, Werellagama, Kandy, Sri Lanka</li>
-                        <li className="px-6">delmalanka@gmail.com</li>
+                        <li className="px-6">info@delmamountviewhotel.com</li>
                     </ul>
                 </div>
                 <div className="link max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
@@ -26,7 +26,7 @@ const NavBar = () => {
                         <p>Luxury Banquet & Rooms</p>
                     </div>
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                    <NavLink to="/cusBooking" exact activeClassName="active"><button className="button">Book Now</button></NavLink>
+                        <NavLink to="/cusBooking" exact activeClassName="active"><button className="button">Book Now</button></NavLink>
                         <button
                             data-collapse-toggle="navbar-sticky"
                             type="button"

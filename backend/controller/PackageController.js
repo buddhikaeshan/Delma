@@ -131,5 +131,5 @@ module.exports = {
   getAllPackages,
   getPackageById,
   updatePackage,
-  deletePackage,
+  deletePackage, 
 };
