@@ -3,6 +3,7 @@
 A responsive hotel booking website that allows customers to book rooms, chat with a bot for assistance, manage staff, and access a dashboard with a calendar.
 
 🎨 Features
+
 ✅ Responsive Design – Works on desktop, tablet, and mobile.
 ✅ Room Booking System – Customers can book rooms online.
 ✅ Dashboard – Admin panel to manage bookings, staff, and availability.
