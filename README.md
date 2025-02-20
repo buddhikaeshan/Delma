@@ -1,9 +1,6 @@
 🏨 Hotel Booking System
 A responsive hotel booking website that allows customers to book rooms, chat with a bot for assistance, manage staff, and access a dashboard with a calendar.
 
-🌍 Live Demo
-🔗 Check out the website: Hotel Booking Website
-
 🎨 Features
 ✅ Responsive Design – Works on desktop, tablet, and mobile.
 ✅ Room Booking System – Customers can book rooms online.
