@@ -42,7 +42,6 @@ A **full-stack hotel booking system** built with **React, Node.js, and MySQL**. 
 **Web Site **
 ![Screenshot (435)](https://github.com/user-attachments/assets/f5ddb0af-4ac0-4d9e-8e27-703294694aee)
 ![Screenshot 2025-02-20 233137](https://github.com/user-attachments/assets/61f22371-224c-4218-8c99-8e300515c76d)
-![Screenshot (436)](https://github.com/user-attachments/assets/93565516-f145-4e7a-a158-3ddf1d583754)
 ![Screenshot 2025-02-20 233115](https://github.com/user-attachments/assets/f3cf0d71-37c9-4e6d-bbb3-45f28deb203c)
 ![Screenshot 2025-02-20 233256](https://github.com/user-attachments/assets/11521a3a-3e66-43f4-9429-d6b9d970c2c3)
 
