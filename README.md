@@ -24,8 +24,8 @@ A **full-stack hotel booking system** built with **React, Node.js, and MySQL**. 
 | Frontend         | Backend                 | Database          | Other                  |
 |------------------|-------------------------|-------------------|------------------------|
 | ⚛️ React.js     | 🌿 Node.js (Express)    | 🛢️ MySQL          | 🔑 JWT Authentication  |
-| 🚏 React Router  | 📆 Google Calendar API  | 📜 Sequelize ORM  | 🤖 Chatbot API         |
-| 🔗 Axios        | 💳 Stripe / PayPal      | ☁️ Cloud Storage  | 🎨 Tailwind CSS        |
+| 🚏 React Router  | 📆 Calendar API  | 📜 Sequelize ORM  | 🤖 Chatbot API         |
+| 🔗 Axios        |    | ☁️ Cloud Storage  | 🎨 Tailwind CSS        |
 
 ---
 
