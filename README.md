@@ -5,19 +5,31 @@ A responsive hotel booking website that allows customers to book rooms, chat wit
 🎨 Features
 
 ✅ Responsive Design – Works on desktop, tablet, and mobile.
+
 ✅ Room Booking System – Customers can book rooms online.
+
 ✅ Dashboard – Admin panel to manage bookings, staff, and availability.
+
 ✅ Staff Management – Add, edit, or remove hotel staff.
+
 ✅ Integrated Calendar – View reservations and availability.
+
 ✅ AI Chatbot – Helps customers with booking, FAQs, and general inquiries.
 
+
 🛠 Technologies Used
+
 🔹 HTML5, CSS3, JavaScript – Frontend development
+
 🔹 Google Calendar API – Reservation scheduling
+
 🔹 Backend (Node.js, PHP, or Firebase) – For booking and staff data
+
 🔹 Chatbot Integration – AI-powered chatbot (Dialogflow, ChatGPT API, or custom solution)
 
+
 📸 Screenshots
+
 ![Screenshot (435)](https://github.com/user-attachments/assets/042cb9af-0a37-46d7-a164-4520965fc29d)
 ![Screenshot (429)](https://github.com/user-attachments/assets/b8e26fff-48a4-4bb8-9945-3bfebeb02808)
 ![Screenshot (430)](https://github.com/user-attachments/assets/82e4c3ce-0618-4912-95d0-0a1f9ed967a6)
