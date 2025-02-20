@@ -17,6 +17,8 @@ A responsive hotel booking website that allows customers to book rooms, chat wit
 ✅ AI Chatbot – Helps customers with booking, FAQs, and general inquiries.
 
 
+
+
 🛠 Technologies Used
 
 🔹 HTML5, CSS3, JavaScript – Frontend development
