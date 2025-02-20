@@ -1,4 +1,5 @@
 🏨 Hotel Booking System
+
 A responsive hotel booking website that allows customers to book rooms, chat with a bot for assistance, manage staff, and access a dashboard with a calendar.
 
 🎨 Features
